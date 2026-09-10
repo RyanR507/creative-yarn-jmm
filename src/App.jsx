@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import WhatsAppButton from "./components/WhatsAppButton";
 import ThreadDivider from "./components/ThreadDivider";
@@ -27,6 +27,15 @@ function App() {
   // Phase 3 order form below, without the two sections needing to know about
   // each other directly.
   const [presetProduct, setPresetProduct] = useState(null);
+
+  // Deep links (e.g. opening the site directly at #explora-la-coleccion): the
+  // browser tries to scroll to the hash before React has rendered anything,
+  // so it silently fails. Retry once everything is actually on the page.
+  useEffect(() => {
+    if (!window.location.hash) return;
+    const target = document.querySelector(window.location.hash);
+    target?.scrollIntoView();
+  }, []);
 
   return (
     <>
