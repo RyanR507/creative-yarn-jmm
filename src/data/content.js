@@ -133,16 +133,24 @@ export const CATEGORIES = [
 // CATEGORIES so the 12-product catalog stays defined in exactly one place.
 //
 // Shape per product: { id, name, description, designs }
-// Each design is { id, label, frames: [imageUrl, ...] }.
-//   - 1 frame  -> viewer shows a still image, no drag/rotate hint.
-//   - 2+ frames -> viewer becomes a drag/swipe 360-style sequence.
+// Each design is { id, label, model, frames: [imageUrl, ...] }.
+//   - model set (e.g. "/models/portavasos.glb") -> ProductViewer renders a
+//     real interactive 3D viewer (Three.js / React Three Fiber): drag to
+//     orbit, pinch/scroll to zoom. `frames[0]` is kept as the fallback image
+//     shown if WebGL is unavailable or the model fails to load.
+//   - model: null -> falls back to the existing 2D photo viewer:
+//       - 1 frame  -> still image, no drag/rotate hint.
+//       - 2+ frames -> drag/swipe 360-style photo sequence.
 //   - 1 design -> the "explore other designs" thumbnail row is hidden.
-//   - 2+ designs -> customers can switch between design variations.
+//   - 2+ designs -> customers can switch between design variations, each
+//     with its own model and/or frames.
 //
-// Today every product has exactly one photographed angle and one design, so
-// the viewer renders as a still image. Add more frames/designs here (no
-// component changes needed) as real multi-angle or multi-design photography
-// becomes available.
+// Today no product has been 3D-scanned/modeled yet, so every `model` is
+// null and the viewer renders the real product photo — never a fabricated
+// 3D shape. To bring a product to life in 3D: drop a real .glb/.gltf file
+// in public/models/ (e.g. public/models/portavasos.glb) and set that
+// product's `model` below to "/models/portavasos.glb". No component changes
+// needed.
 export const PRODUCT_SHOWCASE = CATEGORIES.map((cat) => ({
   id: cat.id,
   name: cat.title,
@@ -151,6 +159,7 @@ export const PRODUCT_SHOWCASE = CATEGORIES.map((cat) => ({
     {
       id: `${cat.id}-01`,
       label: "Diseño 01",
+      model: null,
       frames: [cat.image],
     },
   ],

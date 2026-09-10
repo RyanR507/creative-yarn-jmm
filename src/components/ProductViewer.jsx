@@ -1,5 +1,10 @@
-import { useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useMemo, useRef, useState } from "react";
 import "./ProductViewer.css";
+
+// Three.js / React Three Fiber are heavy — only fetch that bundle when a
+// design actually has a 3D model to show. No product has one yet, so today
+// this import is never triggered for real visitors.
+const Product3DViewer = lazy(() => import("./Product3DViewer"));
 
 const PX_PER_FRAME = 26;
 
@@ -54,35 +59,56 @@ export default function ProductViewer({ designs, productName }) {
 
   return (
     <div className="product-viewer">
-      <div
-        className={`product-viewer__stage ${hasMultipleFrames ? "is-draggable" : ""}`}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
-      >
-        <img
-          key={currentFrame}
-          className="product-viewer__image"
-          src={currentFrame}
-          alt={`${productName} — ${design.label}`}
-          loading="lazy"
-          decoding="async"
-          draggable="false"
-        />
+      {design.model ? (
+        <Suspense
+          fallback={
+            <div className="product-viewer__stage">
+              <img
+                className="product-viewer__image"
+                src={frames[0]}
+                alt={`${productName} — ${design.label}`}
+                decoding="async"
+              />
+            </div>
+          }
+        >
+          <Product3DViewer
+            src={design.model}
+            fallbackImage={frames[0]}
+            productName={`${productName} — ${design.label}`}
+          />
+        </Suspense>
+      ) : (
+        <div
+          className={`product-viewer__stage ${hasMultipleFrames ? "is-draggable" : ""}`}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+        >
+          <img
+            key={currentFrame}
+            className="product-viewer__image"
+            src={currentFrame}
+            alt={`${productName} — ${design.label}`}
+            loading="lazy"
+            decoding="async"
+            draggable="false"
+          />
 
-        {hasMultipleFrames && (
-          <span className="product-viewer__badge" aria-hidden="true">
-            360°
-          </span>
-        )}
+          {hasMultipleFrames && (
+            <span className="product-viewer__badge" aria-hidden="true">
+              360°
+            </span>
+          )}
 
-        {hasMultipleFrames && !hintDismissed && (
-          <span className="product-viewer__hint" aria-hidden="true">
-            Arrastra para explorar ↔
-          </span>
-        )}
-      </div>
+          {hasMultipleFrames && !hintDismissed && (
+            <span className="product-viewer__hint" aria-hidden="true">
+              Arrastra para explorar ↔
+            </span>
+          )}
+        </div>
+      )}
 
       {hasMultipleDesigns && (
         <div className="product-viewer__designs" role="group" aria-label="Diseños disponibles">
