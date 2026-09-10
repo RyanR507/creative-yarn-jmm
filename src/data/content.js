@@ -28,6 +28,25 @@ export const ABOUT_CARDS = [
   },
 ];
 
+export const DIFFERENTIATORS = [
+  {
+    title: "Plastic canvas + hilo real",
+    text: "Cada pieza se cose a mano, agujero por agujero, sobre plastic canvas rígido — no es una impresión ni una ilustración digital.",
+  },
+  {
+    title: "Diseño 100% personalizado",
+    text: "Nombres, fechas, colores y frases pensados para tu historia, no para un catálogo genérico.",
+  },
+  {
+    title: "Hecho pieza por pieza",
+    text: "Sin producción en masa: cada creación se arma a mano, una a la vez.",
+  },
+  {
+    title: "Pensado para regalar",
+    text: "Desde el diseño hasta el empaque, cada detalle está pensado para el momento en que la entregas.",
+  },
+];
+
 // Real product catalog — each piece is made on rigid plastic canvas, hand-
 // stitched with yarn/thread through the mesh (not embroidered on fabric).
 // Photos live in public/assets/images/products/. `image: null` means the
@@ -129,6 +148,69 @@ export const GALLERY_ITEMS = [
   { id: 11, category: "Amor", image: `${GALLERY_BASE}/fecha-especial.jpeg`, title: "Fecha especial" },
   { id: 12, category: "Personalizados", image: `${GALLERY_BASE}/decoracion-hogar.jpeg`, title: "Decoración del hogar" },
 ];
+
+// Real packaging photography lives in public/assets/images/packaging/.
+const PACKAGING_BASE = "/assets/images/packaging";
+
+export const PACKAGING_IMAGES = [
+  {
+    id: 1,
+    image: `${PACKAGING_BASE}/gift-box-keepsake.jpeg`,
+    alt: "Caja de regalo Creative Yarn cerrada y abierta, con sello de cera y tarjetas",
+  },
+  {
+    id: 2,
+    image: `${PACKAGING_BASE}/gift-box-open.jpeg`,
+    alt: "Caja Creative Yarn abierta mostrando una pieza envuelta en papel de seda",
+  },
+  {
+    id: 3,
+    image: `${PACKAGING_BASE}/gift-box-small.jpeg`,
+    alt: "Caja pequeña Creative Yarn con una pieza tejida y tarjetas de cuidado",
+  },
+  {
+    id: 4,
+    image: `${PACKAGING_BASE}/shopping-bag-pouch.jpeg`,
+    alt: "Bolsa de regalo y bolsa de tela Creative Yarn",
+  },
+];
+
+export const PACKAGING_HIGHLIGHTS = [
+  {
+    title: "Tarjeta de agradecimiento",
+    text: "Un mensaje escrito para quien la recibe.",
+  },
+  {
+    title: "Ficha de cuidado",
+    text: "Para que tu pieza se mantenga como el primer día.",
+  },
+  {
+    title: "Bolsa de tela incluida",
+    text: "Para guardar o regalar tu creación con estilo.",
+  },
+  {
+    title: "Sello y detalles hechos a mano",
+    text: "Cada caja se cierra con el mismo cuidado con el que se hizo la pieza.",
+  },
+];
+
+export const BRAND_STORY = {
+  eyebrow: "La historia detrás del hilo",
+  title: "Cada hilo cuenta algo.",
+  paragraphs: [
+    "Creative Yarn nació de una idea simple: convertir un nombre, una fecha o un recuerdo en algo que se pueda sostener con las manos.",
+    "Cada pieza se cose a mano, hilo por hilo, sobre plastic canvas — sin atajos ni producción en masa. Es un proceso lento, a propósito, porque las cosas hechas con cariño no se apuran.",
+    "Detrás de cada pedido hay una persona leyendo tu idea, pensando en los colores, y armando algo que no existía antes de que lo pidieras.",
+  ],
+  signature: "JM",
+};
+
+export const CHRISTMAS_TEASER = {
+  eyebrow: "Navidad",
+  title: "Algo especial está en camino.",
+  text: "Estamos preparando una colección navideña hecha a mano, pensada para regalar y para decorar. Muy pronto vas a poder verla completa.",
+  cta: "Avísame cuando esté disponible",
+};
 
 export const PERSONALIZATION_OPTIONS = [
   "Nombres", "Iniciales", "Fechas", "Colores", "Frases", "Diseños",

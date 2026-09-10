@@ -1,0 +1,33 @@
+.christmas-teaser {
+  background: var(--cy-cream);
+  padding-block: clamp(3rem, 7vw, 5rem);
+}
+
+.christmas-teaser__inner {
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.christmas-teaser__badge {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.4rem 1.1rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--cy-gold);
+  color: var(--cy-gold);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.christmas-teaser .eyebrow {
+  margin-bottom: 0.25rem;
+}
+
+.christmas-teaser .btn {
+  margin-top: 2rem;
+}

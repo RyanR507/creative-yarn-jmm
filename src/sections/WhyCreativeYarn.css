@@ -1,0 +1,57 @@
+.why-cy {
+  background: var(--cy-bg);
+}
+
+.why-cy__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.why-cy__card {
+  position: relative;
+  background: var(--cy-white);
+  border-radius: var(--radius-md);
+  padding: 2.25rem 1.6rem 1.85rem;
+  box-shadow: var(--cy-shadow-soft);
+  overflow: hidden;
+  transition: transform 0.45s var(--ease-soft), box-shadow 0.45s var(--ease-soft);
+}
+
+.why-cy__card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--cy-shadow);
+}
+
+.why-cy__thread {
+  position: absolute;
+  top: -22px;
+  right: -22px;
+  width: 80px;
+  height: 80px;
+  border: 2px dashed var(--cy-pink);
+  border-radius: 50%;
+  opacity: 0.45;
+}
+
+.why-cy__card h3 {
+  font-size: 1.08rem;
+  margin-bottom: 0.6rem;
+}
+
+.why-cy__card p {
+  font-size: 0.9rem;
+  color: var(--cy-ink-soft);
+}
+
+@media (max-width: 1024px) {
+  .why-cy__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .why-cy__grid {
+    grid-template-columns: 1fr;
+  }
+}
