@@ -1,0 +1,100 @@
+.showcase {
+  background: var(--cy-bg);
+}
+
+/* Product navigator — compact scrollable pill row, not a wall of cards */
+.showcase__nav {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 0.75rem;
+  margin-bottom: 2.5rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.showcase__nav-item {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  padding: 0.6rem 1.25rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--cy-border);
+  background: var(--cy-white);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cy-ink-soft);
+  white-space: nowrap;
+  transition: all 0.3s var(--ease-soft);
+}
+
+.showcase__nav-item:hover {
+  border-color: var(--cy-pink-deep);
+  color: var(--cy-ink);
+}
+
+.showcase__nav-item.is-active {
+  background: var(--cy-ink);
+  border-color: var(--cy-ink);
+  color: var(--cy-bg);
+}
+
+/* Main stage: viewer + info */
+.showcase__stage {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  align-items: start;
+}
+
+.showcase__name {
+  font-size: 1.9rem;
+}
+
+.showcase__description {
+  margin-top: 0.75rem;
+  font-size: 1.02rem;
+  color: var(--cy-ink-soft);
+}
+
+.showcase__disclaimer {
+  margin-top: 1.5rem;
+  padding: 0.9rem 1.1rem;
+  border-left: 3px solid var(--cy-gold);
+  background: var(--cy-cream);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--cy-ink-soft);
+}
+
+.showcase__actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.showcase__tagline {
+  margin-top: 3rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--cy-pink-deep-ink);
+}
+
+@media (max-width: 900px) {
+  .showcase__stage {
+    grid-template-columns: 1fr;
+  }
+  .showcase__info {
+    text-align: center;
+  }
+  .showcase__disclaimer {
+    text-align: left;
+  }
+  .showcase__actions {
+    justify-content: center;
+  }
+}

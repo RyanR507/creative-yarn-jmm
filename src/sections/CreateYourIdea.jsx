@@ -7,12 +7,23 @@ import "./CreateYourIdea.css";
 const initialStatus = { state: "idle", message: "" };
 const OTHER_IDEA_ID = "otro";
 
-export default function CreateYourIdea() {
+export default function CreateYourIdea({ presetProduct }) {
   const scopeRef = useScrollReveal();
   const [product, setProduct] = useState("");
   const [status, setStatus] = useState(initialStatus);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+
+  // "Quiero crear el mío" in ProductShowcase sends a product id here — follow
+  // it, but only when it actually changes, so it never overwrites a choice
+  // the customer makes afterward inside this form. Adjusted during render
+  // (the React-recommended pattern) instead of an effect, to avoid an extra
+  // cascading render.
+  const [lastPreset, setLastPreset] = useState(presetProduct);
+  if (presetProduct !== lastPreset) {
+    setLastPreset(presetProduct);
+    if (presetProduct) setProduct(presetProduct);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();

@@ -129,6 +129,33 @@ export const CATEGORIES = [
   },
 ];
 
+// Data for the interactive product viewer (ProductShowcase). Derived from
+// CATEGORIES so the 12-product catalog stays defined in exactly one place.
+//
+// Shape per product: { id, name, description, designs }
+// Each design is { id, label, frames: [imageUrl, ...] }.
+//   - 1 frame  -> viewer shows a still image, no drag/rotate hint.
+//   - 2+ frames -> viewer becomes a drag/swipe 360-style sequence.
+//   - 1 design -> the "explore other designs" thumbnail row is hidden.
+//   - 2+ designs -> customers can switch between design variations.
+//
+// Today every product has exactly one photographed angle and one design, so
+// the viewer renders as a still image. Add more frames/designs here (no
+// component changes needed) as real multi-angle or multi-design photography
+// becomes available.
+export const PRODUCT_SHOWCASE = CATEGORIES.map((cat) => ({
+  id: cat.id,
+  name: cat.title,
+  description: cat.text,
+  designs: [
+    {
+      id: `${cat.id}-01`,
+      label: "Diseño 01",
+      frames: [cat.image],
+    },
+  ],
+}));
+
 // Journey shown in the "Crea tu idea" form — the emotional arc, not the
 // operational steps already covered by OrderProcess (STEPS/ORDER_PROCESS_STEPS).
 export const ORDER_FLOW_STAGES = [
