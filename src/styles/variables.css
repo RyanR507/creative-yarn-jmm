@@ -1,0 +1,41 @@
+:root {
+  /* Brand palette */
+  --cy-pink: #f4b6c2;
+  --cy-pink-deep: #e8a0b0;
+  --cy-pink-blush: #fcecef;
+  --cy-bg: #fff9f5;
+  --cy-cream: #f8f0e7;
+  --cy-ink: #3f3035;
+  --cy-gold: #c9a27e;
+  --cy-white: #ffffff;
+
+  /* Derived */
+  --cy-ink-soft: rgba(63, 48, 53, 0.68);
+  --cy-ink-faint: rgba(63, 48, 53, 0.42);
+  --cy-pink-deep-ink: #7a3a49;
+  --cy-border: rgba(63, 48, 53, 0.1);
+  --cy-shadow: 0 24px 48px -24px rgba(63, 48, 53, 0.28);
+  --cy-shadow-soft: 0 12px 32px -18px rgba(63, 48, 53, 0.22);
+
+  /* Type */
+  --font-display: "Playfair Display", "Iowan Old Style", Georgia, serif;
+  --font-body: "Poppins", "Segoe UI", system-ui, sans-serif;
+
+  /* Layout */
+  --container-max: 1240px;
+  --space-section: clamp(4rem, 9vw, 8rem);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --radius-sm: 10px;
+  /* Fixed navbar's rendered height (~77-81px across breakpoints) plus a
+     small buffer, so anchor jumps don't land section headings under it. */
+  --navbar-offset: 96px;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+  }
+}

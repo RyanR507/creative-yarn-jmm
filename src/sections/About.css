@@ -1,0 +1,48 @@
+.about__grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.about__card {
+  position: relative;
+  background: var(--cy-white);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  box-shadow: var(--cy-shadow-soft);
+  overflow: hidden;
+  transition: transform 0.45s var(--ease-soft), box-shadow 0.45s var(--ease-soft);
+}
+
+.about__card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--cy-shadow);
+}
+
+.about__thread {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 90px;
+  height: 90px;
+  border: 3px solid var(--cy-pink);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.about__card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.6rem;
+}
+
+.about__card p {
+  color: var(--cy-ink-soft);
+  font-size: 0.98rem;
+}
+
+@media (max-width: 900px) {
+  .about__grid {
+    grid-template-columns: 1fr;
+  }
+}

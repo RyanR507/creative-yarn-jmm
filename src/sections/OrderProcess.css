@@ -1,0 +1,38 @@
+.order-process__list {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  counter-reset: item;
+}
+
+.order-process__list li {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  background: var(--cy-white);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.4rem;
+  box-shadow: var(--cy-shadow-soft);
+  font-weight: 500;
+}
+
+.order-process__index {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--cy-pink-blush);
+  color: var(--cy-pink-deep-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.order-process__cta {
+  margin-top: 2.5rem;
+  text-align: center;
+}

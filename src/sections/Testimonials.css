@@ -1,0 +1,73 @@
+.testimonials__card {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  background: var(--cy-white);
+  border-radius: var(--radius-lg);
+  padding: clamp(2rem, 5vw, 3rem);
+  box-shadow: var(--cy-shadow-soft);
+}
+
+.testimonials__stars {
+  color: var(--cy-gold);
+  font-size: 1.2rem;
+  letter-spacing: 0.15rem;
+}
+
+.testimonials__text {
+  margin-top: 1.25rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.testimonials__name {
+  margin-top: 1.25rem;
+  font-weight: 600;
+  color: var(--cy-ink-soft);
+}
+
+.testimonials__nav {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.testimonials__nav button {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  color: var(--cy-ink);
+}
+
+.testimonials__dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.testimonials__dots button {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--cy-border);
+  padding: 0;
+}
+
+.testimonials__dots button.is-active {
+  background: var(--cy-pink-deep);
+}
+
+.testimonials__card--empty {
+  background: var(--cy-cream);
+  border: 1.5px dashed var(--cy-border);
+  box-shadow: none;
+}
+
+.testimonials__empty-text {
+  font-size: 1rem;
+  color: var(--cy-ink-soft);
+  line-height: 1.7;
+}

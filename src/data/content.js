@@ -1,0 +1,219 @@
+// ---------------------------------------------------------------------------
+// All copy + structured content for the page. Keeping it here means prices,
+// categories, testimonials, etc. can be edited without touching components.
+// ---------------------------------------------------------------------------
+
+export const NAV_LINKS = [
+  { href: "#inicio", label: "Inicio" },
+  { href: "#personalizados", label: "Personalizados" },
+  { href: "#creaciones", label: "Creaciones" },
+  { href: "#como-funciona", label: "Cómo funciona" },
+  { href: "#ocasiones", label: "Ocasiones" },
+  { href: "#faq", label: "Preguntas frecuentes" },
+  { href: "#contacto", label: "Contacto" },
+];
+
+export const ABOUT_CARDS = [
+  {
+    title: "Personalizado",
+    text: "Tu idea, tus colores, tu historia.",
+  },
+  {
+    title: "Hecho a mano",
+    text: "Cada pieza es elaborada cuidadosamente a mano.",
+  },
+  {
+    title: "Hecho con significado",
+    text: "Creamos piezas para las personas y momentos que realmente importan.",
+  },
+];
+
+// Real product catalog — each piece is made on rigid plastic canvas, hand-
+// stitched with yarn/thread through the mesh (not embroidered on fabric).
+// Photos live in public/assets/images/products/. `image: null` means the
+// photo is still pending — see CATEGORIES[11] (cartoon characters) below.
+const PRODUCTS_BASE = "/assets/images/products";
+
+export const CATEGORIES = [
+  {
+    id: "portavasos",
+    image: `${PRODUCTS_BASE}/portavasos.jpeg`,
+    title: "Portavasos",
+    text: "Protege tu taza y sumale un detalle tejido a tu mesa.",
+  },
+  {
+    id: "llaveros",
+    image: `${PRODUCTS_BASE}/llaveros.jpeg`,
+    title: "Llaveros",
+    text: "Iniciales, figuras y detalles pequeños para llevar contigo.",
+  },
+  {
+    id: "separadores",
+    image: `${PRODUCTS_BASE}/separadores-de-libros.jpeg`,
+    title: "Separadores de libros",
+    text: "Marca tu página favorita con un diseño tejido a mano.",
+  },
+  {
+    id: "portadas-cuadernos",
+    image: `${PRODUCTS_BASE}/portadas-de-cuadernos.jpeg`,
+    title: "Portadas de cuadernos",
+    text: "Una tapa tejida y personalizada para tu cuaderno de siempre.",
+  },
+  {
+    id: "adornos-mesa",
+    image: `${PRODUCTS_BASE}/adornos-de-mesa.jpeg`,
+    title: "Adornos de mesa",
+    text: "Detalles que le dan un toque especial a cualquier mesa.",
+  },
+  {
+    id: "gift-boxes",
+    image: `${PRODUCTS_BASE}/gift-box-personalizados.jpeg`,
+    title: "Gift Boxes personalizados",
+    text: "Un set completo, armado con cariño y listo para regalar.",
+  },
+  {
+    id: "set-banos",
+    image: `${PRODUCTS_BASE}/set-de-banos.jpeg`,
+    title: "Set de baños",
+    text: "Accesorios a juego para darle personalidad a tu baño.",
+  },
+  {
+    id: "bolsos",
+    image: `${PRODUCTS_BASE}/bolsos.jpeg`,
+    title: "Bolsos",
+    text: "Bolsos con diseños propios y patrones originales, tejidos a mano.",
+  },
+  {
+    id: "wallets",
+    image: `${PRODUCTS_BASE}/wallets.jpeg`,
+    title: "Wallets",
+    text: "Billeteras compactas para tarjetas y lo esencial del día a día.",
+  },
+  {
+    id: "porta-tarjetas",
+    image: `${PRODUCTS_BASE}/porta-tarjetas.jpeg`,
+    title: "Porta tarjetas",
+    text: "Guarda tus tarjetas en un diseño hecho especialmente para ti.",
+  },
+  {
+    id: "porta-servilletas",
+    image: `${PRODUCTS_BASE}/porta-servilletas.jpeg`,
+    title: "Porta servilletas",
+    text: "Suma un detalle tejido a tu mesa servida.",
+  },
+  {
+    id: "personajes",
+    image: `${PRODUCTS_BASE}/personajes-de-caricatura.jpeg`,
+    title: "Personajes de caricatura",
+    text: "Convierte tu personaje o estilo favorito en una pieza tejida, con un diseño propio inspirado en lo que más te gusta.",
+  },
+];
+
+export const GALLERY_FILTERS = ["Todos", "Amor", "Mascotas", "Graduación", "Familia", "Personalizados"];
+
+// Real photography lives in public/assets/images/gallery/. All current photos
+// share the same native ratio (896x1200, 3:4 portrait), so every tile uses a
+// matching 3:4 box — no cropping. `image: null` falls back to a placeholder.
+const GALLERY_BASE = "/assets/images/gallery";
+
+export const GALLERY_ITEMS = [
+  { id: 1, category: "Amor", image: `${GALLERY_BASE}/iniciales-entrelazadas.jpeg`, title: "Iniciales entrelazadas" },
+  { id: 2, category: "Mascotas", image: `${GALLERY_BASE}/retrato-mascota.jpeg`, title: "Retrato de mascota" },
+  { id: 4, category: "Graduación", image: `${GALLERY_BASE}/fecha-graduacion.jpeg`, title: "Fecha de graduación" },
+  { id: 5, category: "Personalizados", image: `${GALLERY_BASE}/frase-medida.jpeg`, title: "Frase a medida" },
+  { id: 6, category: "Amor", image: `${GALLERY_BASE}/corazon-hilo.jpeg`, title: "Corazón de hilo" },
+  { id: 7, category: "Familia", image: `${GALLERY_BASE}/nombres-familia.jpeg`, title: "Nombres de familia" },
+  { id: 8, category: "Mascotas", image: `${GALLERY_BASE}/huella-bordada.jpeg`, title: "Huella bordada" },
+  { id: 9, category: "Personalizados", image: `${GALLERY_BASE}/diseno-medida.jpeg`, title: "Diseño a medida" },
+  { id: 10, category: "Graduación", image: `${GALLERY_BASE}/recuerdo-logro.jpeg`, title: "Recuerdo de logro" },
+  { id: 11, category: "Amor", image: `${GALLERY_BASE}/fecha-especial.jpeg`, title: "Fecha especial" },
+  { id: 12, category: "Personalizados", image: `${GALLERY_BASE}/decoracion-hogar.jpeg`, title: "Decoración del hogar" },
+];
+
+export const PERSONALIZATION_OPTIONS = [
+  "Nombres", "Iniciales", "Fechas", "Colores", "Frases", "Diseños",
+  "Temáticas", "Fotografías de referencia", "Tamaño", "Detalles especiales",
+];
+
+export const STEPS = [
+  { number: "01", title: "Tú lo imaginas", text: "Cuéntanos qué tienes en mente." },
+  { number: "02", title: "Lo diseñamos", text: "Definimos colores, tamaño, estilo y personalización." },
+  { number: "03", title: "Lo creamos", text: "Tu pieza es elaborada cuidadosamente a mano." },
+  { number: "04", title: "Lo preparamos", text: "Empacamos tu pieza con mucho cuidado." },
+  { number: "05", title: "Se convierte en tuyo", text: "Recibes tu pieza personalizada, lista para disfrutar o regalar." },
+];
+
+export const OCCASIONS = [
+  "San Valentín", "Cumpleaños", "Graduaciones", "Aniversarios", "Día de la Madre",
+  "Día del Padre", "Navidad", "Amantes de las mascotas", "Nuevo hogar", "Porque sí",
+];
+
+export const ORDER_PROCESS_STEPS = [
+  "Envíanos tu idea.",
+  "Cuéntanos qué quieres personalizar.",
+  "Recibe tu cotización.",
+  "Aprueba el diseño.",
+  "Realiza el pago.",
+  "Creamos tu pieza.",
+  "La preparamos y enviamos.",
+];
+
+// Placeholder testimonials — replace with real customer reviews when available.
+// No real testimonials yet — keep this empty rather than inventing reviews.
+// Testimonials.jsx shows a neutral "collecting first experiences" message
+// while this is empty. Add real { name, stars, text } entries when available.
+export const TESTIMONIALS = [];
+
+export const FAQ_ITEMS = [
+  {
+    q: "¿Cómo puedo realizar un pedido?",
+    a: "Escríbenos por WhatsApp o completa el formulario de pedido personalizado con los detalles de tu idea. Te responderemos con una cotización y los siguientes pasos.",
+  },
+  {
+    q: "¿Puedo solicitar un diseño completamente personalizado?",
+    a: "Sí. La mayoría de nuestras piezas nacen de una idea propia: cuéntanos qué tienes en mente y trabajamos contigo para diseñarla.",
+  },
+  {
+    q: "¿Puedo elegir los colores?",
+    a: "Sí, puedes elegir los colores de hilo/lana dentro de las opciones disponibles al momento de tu pedido.",
+  },
+  {
+    q: "¿Puedo enviar una fotografía como referencia?",
+    a: "Sí, puedes enviarnos una fotografía de referencia para inspirar el diseño de tu pieza.",
+  },
+  {
+    q: "¿Cuánto tarda un pedido personalizado?",
+    a: "El tiempo de producción varía según la complejidad de la pieza y la cantidad de pedidos en curso. Te confirmaremos un tiempo estimado al aprobar tu diseño.",
+  },
+  {
+    q: "¿Realizan envíos?",
+    a: "Sí, realizamos envíos. Consulta la sección de Envíos para conocer las opciones disponibles según tu ubicación.",
+  },
+  {
+    q: "¿Cuánto cuesta el envío?",
+    a: "El costo de envío se calcula según el destino y el tamaño de la pieza. Te confirmaremos el costo exacto antes de procesar tu pedido.",
+  },
+  {
+    q: "¿Qué métodos de pago aceptan?",
+    a: "Los métodos de pago disponibles se confirman directamente al momento de coordinar tu pedido.",
+  },
+  {
+    q: "¿Puedo cancelar mi pedido?",
+    a: "Puedes cancelar tu pedido antes de que comience la producción. Una vez iniciada la elaboración de una pieza personalizada, la cancelación puede no ser posible.",
+  },
+  {
+    q: "¿Puedo devolver un producto personalizado?",
+    a: "Por tratarse de piezas hechas a medida, las devoluciones se evalúan caso por caso. Contáctanos si tienes algún inconveniente con tu pedido.",
+  },
+  {
+    q: "¿Qué ocurre si mi paquete llega dañado?",
+    a: "Contáctanos con fotografías del daño apenas lo recibas y buscaremos la mejor solución posible para tu caso.",
+  },
+];
+
+export const FOOTER_POLICIES = [
+  { label: "Política de envíos", href: "#" },
+  { label: "Términos y condiciones", href: "#" },
+  { label: "Política de privacidad", href: "#" },
+  { label: "Cambios y devoluciones", href: "#" },
+];
