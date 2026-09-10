@@ -12,7 +12,7 @@ import Occasions from "./sections/Occasions";
 import ChristmasComingSoon from "./sections/ChristmasComingSoon";
 import PackagingBox from "./sections/PackagingBox";
 import OrderProcess from "./sections/OrderProcess";
-import OrderForm from "./sections/OrderForm";
+import CreateYourIdea from "./sections/CreateYourIdea";
 import Testimonials from "./sections/Testimonials";
 import Shipping from "./sections/Shipping";
 import FAQ from "./sections/FAQ";
@@ -43,7 +43,7 @@ function App() {
         <ThreadDivider variant="wave" />
         <PackagingBox />
         <OrderProcess />
-        <OrderForm />
+        <CreateYourIdea />
         <Testimonials />
         <Shipping />
         <FAQ />

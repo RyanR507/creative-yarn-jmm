@@ -1,0 +1,327 @@
+import { useState } from "react";
+import { useScrollReveal } from "../animations/useScrollReveal";
+import { CATEGORIES, OCCASION_OPTIONS, ORDER_FLOW_STAGES } from "../data/content";
+import { ORDER_FORM_ENDPOINT, getWhatsAppLink } from "../data/config";
+import "./CreateYourIdea.css";
+
+const initialStatus = { state: "idle", message: "" };
+const OTHER_IDEA_ID = "otro";
+
+export default function CreateYourIdea() {
+  const scopeRef = useScrollReveal();
+  const [product, setProduct] = useState("");
+  const [status, setStatus] = useState(initialStatus);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+
+    const nombre = (data.get("nombre") || "").toString().trim();
+    const whatsapp = (data.get("whatsapp") || "").toString().trim();
+    const descripcion = (data.get("descripcion") || "").toString().trim();
+
+    if (!product) {
+      setFormError("Elegí una creación (o \"Tengo otra idea\") antes de enviar.");
+      return;
+    }
+    if (!nombre || !whatsapp || !descripcion) {
+      setFormError("Contanos tu nombre, tu WhatsApp y tu idea principal antes de enviar.");
+      return;
+    }
+
+    setFormError("");
+    setSubmitting(true);
+    setStatus(initialStatus);
+
+    try {
+      if (ORDER_FORM_ENDPOINT) {
+        // Real integration path — point ORDER_FORM_ENDPOINT (src/data/config.js)
+        // at a Formspree / Netlify Forms / custom backend URL to go live.
+        const res = await fetch(ORDER_FORM_ENDPOINT, {
+          method: "POST",
+          body: data,
+          headers: { Accept: "application/json" },
+        });
+        if (!res.ok) throw new Error("submit-failed");
+      } else {
+        // Test mode: no endpoint configured yet, simulate a successful send.
+        await new Promise((resolve) => setTimeout(resolve, 700));
+      }
+
+      setStatus({ state: "success", message: "" });
+      form.reset();
+      setProduct("");
+    } catch {
+      setStatus({
+        state: "error",
+        message: "No pudimos enviar tu idea. Intentá de nuevo o escribinos por WhatsApp.",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  function startOver() {
+    setStatus(initialStatus);
+  }
+
+  return (
+    <section id="formulario-pedido" className="create-idea" ref={scopeRef}>
+      <div className="container" data-reveal-group>
+        <div className="section-head center">
+          <p className="eyebrow" data-reveal>
+            Crea tu idea
+          </p>
+          <h2 className="section-title center" data-reveal>
+            Tu idea. Nuestro hilo. Una pieza única.
+          </h2>
+          <p className="section-subtitle center" data-reveal>
+            Tú traes la idea. Nosotros la convertimos en una creación hecha a mano.
+          </p>
+          <p className="create-idea__explainer" data-reveal>
+            Cuéntanos qué tienes en mente. Cada pieza de Creative Yarn se personaliza
+            según tu idea, la ocasión y tus preferencias. Te contactaremos para
+            conversar los detalles, el precio, el tiempo de producción, la entrega y
+            el pago.
+          </p>
+        </div>
+
+        <ol className="create-idea__flow" data-reveal aria-label="Cómo funciona tu pedido">
+          {ORDER_FLOW_STAGES.map((stage) => (
+            <li key={stage}>{stage}</li>
+          ))}
+        </ol>
+
+        <div className="create-idea__quick" data-reveal>
+          <p className="create-idea__quick-title">¿Prefieres algo rápido?</p>
+          <p className="create-idea__quick-text">
+            Escríbenos por WhatsApp y cuéntanos qué tienes en mente.
+          </p>
+          <a
+            className="btn btn-primary"
+            href={getWhatsAppLink()}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Hablar por WhatsApp
+          </a>
+        </div>
+
+        {status.state === "success" ? (
+          <div className="create-idea__success" data-reveal>
+            <span className="create-idea__success-icon" aria-hidden="true">
+              🧶
+            </span>
+            <h3>Tu idea ya está en camino.</h3>
+            <p>
+              Gracias por elegir Creative Yarn. Te contactaremos personalmente para
+              conversar los detalles de tu creación — esto es una solicitud, todavía
+              no un pedido confirmado.
+            </p>
+            <div className="create-idea__success-actions">
+              <a
+                className="btn btn-primary"
+                href={getWhatsAppLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Hablar por WhatsApp
+              </a>
+              <button type="button" className="btn btn-outline" onClick={startOver}>
+                Crear otra idea
+              </button>
+            </div>
+          </div>
+        ) : (
+          <form className="create-idea__form" onSubmit={handleSubmit} data-reveal noValidate>
+            <fieldset className="create-idea__step">
+              <legend>01 — Elige tu creación</legend>
+
+              <div className="create-idea__products" role="radiogroup" aria-label="Elige tu creación">
+                {CATEGORIES.map((cat) => (
+                  <label
+                    key={cat.id}
+                    className={`create-idea__pick ${product === cat.id ? "is-selected" : ""}`}
+                  >
+                    <input
+                      type="radio"
+                      name="producto"
+                      value={cat.title}
+                      checked={product === cat.id}
+                      onChange={() => setProduct(cat.id)}
+                    />
+                    <img src={cat.image} alt="" loading="lazy" decoding="async" />
+                    <span>{cat.title}</span>
+                  </label>
+                ))}
+
+                <label
+                  className={`create-idea__pick create-idea__pick--other ${
+                    product === OTHER_IDEA_ID ? "is-selected" : ""
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="producto"
+                    value="Otra idea"
+                    checked={product === OTHER_IDEA_ID}
+                    onChange={() => setProduct(OTHER_IDEA_ID)}
+                  />
+                  <span className="create-idea__pick-other-icon" aria-hidden="true">
+                    ✨
+                  </span>
+                  <span>Tengo otra idea</span>
+                </label>
+              </div>
+
+              <label className="create-idea__field create-idea__quantity">
+                <span>Cantidad</span>
+                <input type="number" name="cantidad" min="1" defaultValue="1" />
+              </label>
+            </fieldset>
+
+            <fieldset className="create-idea__step">
+              <legend>02 — Hazlo tuyo</legend>
+              <p className="create-idea__step-hint">
+                ¿Qué te gustaría personalizar? Ningún campo aquí es obligatorio.
+              </p>
+
+              <div className="create-idea__grid">
+                <Field label="Nombre o iniciales" name="nombre_iniciales" />
+                <Field label="Frase o texto" name="frase" />
+                <Field label="Colores preferidos" name="colores" />
+                <SelectField label="Ocasión" name="ocasion" options={OCCASION_OPTIONS} />
+              </div>
+
+              <Field
+                label="Personalización adicional"
+                name="personalizacion_adicional"
+                className="span-2"
+              />
+
+              <TextAreaField
+                label="Describe tu idea"
+                name="descripcion"
+                required
+                className="span-2 create-idea__idea-field"
+                rows={5}
+                placeholder='Ej.: Me gustaría un bolso inspirado en..., con mis iniciales..., usando tonos...'
+                hint="¿Hay algún color, personaje, mascota, frase, fecha o detalle que quieras incluir?"
+              />
+
+              <label className="create-idea__field span-2">
+                <span>¿Tienes una imagen de referencia?</span>
+                <input type="file" name="imagen_referencia" accept="image/*" />
+                <em className="create-idea__file-hint">
+                  Si tienes una foto, dibujo, inspiración o ejemplo, puedes compartirlo con
+                  nosotros. Es solo una referencia — no es obligatorio.
+                </em>
+              </label>
+            </fieldset>
+
+            <fieldset className="create-idea__step">
+              <legend>03 — Hagamos realidad tu idea</legend>
+
+              <div className="create-idea__grid">
+                <Field label="Nombre" name="nombre" required autoComplete="name" />
+                <Field label="WhatsApp" name="whatsapp" type="tel" required autoComplete="tel" />
+                <Field
+                  label="Email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  className="span-2"
+                />
+              </div>
+
+              <TextAreaField
+                label="Información adicional"
+                name="info_adicional"
+                className="span-2"
+                rows={3}
+                placeholder="¿Hay algo más que quieras contarnos?"
+              />
+            </fieldset>
+
+            <p className="create-idea__emotional">
+              Tu idea no tiene que encajar en un catálogo.
+              <br />
+              Cuéntanos qué estás imaginando, y creemos algo especial.
+            </p>
+
+            <div className="create-idea__submit">
+              <button className="btn btn-primary" type="submit" disabled={submitting}>
+                {submitting ? "Enviando..." : "Enviar mi idea"}
+              </button>
+              {formError && (
+                <p className="create-idea__status create-idea__status--error" role="alert">
+                  {formError}
+                </p>
+              )}
+              {status.state === "error" && (
+                <p className="create-idea__status create-idea__status--error" role="alert">
+                  {status.message}
+                </p>
+              )}
+            </div>
+          </form>
+        )}
+
+        <div className="create-idea__commercial-note">
+          <h3>Cada creación es diferente.</h3>
+          <p>
+            Como cada pieza de Creative Yarn es personalizada, el precio, el tiempo de
+            producción, la entrega y el pago se confirman personalmente según tu
+            pedido.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Field({ label, name, type = "text", required, autoComplete, className = "" }) {
+  return (
+    <label className={`create-idea__field ${className}`}>
+      <span>
+        {label}
+        {required && <em aria-hidden="true"> *</em>}
+      </span>
+      <input type={type} name={name} required={required} autoComplete={autoComplete} />
+    </label>
+  );
+}
+
+function SelectField({ label, name, options }) {
+  return (
+    <label className="create-idea__field">
+      <span>{label}</span>
+      <select name={name} defaultValue="">
+        <option value="" disabled>
+          Selecciona una opción
+        </option>
+        {options.map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+function TextAreaField({ label, name, required, className = "", rows = 3, placeholder, hint }) {
+  return (
+    <label className={`create-idea__field ${className}`}>
+      <span>
+        {label}
+        {required && <em aria-hidden="true"> *</em>}
+      </span>
+      {hint && <small className="create-idea__field-hint">{hint}</small>}
+      <textarea name={name} required={required} rows={rows} placeholder={placeholder} />
+    </label>
+  );
+}

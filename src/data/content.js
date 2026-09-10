@@ -9,6 +9,7 @@ export const NAV_LINKS = [
   { href: "#creaciones", label: "Creaciones" },
   { href: "#como-funciona", label: "Cómo funciona" },
   { href: "#ocasiones", label: "Ocasiones" },
+  { href: "#formulario-pedido", label: "Crear mi idea" },
   { href: "#faq", label: "Preguntas frecuentes" },
   { href: "#contacto", label: "Contacto" },
 ];
@@ -126,6 +127,32 @@ export const CATEGORIES = [
     title: "Personajes de caricatura",
     text: "Convierte tu personaje o estilo favorito en una pieza tejida, con un diseño propio inspirado en lo que más te gusta.",
   },
+];
+
+// Journey shown in the "Crea tu idea" form — the emotional arc, not the
+// operational steps already covered by OrderProcess (STEPS/ORDER_PROCESS_STEPS).
+export const ORDER_FLOW_STAGES = [
+  "Idea",
+  "Solicitud",
+  "Conversación",
+  "Confirmación",
+  "Creación a mano",
+  "Creative Yarn",
+];
+
+export const OCCASION_OPTIONS = [
+  "Cumpleaños",
+  "Graduación",
+  "San Valentín",
+  "Día de la Madre",
+  "Día del Padre",
+  "Aniversario",
+  "Navidad",
+  "Amistad",
+  "Nueva casa",
+  "Logro especial",
+  "Porque sí",
+  "Otro",
 ];
 
 export const GALLERY_FILTERS = ["Todos", "Amor", "Mascotas", "Graduación", "Familia", "Personalizados"];

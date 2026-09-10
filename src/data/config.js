@@ -27,7 +27,7 @@ export const CONTACT = {
 };
 
 // Form endpoint placeholder. Swap for a real Formspree / Netlify Forms / backend
-// endpoint when ready. See src/sections/OrderForm.jsx for the submit handler.
+// endpoint when ready. See src/sections/CreateYourIdea.jsx for the submit handler.
 export const ORDER_FORM_ENDPOINT = null;
 
 export const BRAND = {
