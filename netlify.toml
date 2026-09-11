@@ -4,3 +4,11 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+# Client-side routing (Phase 4 policy pages: /politicas, /politicas/:slug).
+# Without this, a direct load or refresh of those URLs would 404 on a static
+# host — this rewrites any path to index.html so React Router can handle it.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

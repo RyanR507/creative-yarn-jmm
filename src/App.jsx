@@ -1,33 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import WhatsAppButton from "./components/WhatsAppButton";
-import ThreadDivider from "./components/ThreadDivider";
-import Hero from "./sections/Hero";
-import About from "./sections/About";
-import WhyCreativeYarn from "./sections/WhyCreativeYarn";
-import ProductCategories from "./sections/ProductCategories";
-import Gallery from "./sections/Gallery";
-import Personalization from "./sections/Personalization";
-import HowItWorks from "./sections/HowItWorks";
-import Occasions from "./sections/Occasions";
-import ChristmasComingSoon from "./sections/ChristmasComingSoon";
-import PackagingBox from "./sections/PackagingBox";
-import ProductShowcase from "./sections/ProductShowcase";
-import OrderProcess from "./sections/OrderProcess";
-import CreateYourIdea from "./sections/CreateYourIdea";
-import Testimonials from "./sections/Testimonials";
-import Shipping from "./sections/Shipping";
-import FAQ from "./sections/FAQ";
-import BrandStory from "./sections/BrandStory";
-import FinalCTA from "./sections/FinalCTA";
 import Footer from "./sections/Footer";
+import HomePage from "./pages/HomePage";
+import PoliciesHub from "./pages/PoliciesHub";
+import PolicyPage from "./pages/PolicyPage";
 
-function App() {
-  // Lets "Quiero crear el mío" in ProductShowcase preselect a product in the
-  // Phase 3 order form below, without the two sections needing to know about
-  // each other directly.
-  const [presetProduct, setPresetProduct] = useState(null);
-
+function ScrollToHashOnLoad() {
   // Deep links (e.g. opening the site directly at #explora-la-coleccion): the
   // browser tries to scroll to the hash before React has rendered anything,
   // so it silently fails. Retry once everything is actually on the page.
@@ -36,40 +16,25 @@ function App() {
     const target = document.querySelector(window.location.hash);
     target?.scrollIntoView();
   }, []);
+  return null;
+}
 
+function App() {
   return (
-    <>
-      <a href="#inicio" className="skip-link">
+    <BrowserRouter>
+      <a href="#main-content" className="skip-link">
         Saltar al contenido principal
       </a>
       <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <WhyCreativeYarn />
-        <ThreadDivider variant="wave" />
-        <ProductCategories />
-        <ThreadDivider variant="dip" />
-        <Gallery />
-        <Personalization />
-        <ThreadDivider variant="rise" />
-        <HowItWorks />
-        <Occasions />
-        <ChristmasComingSoon />
-        <ThreadDivider variant="wave" />
-        <PackagingBox />
-        <ProductShowcase onSelectProduct={setPresetProduct} />
-        <OrderProcess />
-        <CreateYourIdea presetProduct={presetProduct} />
-        <Testimonials />
-        <Shipping />
-        <FAQ />
-        <BrandStory />
-        <FinalCTA />
-      </main>
+      <ScrollToHashOnLoad />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/politicas" element={<PoliciesHub />} />
+        <Route path="/politicas/:slug" element={<PolicyPage />} />
+      </Routes>
       <Footer />
       <WhatsAppButton />
-    </>
+    </BrowserRouter>
   );
 }
 

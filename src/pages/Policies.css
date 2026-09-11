@@ -1,0 +1,138 @@
+.policies-page {
+  padding-top: var(--navbar-offset);
+  background: var(--cy-bg);
+  min-height: 60vh;
+}
+
+.container--narrow {
+  max-width: 760px;
+}
+
+/* Hub */
+.policies-hub__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.policy-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: var(--cy-white);
+  border-radius: var(--radius-md);
+  padding: 2rem 1.75rem;
+  border: 1px solid transparent;
+  box-shadow: var(--cy-shadow-soft);
+  transition: transform 0.35s var(--ease-soft), box-shadow 0.35s var(--ease-soft), border-color 0.35s ease;
+}
+
+.policy-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--cy-shadow);
+  border-color: var(--cy-pink);
+}
+
+.policy-card h2 {
+  font-size: 1.2rem;
+}
+
+.policy-card p {
+  font-size: 0.92rem;
+  color: var(--cy-ink-soft);
+  flex: 1;
+}
+
+.policy-card__cta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cy-pink-deep-ink);
+}
+
+/* Detail page */
+.policy-detail__back {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cy-pink-deep-ink);
+}
+
+.policy-detail__section {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--cy-border);
+}
+
+.policy-detail__section:first-of-type {
+  margin-top: 3rem;
+}
+
+.policy-detail__section h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.9rem;
+}
+
+.policy-detail__section p {
+  color: var(--cy-ink-soft);
+  line-height: 1.75;
+  max-width: 62ch;
+}
+
+.policy-detail__section p + p {
+  margin-top: 0.9rem;
+}
+
+.policy-detail__list {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.policy-detail__list li {
+  position: relative;
+  padding-left: 1.4rem;
+  color: var(--cy-ink-soft);
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+.policy-detail__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cy-pink-deep);
+}
+
+/* Shared disclaimer */
+.policies-disclaimer {
+  margin-top: 3rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--cy-cream);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--cy-ink-faint);
+}
+
+@media (max-width: 900px) {
+  .policies-hub__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .policies-hub__grid {
+    grid-template-columns: 1fr;
+  }
+  .policy-detail__section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+}

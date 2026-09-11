@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { NAV_LINKS, FOOTER_POLICIES } from "../data/content";
 import { BRAND, SOCIAL_LINKS, getWhatsAppLink } from "../data/config";
 import "./Footer.css";
@@ -52,7 +53,7 @@ export default function Footer() {
           <ul>
             {FOOTER_POLICIES.map((p) => (
               <li key={p.label}>
-                <a href={p.href}>{p.label}</a>
+                <Link to={p.href}>{p.label}</Link>
               </li>
             ))}
           </ul>

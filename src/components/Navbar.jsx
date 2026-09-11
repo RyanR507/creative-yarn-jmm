@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { gsap } from "../animations/gsapSetup";
 import { NAV_LINKS } from "../data/content";
 import { BRAND } from "../data/config";
@@ -8,6 +9,16 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
+  const location = useLocation();
+
+  // The transparent-navbar-over-dark-video look only makes sense on the
+  // home page's Hero. Every other page (the policy pages, for now) has a
+  // light background right at the top, so the navbar should read as
+  // "scrolled" (solid background, dark text) there from the very first
+  // frame — otherwise its text is nearly invisible: light text on a light
+  // page background.
+  const isHome = location.pathname === "/";
+  const showSolidNavbar = scrolled || !isHome;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -40,9 +51,9 @@ export default function Navbar() {
   }, [open]);
 
   return (
-    <header className={`navbar ${scrolled ? "navbar--scrolled" : ""}`}>
+    <header className={`navbar ${showSolidNavbar ? "navbar--scrolled" : ""}`}>
       <div className="container navbar__inner">
-        <a href="#inicio" className="navbar__logo">
+        <a href="/" className="navbar__logo">
           <img src="/assets/logo/logo.png" alt={BRAND.name} className="navbar__logo-img" />
         </a>
 
@@ -56,7 +67,7 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        <a href="#personalizacion" className="btn btn-primary navbar__cta">
+        <a href="/#personalizacion" className="btn btn-primary navbar__cta">
           Crea tu pieza
         </a>
 
@@ -85,7 +96,7 @@ export default function Navbar() {
           ))}
         </ul>
         <a
-          href="#personalizacion"
+          href="/#personalizacion"
           className="btn btn-primary"
           onClick={() => setOpen(false)}
         >

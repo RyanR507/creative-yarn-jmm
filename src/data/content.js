@@ -3,15 +3,18 @@
 // categories, testimonials, etc. can be edited without touching components.
 // ---------------------------------------------------------------------------
 
+// "/#section" (not a bare "#section") so these still work when clicked from
+// a non-home route like a policy page — the browser does a normal
+// navigation to "/" and App's hash-scroll effect takes it from there.
 export const NAV_LINKS = [
-  { href: "#inicio", label: "Inicio" },
-  { href: "#personalizados", label: "Personalizados" },
-  { href: "#creaciones", label: "Creaciones" },
-  { href: "#como-funciona", label: "Cómo funciona" },
-  { href: "#ocasiones", label: "Ocasiones" },
-  { href: "#formulario-pedido", label: "Crear mi idea" },
-  { href: "#faq", label: "Preguntas frecuentes" },
-  { href: "#contacto", label: "Contacto" },
+  { href: "/#inicio", label: "Inicio" },
+  { href: "/#personalizados", label: "Personalizados" },
+  { href: "/#creaciones", label: "Creaciones" },
+  { href: "/#como-funciona", label: "Cómo funciona" },
+  { href: "/#ocasiones", label: "Ocasiones" },
+  { href: "/#formulario-pedido", label: "Crear mi idea" },
+  { href: "/#faq", label: "Preguntas frecuentes" },
+  { href: "/#contacto", label: "Contacto" },
 ];
 
 export const ABOUT_CARDS = [
@@ -356,9 +359,196 @@ export const FAQ_ITEMS = [
   },
 ];
 
-export const FOOTER_POLICIES = [
-  { label: "Política de envíos", href: "#" },
-  { label: "Términos y condiciones", href: "#" },
-  { label: "Política de privacidad", href: "#" },
-  { label: "Cambios y devoluciones", href: "#" },
+// ---------------------------------------------------------------------------
+// Policies (Phase 4). No fixed prices, production times, shipping rates or
+// payment methods are published anywhere here — those are confirmed with
+// each customer personally, per the order flow already built in Phase 3.
+// Each policy's `sections` is generic { heading, body?: string[], list?:
+// string[] } so PolicyPage.jsx can render all five without special-casing.
+// ---------------------------------------------------------------------------
+export const POLICIES = [
+  {
+    slug: "privacidad",
+    navLabel: "Política de privacidad",
+    pageTitle: "Creative Yarn | Política de privacidad",
+    metaDescription: "Cómo Creative Yarn usa la información que compartís a través de este sitio.",
+    hubSummary: "Cómo usamos la información que nos compartís.",
+    intro: "Esta página explica qué información podés compartirnos a través de este sitio y cómo la usamos.",
+    sections: [
+      {
+        heading: "Qué información podés compartirnos",
+        body: [
+          "Cuando escribís por WhatsApp o completás el formulario \"Crea tu idea\", podés compartirnos información como:",
+        ],
+        list: [
+          "Nombre",
+          "WhatsApp u otro dato de contacto",
+          "Correo electrónico (opcional)",
+          "Detalles de tu pedido o idea",
+          "Detalles de personalización — nombres, fechas, frases, colores",
+          "Una imagen de referencia, si elegís compartir una",
+          "Cualquier otra información que decidas escribirnos voluntariamente",
+        ],
+      },
+      {
+        heading: "Para qué usamos esa información",
+        body: ["Usamos la información que nos compartís únicamente para:"],
+        list: [
+          "Responder tus consultas",
+          "Conversar sobre tu creación personalizada",
+          "Comunicarnos sobre los productos que solicitaste",
+          "Coordinar tu pedido, cuando corresponda",
+          "Brindarte atención al cliente",
+        ],
+      },
+      {
+        heading: "Cómo protegemos tu información",
+        body: [
+          "Tomamos medidas razonables para proteger la información que nos compartís, y no la usamos para fines distintos a los descritos en esta página.",
+        ],
+      },
+      {
+        heading: "Servicios de terceros",
+        body: [
+          "Este sitio carga las tipografías de su diseño desde Google Fonts, un servicio externo. Fuera de eso, este sitio no utiliza cookies de seguimiento ni herramientas de análisis de terceros.",
+        ],
+      },
+      {
+        heading: "Contacto",
+        body: ["Si tenés preguntas sobre esta política, podés escribirnos por WhatsApp desde cualquier página del sitio."],
+      },
+    ],
+  },
+  {
+    slug: "terminos",
+    navLabel: "Términos y condiciones",
+    pageTitle: "Creative Yarn | Términos y condiciones",
+    metaDescription: "Cómo funcionan las creaciones personalizadas y los pedidos en Creative Yarn.",
+    hubSummary: "Cómo funcionan nuestras creaciones personalizadas y tus pedidos.",
+    intro: "Estos términos explican cómo funciona Creative Yarn: desde una idea hasta una pieza hecha a mano.",
+    sections: [
+      {
+        heading: "Nuestras creaciones",
+        body: [
+          "Las imágenes y ejemplos de este sitio son inspiración — muestran lo que es posible, no un catálogo cerrado de piezas idénticas.",
+          "Cada pieza es hecha a mano, por lo que pueden existir pequeñas variaciones naturales entre una creación y otra.",
+          "Una creación personalizada puede diferir levemente de la imagen de referencia que compartiste — es parte de que cada pieza se haga a mano, una por una.",
+          "Los colores pueden variar según el material disponible y la pantalla en la que estés viendo este sitio.",
+        ],
+      },
+      {
+        heading: "Tu pedido: una solicitud, no una compra confirmada",
+        body: [
+          "Completar el formulario \"Crea tu idea\" o escribirnos por WhatsApp es una solicitud — no una compra ni un pedido confirmado de forma automática.",
+          "Un pedido se considera confirmado recién después de que conversamos con vos y acordamos juntos los detalles correspondientes (precio, tiempo de producción, entrega y pago).",
+        ],
+      },
+      {
+        heading: "Creaciones personalizadas",
+        body: [
+          "Sos responsable de la información que nos proporciones para personalizar tu pieza, como nombres, iniciales, fechas, frases, colores y otros detalles de referencia.",
+          "Hacemos nuestro mejor esfuerzo para reflejar exactamente lo que nos compartiste. Si un error en la pieza final se debe a información incorrecta que recibimos de tu parte, te pedimos que lo tengas en cuenta — por eso te recomendamos revisar bien los detalles antes de confirmar tu pedido.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "envios",
+    navLabel: "Envíos y entregas",
+    pageTitle: "Creative Yarn | Envíos y entregas",
+    metaDescription: "Cómo se coordina la entrega de tu pieza personalizada de Creative Yarn.",
+    hubSummary: "Cómo se coordina la entrega de tu pieza.",
+    intro: "Como cada creación es distinta, los detalles de entrega se confirman de forma individual según tu pedido.",
+    sections: [
+      {
+        heading: "Entregas personalizadas para cada pedido",
+        body: [
+          "No publicamos tarifas ni tiempos de envío fijos en este sitio, porque el costo y el método de entrega dependen de tu pedido en particular.",
+        ],
+      },
+      {
+        heading: "Qué puede influir en tu entrega",
+        body: ["Varios factores pueden influir en los detalles de tu entrega, entre ellos:"],
+        list: [
+          "El producto que elegiste",
+          "Las características de tu pedido",
+          "El destino de la entrega",
+          "El método de entrega disponible",
+        ],
+      },
+      {
+        heading: "Antes de confirmar tu pedido",
+        body: [
+          "Antes de que tu pedido quede confirmado, te compartiremos los detalles de entrega que apliquen a tu caso, incluyendo el método y cualquier costo asociado.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "devoluciones",
+    navLabel: "Cambios y devoluciones",
+    pageTitle: "Creative Yarn | Cambios y devoluciones",
+    metaDescription: "Cómo abordamos cambios, devoluciones y piezas dañadas en Creative Yarn.",
+    hubSummary: "Cómo abordamos cambios, devoluciones y piezas dañadas.",
+    // NOTE for Creative Yarn (not shown publicly): once specific windows,
+    // percentages or conditions are decided, they can be added as extra
+    // bullet points or a dedicated subsection in each block below. Until
+    // then this stays intentionally neutral rather than inventing numbers.
+    sections: [
+      {
+        heading: "Piezas personalizadas",
+        body: [
+          "Como cada pieza personalizada se crea especialmente para vos, según los detalles que nos compartiste, este tipo de creaciones se trata de forma distinta a un producto genérico.",
+        ],
+      },
+      {
+        heading: "Piezas no personalizadas",
+        body: [
+          "Para piezas que no incluyen personalización, las condiciones de cambio se evalúan según el tipo de producto y la situación de cada pedido.",
+        ],
+      },
+      {
+        heading: "Piezas dañadas o incorrectas",
+        body: [
+          "Si tu pieza llega dañada o no corresponde con lo acordado, escribinos — cada situación se revisa de forma individual para encontrar la mejor solución.",
+        ],
+      },
+      {
+        heading: "Cómo se definen las condiciones",
+        body: [
+          "Las condiciones de cambios y devoluciones se comunican y confirman según el tipo de producto y las circunstancias de cada pedido. Si tenés dudas antes de confirmar tu compra, podés consultarnos por WhatsApp.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "cuidado",
+    navLabel: "Cuidado de tu pieza",
+    pageTitle: "Creative Yarn | Cuidado de tu pieza",
+    metaDescription: "Cómo cuidar tu creación hecha a mano de Creative Yarn.",
+    hubSummary: "Cómo cuidar tu creación hecha a mano para que dure.",
+    intro: "Una pieza hecha a mano merece ser cuidada.",
+    sections: [
+      {
+        heading: "Recomendaciones de cuidado",
+        list: [
+          "Manejá tu pieza hecha a mano con cuidado.",
+          "Evitá tirar o cortar los hilos.",
+          "Mantenela alejada de humedad excesiva.",
+          "Mantenela alejada de fuentes de calor excesivo.",
+          "Evitá apoyar peso excesivo sobre piezas delicadas.",
+          "Guardala en su bolsa protectora cuando corresponda.",
+          "Limpiala con métodos suaves, apropiados para el tipo de producto.",
+          "No la laves de forma agresiva ni en lavarropas, a menos que te indiquemos específicamente que ese producto lo permite.",
+        ],
+      },
+    ],
+  },
 ];
+
+// Footer's "Políticas" column — derived from POLICIES so there's one list
+// of the five policies, not two.
+export const FOOTER_POLICIES = POLICIES.map((p) => ({
+  label: p.navLabel,
+  href: `/politicas/${p.slug}`,
+}));
