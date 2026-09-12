@@ -26,6 +26,11 @@ export default function BrandStory() {
         <span className="brand-story__signature" data-reveal>
           — {BRAND_STORY.signature}
         </span>
+        {BRAND_STORY.signatureNote && (
+          <span className="brand-story__signature-note" data-reveal>
+            {BRAND_STORY.signatureNote}
+          </span>
+        )}
       </div>
     </section>
   );

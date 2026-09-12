@@ -269,6 +269,9 @@ export const BRAND_STORY = {
     "Detrás de cada pedido hay una persona leyendo tu idea, pensando en los colores, y armando algo que no existía antes de que lo pidieras.",
   ],
   signature: "JM",
+  // One brief, subtle mention is enough — do not repeat this explanation
+  // elsewhere on the site. JM stays a quiet signature, not a second brand.
+  signatureNote: "Un homenaje a quien nos enseñó a tejer — donde empezó todo esto.",
 };
 
 export const CHRISTMAS_TEASER = {

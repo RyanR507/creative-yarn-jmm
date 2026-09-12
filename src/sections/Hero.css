@@ -22,7 +22,7 @@
 }
 
 .hero__fallback {
-  background: linear-gradient(160deg, #3f3035, #5a3d45 60%, #7a3a49);
+  background: linear-gradient(160deg, var(--cy-ink), var(--cy-ink-deep) 60%, var(--cy-pink-deep-ink));
 }
 
 .hero__scrim {

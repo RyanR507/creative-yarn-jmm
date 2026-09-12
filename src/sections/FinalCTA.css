@@ -1,6 +1,6 @@
 .final-cta {
   position: relative;
-  background: linear-gradient(160deg, var(--cy-pink-deep-ink), #5a3d45 70%);
+  background: linear-gradient(160deg, var(--cy-pink-deep-ink), var(--cy-ink-deep) 70%);
   color: var(--cy-bg);
   overflow: hidden;
   text-align: center;

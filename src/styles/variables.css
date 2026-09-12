@@ -13,6 +13,9 @@
   --cy-ink-soft: rgba(63, 48, 53, 0.68);
   --cy-ink-faint: rgba(63, 48, 53, 0.42);
   --cy-pink-deep-ink: #7a3a49;
+  /* Mid-tone between --cy-ink and --cy-pink-deep-ink — used as the middle
+     stop in the two dark hero/CTA gradients so they read as one family. */
+  --cy-ink-deep: #5a3d45;
   --cy-border: rgba(63, 48, 53, 0.1);
   --cy-shadow: 0 24px 48px -24px rgba(63, 48, 53, 0.28);
   --cy-shadow-soft: 0 12px 32px -18px rgba(63, 48, 53, 0.22);

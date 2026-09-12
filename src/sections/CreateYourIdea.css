@@ -82,6 +82,10 @@
 }
 
 .create-idea__step {
+  /* Fieldsets don't shrink like normal flex items — their default
+     min-width is their content's min-content, which can exceed the
+     form's width and push the whole step off the right edge. */
+  min-width: 0;
   border: none;
   padding: 0;
   margin: 0;

@@ -32,3 +32,10 @@
   color: var(--cy-gold);
   opacity: 0.85;
 }
+
+.brand-story__signature-note {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--cy-ink-faint);
+}
