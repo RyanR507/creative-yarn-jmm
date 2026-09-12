@@ -1,6 +1,7 @@
 import { useScrollReveal } from "../animations/useScrollReveal";
 import { CHRISTMAS_TEASER } from "../data/content";
 import { getWhatsAppLink } from "../data/config";
+import { trackEvent } from "../utils/analytics";
 import "./ChristmasComingSoon.css";
 
 export default function ChristmasComingSoon() {
@@ -45,6 +46,10 @@ export default function ChristmasComingSoon() {
           target="_blank"
           rel="noopener noreferrer"
           data-reveal
+          onClick={() => {
+            trackEvent("whatsapp_click", { source: "christmas" });
+            trackEvent("christmas_cta_click");
+          }}
         >
           {CHRISTMAS_TEASER.cta}
         </a>

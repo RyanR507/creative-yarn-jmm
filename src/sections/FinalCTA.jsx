@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap, prefersReducedMotion } from "../animations/gsapSetup";
+import { getWhatsAppLink } from "../data/config";
+import { trackEvent } from "../utils/analytics";
 import "./FinalCTA.css";
 
 const HEART_PATH =
@@ -51,11 +53,26 @@ export default function FinalCTA() {
           Cuéntanos qué estás imaginando y creemos algo hecho especialmente para ti.
         </p>
         <div className="final-cta__actions">
-          <a href="#personalizacion" className="btn btn-light">
-            Crea tu pieza
+          <a
+            href="#formulario-pedido"
+            className="btn btn-light"
+            onClick={() => trackEvent("final_cta_click", { variant: "primary" })}
+          >
+            Crear mi idea
           </a>
-          <a href="#formulario-pedido" className="btn btn-light-outline">
-            Contáctanos
+          <a
+            href={getWhatsAppLink(
+              "¡Hola Creative Yarn! Tengo una idea para una pieza personalizada y me gustaría contárselas."
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-light-outline"
+            onClick={() => {
+              trackEvent("whatsapp_click", { source: "final_cta" });
+              trackEvent("final_cta_click", { variant: "secondary" });
+            }}
+          >
+            Hablar por WhatsApp
           </a>
         </div>
       </div>

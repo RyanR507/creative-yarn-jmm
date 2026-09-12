@@ -1,6 +1,7 @@
 import { useScrollReveal } from "../animations/useScrollReveal";
 import { CATEGORIES } from "../data/content";
 import { getWhatsAppLink } from "../data/config";
+import { trackEvent } from "../utils/analytics";
 import "./ProductCategories.css";
 
 export default function ProductCategories() {
@@ -32,6 +33,9 @@ export default function ProductCategories() {
               rel="noopener noreferrer"
               className="category-card"
               data-reveal
+              onClick={() =>
+                trackEvent("product_cta_click", { product: cat.title, source: "category_grid" })
+              }
             >
               <span className="category-card__thread" aria-hidden="true" />
               {cat.image ? (

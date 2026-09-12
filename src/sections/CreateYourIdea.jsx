@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useScrollReveal } from "../animations/useScrollReveal";
 import { CATEGORIES, OCCASION_OPTIONS, ORDER_FLOW_STAGES } from "../data/content";
 import { ORDER_FORM_ENDPOINT, getWhatsAppLink } from "../data/config";
+import { trackEvent } from "../utils/analytics";
 import "./CreateYourIdea.css";
 
 const initialStatus = { state: "idle", message: "" };
@@ -13,17 +14,30 @@ export default function CreateYourIdea({ presetProduct }) {
   const [status, setStatus] = useState(initialStatus);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+  const startedRef = useRef(false);
+
+  function markStarted(productId) {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    trackEvent("create_idea_start", { product: productId });
+  }
+
+  function selectProduct(id) {
+    setProduct(id);
+    markStarted(id);
+  }
 
   // "Quiero crear el mío" in ProductShowcase sends a product id here — follow
   // it, but only when it actually changes, so it never overwrites a choice
-  // the customer makes afterward inside this form. Adjusted during render
-  // (the React-recommended pattern) instead of an effect, to avoid an extra
-  // cascading render.
-  const [lastPreset, setLastPreset] = useState(presetProduct);
-  if (presetProduct !== lastPreset) {
-    setLastPreset(presetProduct);
-    if (presetProduct) setProduct(presetProduct);
-  }
+  // the customer makes afterward inside this form. This needs an effect
+  // (rather than the render-time adjustment used elsewhere in this file) since
+  // it also fires a one-time analytics event — a genuine external side effect.
+  useEffect(() => {
+    if (!presetProduct) return;
+    setProduct(presetProduct);
+    markStarted(presetProduct);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [presetProduct]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -63,6 +77,7 @@ export default function CreateYourIdea({ presetProduct }) {
       }
 
       setStatus({ state: "success", message: "" });
+      trackEvent("create_idea_submit", { product });
       form.reset();
       setProduct("");
     } catch {
@@ -116,6 +131,7 @@ export default function CreateYourIdea({ presetProduct }) {
             href={getWhatsAppLink()}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent("whatsapp_click", { source: "create_idea_quick" })}
           >
             Hablar por WhatsApp
           </a>
@@ -138,6 +154,7 @@ export default function CreateYourIdea({ presetProduct }) {
                 href={getWhatsAppLink()}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackEvent("whatsapp_click", { source: "create_idea_success" })}
               >
                 Hablar por WhatsApp
               </a>
@@ -162,7 +179,7 @@ export default function CreateYourIdea({ presetProduct }) {
                       name="producto"
                       value={cat.title}
                       checked={product === cat.id}
-                      onChange={() => setProduct(cat.id)}
+                      onChange={() => selectProduct(cat.id)}
                     />
                     <img src={cat.image} alt="" loading="lazy" decoding="async" />
                     <span>{cat.title}</span>
@@ -179,7 +196,7 @@ export default function CreateYourIdea({ presetProduct }) {
                     name="producto"
                     value="Otra idea"
                     checked={product === OTHER_IDEA_ID}
-                    onChange={() => setProduct(OTHER_IDEA_ID)}
+                    onChange={() => selectProduct(OTHER_IDEA_ID)}
                   />
                   <span className="create-idea__pick-other-icon" aria-hidden="true">
                     ✨

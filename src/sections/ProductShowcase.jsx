@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useScrollReveal } from "../animations/useScrollReveal";
 import { PRODUCT_SHOWCASE } from "../data/content";
 import { getWhatsAppLink } from "../data/config";
+import { trackEvent } from "../utils/analytics";
 import ProductViewer from "../components/ProductViewer";
 import "./ProductShowcase.css";
 
@@ -12,8 +13,14 @@ export default function ProductShowcase({ onSelectProduct }) {
 
   const product = PRODUCT_SHOWCASE.find((p) => p.id === activeId) ?? PRODUCT_SHOWCASE[0];
 
+  function selectProduct(id, name) {
+    setActiveId(id);
+    trackEvent("product_view", { product: name });
+  }
+
   function handleCreateYours() {
     onSelectProduct?.(product.id);
+    trackEvent("product_cta_click", { product: product.name, source: "showcase" });
   }
 
   return (
@@ -40,7 +47,7 @@ export default function ProductShowcase({ onSelectProduct }) {
               role="tab"
               aria-selected={p.id === activeId}
               className={`showcase__nav-item ${p.id === activeId ? "is-active" : ""}`}
-              onClick={() => setActiveId(p.id)}
+              onClick={() => selectProduct(p.id, p.name)}
             >
               {p.name}
             </button>
@@ -75,6 +82,9 @@ export default function ProductShowcase({ onSelectProduct }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-outline"
+                onClick={() =>
+                  trackEvent("whatsapp_click", { source: "showcase", product: product.name })
+                }
               >
                 Hablar por WhatsApp
               </a>

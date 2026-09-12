@@ -1,4 +1,5 @@
 import { getWhatsAppLink } from "../data/config";
+import { trackEvent } from "../utils/analytics";
 import "./WhatsAppButton.css";
 
 export default function WhatsAppButton() {
@@ -9,6 +10,7 @@ export default function WhatsAppButton() {
       rel="noopener noreferrer"
       className="whatsapp-fab"
       aria-label="Escríbenos por WhatsApp"
+      onClick={() => trackEvent("whatsapp_click", { source: "floating_button" })}
     >
       <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" focusable="false">
         <path

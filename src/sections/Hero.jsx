@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "../animations/gsapSetup";
 import { BRAND } from "../data/config";
+import { trackEvent } from "../utils/analytics";
 import "./Hero.css";
 
 export default function Hero() {
@@ -95,11 +96,19 @@ export default function Hero() {
           recuerdos que más importan.
         </p>
         <div className="hero__actions">
-          <a href="#personalizacion" className="btn btn-primary">
-            Crea tu pieza
+          <a
+            href="#formulario-pedido"
+            className="btn btn-primary"
+            onClick={() => trackEvent("hero_primary_cta_click")}
+          >
+            Crear mi idea
           </a>
-          <a href="#creaciones" className="btn btn-light-outline">
-            Ver nuestras creaciones
+          <a
+            href="#personalizados"
+            className="btn btn-light-outline"
+            onClick={() => trackEvent("hero_secondary_cta_click")}
+          >
+            Ver productos
           </a>
         </div>
       </div>

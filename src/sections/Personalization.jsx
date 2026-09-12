@@ -1,5 +1,6 @@
 import { useScrollReveal } from "../animations/useScrollReveal";
 import { PERSONALIZATION_OPTIONS } from "../data/content";
+import { trackEvent } from "../utils/analytics";
 import "./Personalization.css";
 
 export default function Personalization() {
@@ -24,8 +25,13 @@ export default function Personalization() {
             “No existen dos historias exactamente iguales. Tu pieza tampoco debería serlo.”
           </blockquote>
 
-          <a href="#formulario-pedido" className="btn btn-primary" data-reveal>
-            Comenzar mi diseño
+          <a
+            href="#formulario-pedido"
+            className="btn btn-primary"
+            data-reveal
+            onClick={() => trackEvent("personalization_interaction", { action: "cta_click" })}
+          >
+            Crear mi idea
           </a>
         </div>
 

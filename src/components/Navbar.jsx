@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { gsap } from "../animations/gsapSetup";
 import { NAV_LINKS } from "../data/content";
 import { BRAND } from "../data/config";
+import { trackEvent } from "../utils/analytics";
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -67,8 +68,12 @@ export default function Navbar() {
           </ul>
         </nav>
 
-        <a href="/#personalizacion" className="btn btn-primary navbar__cta">
-          Crea tu pieza
+        <a
+          href="/#formulario-pedido"
+          className="btn btn-primary navbar__cta"
+          onClick={() => trackEvent("navbar_cta_click")}
+        >
+          Crear mi idea
         </a>
 
         <button
@@ -96,11 +101,14 @@ export default function Navbar() {
           ))}
         </ul>
         <a
-          href="/#personalizacion"
+          href="/#formulario-pedido"
           className="btn btn-primary"
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            trackEvent("navbar_cta_click");
+            setOpen(false);
+          }}
         >
-          Crea tu pieza
+          Crear mi idea
         </a>
       </div>
     </header>

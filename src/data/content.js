@@ -296,7 +296,8 @@ export const STEPS = [
 
 export const OCCASIONS = [
   "San Valentín", "Cumpleaños", "Graduaciones", "Aniversarios", "Día de la Madre",
-  "Día del Padre", "Navidad", "Amantes de las mascotas", "Nuevo hogar", "Porque sí",
+  "Día del Padre", "Navidad", "Amistad", "Amantes de las mascotas", "Nuevo hogar",
+  "Logros especiales", "Porque sí",
 ];
 
 export const ORDER_PROCESS_STEPS = [

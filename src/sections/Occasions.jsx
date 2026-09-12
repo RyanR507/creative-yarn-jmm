@@ -1,5 +1,6 @@
 import { useScrollReveal } from "../animations/useScrollReveal";
 import { OCCASIONS } from "../data/content";
+import { trackEvent } from "../utils/analytics";
 import "./Occasions.css";
 
 export default function Occasions() {
@@ -22,14 +23,25 @@ export default function Occasions() {
 
         <div className="occasions__grid">
           {OCCASIONS.map((occ) => (
-            <span className={`occasions__pill ${occ === "Porque sí" ? "is-highlight" : ""}`} key={occ} data-reveal>
+            <a
+              href="#formulario-pedido"
+              className={`occasions__pill ${occ === "Porque sí" ? "is-highlight" : ""}`}
+              key={occ}
+              data-reveal
+              aria-label={`Crear una idea personalizada para ${occ}`}
+              onClick={() => trackEvent("occasion_selection", { occasion: occ })}
+            >
               {occ}
-            </span>
+            </a>
           ))}
         </div>
 
         <div className="occasions__cta" data-reveal>
-          <a href="#personalizacion" className="btn btn-primary">
+          <a
+            href="#personalizacion"
+            className="btn btn-primary"
+            onClick={() => trackEvent("personalization_interaction", { action: "occasions_cta_click" })}
+          >
             Hazlo personal
           </a>
         </div>
