@@ -1,6 +1,4 @@
 .christmas-teaser {
-  position: relative;
-  overflow: hidden;
   background: radial-gradient(
     ellipse at 50% 35%,
     var(--cy-pink-blush) 0%,
@@ -11,141 +9,11 @@
 }
 
 .christmas-teaser__inner {
-  position: relative;
-  z-index: 1;
-  max-width: 640px;
+  max-width: 720px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-}
-
-/* Ambient Christmas atmosphere — snow drift, sparkle glow, decorative thread.
-   Absolutely positioned behind the content, contained to this section only,
-   and inert to pointer/keyboard interaction. */
-.christmas-teaser__atmosphere {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.christmas-teaser__thread {
-  position: absolute;
-  top: 0.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(220px, 55%);
-  height: auto;
-  opacity: 0.6;
-}
-
-.christmas-teaser__snow-layer,
-.christmas-teaser__sparkle-layer {
-  position: absolute;
-  inset: 0;
-}
-
-.christmas-teaser__snow {
-  position: absolute;
-  top: -6%;
-  left: var(--x, 50%);
-  width: var(--size, 3px);
-  height: var(--size, 3px);
-  border-radius: 50%;
-  background: var(--cy-white);
-  opacity: 0;
-  animation: christmas-snow-fall var(--duration, 14s) linear infinite;
-  animation-delay: var(--delay, 0s);
-  animation-play-state: paused;
-}
-
-.christmas-teaser__sparkle {
-  position: absolute;
-  top: var(--y, 20%);
-  left: var(--x, 50%);
-  width: var(--size, 4px);
-  height: var(--size, 4px);
-  border-radius: 50%;
-  background: var(--cy-gold);
-  box-shadow: 0 0 6px 1px rgba(201, 162, 126, 0.5);
-  opacity: 0;
-  animation: christmas-sparkle-glow var(--duration, 5s) ease-in-out infinite;
-  animation-delay: var(--delay, 0s);
-  animation-play-state: paused;
-}
-
-.christmas-teaser--active .christmas-teaser__snow,
-.christmas-teaser--active .christmas-teaser__sparkle {
-  animation-play-state: running;
-}
-
-@keyframes christmas-snow-fall {
-  0% {
-    top: -6%;
-    transform: translateX(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: var(--max-opacity, 0.5);
-  }
-  85% {
-    opacity: var(--max-opacity, 0.5);
-  }
-  100% {
-    top: 105%;
-    transform: translateX(var(--drift, 14px));
-    opacity: 0;
-  }
-}
-
-@keyframes christmas-sparkle-glow {
-  0%,
-  100% {
-    opacity: 0;
-    transform: scale(0.6);
-  }
-  50% {
-    opacity: var(--max-opacity, 0.75);
-    transform: scale(1);
-  }
-}
-
-.christmas-teaser__title-wrap {
-  position: relative;
-  display: inline-block;
-}
-
-.christmas-teaser__title-shine {
-  position: absolute;
-  inset: 0;
-  left: -20%;
-  width: 35%;
-  background: linear-gradient(100deg, transparent, var(--cy-gold) 50%, transparent);
-  opacity: 0.4;
-  mix-blend-mode: soft-light;
-  transform: translateX(-160%);
-  pointer-events: none;
-}
-
-/* Fewer particles on small screens — same atmosphere, lighter footprint. */
-@media (max-width: 640px) {
-  .christmas-teaser__snow-layer .christmas-teaser__snow:nth-child(n + 10) {
-    display: none;
-  }
-  .christmas-teaser__sparkle-layer .christmas-teaser__sparkle:nth-child(n + 4) {
-    display: none;
-  }
-  .christmas-teaser__thread {
-    width: min(160px, 50%);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .christmas-teaser__atmosphere {
-    display: none;
-  }
 }
 
 .christmas-teaser__badge {
@@ -165,6 +33,29 @@
   margin-bottom: 0.25rem;
 }
 
+/* The video is the centerpiece: full-width within the section, its native
+   16:9 aspect ratio preserved (so there's no letterboxing or stretching and
+   no layout shift while it loads), rounded and shadowed like the rest of the
+   site's media (packaging photos, product cards) rather than a generic
+   video-player frame. */
+.christmas-teaser__video-frame {
+  width: 100%;
+  max-width: 780px;
+  margin-block: 2rem;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--cy-shadow);
+  background: linear-gradient(160deg, var(--cy-pink-blush), var(--cy-cream));
+}
+
+.christmas-teaser__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .christmas-teaser .btn {
-  margin-top: 2rem;
+  margin-top: 0.5rem;
 }
