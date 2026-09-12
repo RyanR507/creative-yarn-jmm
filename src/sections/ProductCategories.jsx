@@ -38,7 +38,7 @@ export default function ProductCategories() {
                 <img
                   className="category-card__image"
                   src={cat.image}
-                  alt={`${cat.title} — pieza de Creative Yarn`}
+                  alt={`${cat.title} personalizado de Creative Yarn, hecho a mano con yarn sobre plastic canvas`}
                   loading="lazy"
                   decoding="async"
                 />
