@@ -26,10 +26,6 @@ export const CONTACT = {
   email: "hola@creativeyarn.example",
 };
 
-// Form endpoint placeholder. Swap for a real Formspree / Netlify Forms / backend
-// endpoint when ready. See src/sections/CreateYourIdea.jsx for the submit handler.
-export const ORDER_FORM_ENDPOINT = null;
-
 export const BRAND = {
   name: "Creative Yarn",
   tagline: "Create it. Yarn it. Love it.",

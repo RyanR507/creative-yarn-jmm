@@ -82,6 +82,37 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!--
+      Netlify Forms detection form. This is plain, static HTML — never
+      rendered or touched by React — so Netlify's build-time bot can find it
+      when scanning the published dist/index.html and register the form's
+      schema. The real, visible form (src/sections/CreateYourIdea.jsx) shares
+      this exact name and field set and submits to it via fetch() at runtime;
+      Netlify matches submissions by the "form-name" field, not by this
+      markup being visible. Do not remove this even though it's invisible.
+    -->
+    <form
+      name="creative-yarn-order-request"
+      data-netlify="true"
+      enctype="multipart/form-data"
+      hidden
+    >
+      <input type="text" name="producto" />
+      <input type="text" name="cantidad" />
+      <input type="text" name="nombre_iniciales" />
+      <input type="text" name="frase" />
+      <input type="text" name="colores" />
+      <input type="text" name="ocasion" />
+      <input type="text" name="personalizacion_adicional" />
+      <textarea name="descripcion"></textarea>
+      <input type="file" name="imagen_referencia" />
+      <input type="text" name="nombre" />
+      <input type="text" name="whatsapp" />
+      <input type="email" name="email" />
+      <textarea name="info_adicional"></textarea>
+    </form>
+
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

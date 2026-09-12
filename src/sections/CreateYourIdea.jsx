@@ -1,12 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { useScrollReveal } from "../animations/useScrollReveal";
 import { CATEGORIES, OCCASION_OPTIONS, ORDER_FLOW_STAGES } from "../data/content";
-import { ORDER_FORM_ENDPOINT, getWhatsAppLink } from "../data/config";
+import { getWhatsAppLink } from "../data/config";
 import { trackEvent } from "../utils/analytics";
 import "./CreateYourIdea.css";
 
 const initialStatus = { state: "idle", message: "" };
 const OTHER_IDEA_ID = "otro";
+const FORM_NAME = "creative-yarn-order-request";
+
+// Builds a contextual WhatsApp follow-up message from what the customer just
+// submitted — only ever includes fields they actually filled in.
+function buildFollowUpMessage(submission) {
+  if (!submission) return undefined;
+  const { nombre, producto, ocasion, descripcion } = submission;
+  const ideaSnippet =
+    descripcion.length > 160 ? `${descripcion.slice(0, 160).trim()}…` : descripcion;
+  let message = `¡Hola Creative Yarn! Soy ${nombre}. Acabo de enviar una solicitud para "${producto}"`;
+  if (ocasion) message += ` (${ocasion})`;
+  message += `. Mi idea: "${ideaSnippet}". Me gustaría confirmar los detalles con ustedes.`;
+  return message;
+}
 
 export default function CreateYourIdea({ presetProduct }) {
   const scopeRef = useScrollReveal();
@@ -14,6 +28,7 @@ export default function CreateYourIdea({ presetProduct }) {
   const [status, setStatus] = useState(initialStatus);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+  const [lastSubmission, setLastSubmission] = useState(null);
   const startedRef = useRef(false);
 
   function markStarted(productId) {
@@ -62,20 +77,22 @@ export default function CreateYourIdea({ presetProduct }) {
     setStatus(initialStatus);
 
     try {
-      if (ORDER_FORM_ENDPOINT) {
-        // Real integration path — point ORDER_FORM_ENDPOINT (src/data/config.js)
-        // at a Formspree / Netlify Forms / custom backend URL to go live.
-        const res = await fetch(ORDER_FORM_ENDPOINT, {
-          method: "POST",
-          body: data,
-          headers: { Accept: "application/json" },
-        });
-        if (!res.ok) throw new Error("submit-failed");
-      } else {
-        // Test mode: no endpoint configured yet, simulate a successful send.
-        await new Promise((resolve) => setTimeout(resolve, 700));
-      }
+      // Netlify Forms: any POST whose body includes "form-name" matching a
+      // form Netlify detected at build time (see the hidden static form in
+      // index.html) is captured, stored, and can trigger an email
+      // notification — no external endpoint or backend of our own needed.
+      // FormData is sent as-is (including the file, if any) so the browser
+      // sets the correct multipart Content-Type/boundary itself; setting it
+      // manually here would break the upload.
+      const res = await fetch("/", { method: "POST", body: data });
+      if (!res.ok) throw new Error("submit-failed");
 
+      setLastSubmission({
+        nombre,
+        producto: (data.get("producto") || "").toString(),
+        ocasion: (data.get("ocasion") || "").toString().trim(),
+        descripcion,
+      });
       setStatus({ state: "success", message: "" });
       trackEvent("create_idea_submit", { product });
       form.reset();
@@ -83,7 +100,8 @@ export default function CreateYourIdea({ presetProduct }) {
     } catch {
       setStatus({
         state: "error",
-        message: "No pudimos enviar tu idea. Intentá de nuevo o escribinos por WhatsApp.",
+        message:
+          "No pudimos enviar tu idea. Por favor, intentá de nuevo en un momento o escribinos directamente por WhatsApp.",
       });
     } finally {
       setSubmitting(false);
@@ -92,6 +110,7 @@ export default function CreateYourIdea({ presetProduct }) {
 
   function startOver() {
     setStatus(initialStatus);
+    setLastSubmission(null);
   }
 
   return (
@@ -142,16 +161,16 @@ export default function CreateYourIdea({ presetProduct }) {
             <span className="create-idea__success-icon" aria-hidden="true">
               🧶
             </span>
-            <h3>Tu idea ya está en camino.</h3>
+            <h3>¡Recibimos tu idea!</h3>
             <p>
-              Gracias por elegir Creative Yarn. Te contactaremos personalmente para
-              conversar los detalles de tu creación — esto es una solicitud, todavía
-              no un pedido confirmado.
+              Gracias por compartir tu creación con Creative Yarn. Revisaremos los
+              detalles y nos pondremos en contacto contigo para confirmar tu
+              propuesta, precio, producción y entrega.
             </p>
             <div className="create-idea__success-actions">
               <a
                 className="btn btn-primary"
-                href={getWhatsAppLink()}
+                href={getWhatsAppLink(buildFollowUpMessage(lastSubmission))}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent("whatsapp_click", { source: "create_idea_success" })}
@@ -164,7 +183,17 @@ export default function CreateYourIdea({ presetProduct }) {
             </div>
           </div>
         ) : (
-          <form className="create-idea__form" onSubmit={handleSubmit} data-reveal noValidate>
+          <form
+            className="create-idea__form"
+            name={FORM_NAME}
+            method="POST"
+            data-netlify="true"
+            encType="multipart/form-data"
+            onSubmit={handleSubmit}
+            data-reveal
+            noValidate
+          >
+            <input type="hidden" name="form-name" value={FORM_NAME} />
             <fieldset className="create-idea__step">
               <legend>01 — Elige tu creación</legend>
 
@@ -290,9 +319,22 @@ export default function CreateYourIdea({ presetProduct }) {
                 </p>
               )}
               {status.state === "error" && (
-                <p className="create-idea__status create-idea__status--error" role="alert">
-                  {status.message}
-                </p>
+                <div className="create-idea__status create-idea__status--error" role="alert">
+                  <p>{status.message}</p>
+                  <p>
+                    ¿Tu solicitud no pudo enviarse? Puedes escribirnos tu idea directamente
+                    por WhatsApp.
+                  </p>
+                  <a
+                    className="btn btn-outline"
+                    href={getWhatsAppLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent("whatsapp_click", { source: "create_idea_error" })}
+                  >
+                    Hablar por WhatsApp
+                  </a>
+                </div>
               )}
             </div>
           </form>
