@@ -83,6 +83,16 @@
   font-size: 0.85rem;
 }
 
+/* Slightly featured, without becoming a second CTA — same link styling and
+   underline hover as the rest of the nav, just the existing gold brand tone
+   (already used for the Christmas badge/eyebrow) instead of the default. */
+.navbar__nav a.navbar__link--christmas,
+.navbar--scrolled .navbar__nav a.navbar__link--christmas,
+.navbar__mobile-menu a.navbar__link--christmas {
+  color: var(--cy-gold);
+  font-weight: 600;
+}
+
 .navbar__burger {
   display: none;
   flex-direction: column;

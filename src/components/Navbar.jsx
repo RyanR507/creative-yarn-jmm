@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { gsap } from "../animations/gsapSetup";
-import { NAV_LINKS } from "../data/content";
+import { NAVBAR_LINKS } from "../data/content";
 import { BRAND } from "../data/config";
 import { trackEvent } from "../utils/analytics";
 import "./Navbar.css";
@@ -60,9 +60,14 @@ export default function Navbar() {
 
         <nav className="navbar__nav" aria-label="Navegación principal">
           <ul>
-            {NAV_LINKS.map((link) => (
+            {NAVBAR_LINKS.map((link) => (
               <li key={link.href}>
-                <a href={link.href}>{link.label}</a>
+                <a
+                  href={link.href}
+                  className={link.isChristmas ? "navbar__link--christmas" : undefined}
+                >
+                  {link.label}
+                </a>
               </li>
             ))}
           </ul>
@@ -92,9 +97,13 @@ export default function Navbar() {
 
       <div id="mobile-menu" className="navbar__mobile-menu" ref={menuRef}>
         <ul>
-          {NAV_LINKS.map((link) => (
+          {NAVBAR_LINKS.map((link) => (
             <li key={link.href}>
-              <a href={link.href} onClick={() => setOpen(false)}>
+              <a
+                href={link.href}
+                className={link.isChristmas ? "navbar__link--christmas" : undefined}
+                onClick={() => setOpen(false)}
+              >
                 {link.label}
               </a>
             </li>

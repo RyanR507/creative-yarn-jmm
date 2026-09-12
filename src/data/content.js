@@ -17,6 +17,19 @@ export const NAV_LINKS = [
   { href: "/#contacto", label: "Contacto" },
 ];
 
+// The main Navbar shows a trimmed, 5-item subset of the site's full section
+// list (NAV_LINKS above, still used as-is by the Footer) — "Cómo funciona",
+// "Ocasiones", "Crear mi idea" and "Preguntas frecuentes" stay reachable via
+// the Footer, in-page CTAs, and normal scrolling, just not as Navbar items.
+// "#navidad" is the real id of the existing Christmas Coming Soon section.
+export const NAVBAR_LINKS = [
+  { href: "/#inicio", label: "Inicio" },
+  { href: "/#personalizados", label: "Personalizados" },
+  { href: "/#creaciones", label: "Creaciones" },
+  { href: "/#navidad", label: "Christmas Yarn: Coming Soon", isChristmas: true },
+  { href: "/#contacto", label: "Contacto" },
+];
+
 export const ABOUT_CARDS = [
   {
     title: "Personalizado",
