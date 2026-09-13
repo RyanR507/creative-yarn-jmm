@@ -10,6 +10,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
+  const burgerRef = useRef(null);
   const location = useLocation();
 
   // The transparent-navbar-over-dark-video look only makes sense on the
@@ -51,6 +52,32 @@ export default function Navbar() {
     }
   }, [open]);
 
+  // Accessible close behavior for the mobile menu: Escape, and a tap/click
+  // outside both the menu and the burger button that opens it. Both
+  // listeners are only attached while the menu is actually open, and are
+  // removed the moment it closes (or the component unmounts) — nothing is
+  // ever left listening in the background.
+  useEffect(() => {
+    if (!open) return undefined;
+
+    function handleKeyDown(e) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    function handlePointerDown(e) {
+      const menu = menuRef.current;
+      const burger = burgerRef.current;
+      if (menu?.contains(e.target) || burger?.contains(e.target)) return;
+      setOpen(false);
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, [open]);
+
   return (
     <header className={`navbar ${showSolidNavbar ? "navbar--scrolled" : ""}`}>
       <div className="container navbar__inner">
@@ -83,6 +110,7 @@ export default function Navbar() {
         </a>
 
         <button
+          ref={burgerRef}
           type="button"
           className="navbar__burger"
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
