@@ -24,6 +24,7 @@
 .navbar__logo {
   display: flex;
   align-items: center;
+  gap: 0.65rem;
 }
 
 .navbar__logo-img {
@@ -31,6 +32,22 @@
   height: 52px;
   border-radius: 50%;
   display: block;
+}
+
+.navbar__logo-text {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: var(--cy-bg);
+  text-shadow: 0 1px 6px rgba(63, 48, 53, 0.35);
+  transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+.navbar--scrolled .navbar__logo-text {
+  color: var(--cy-ink);
+  text-shadow: none;
 }
 
 .navbar__nav {
@@ -142,7 +159,8 @@
 
 @media (max-width: 860px) {
   .navbar__nav,
-  .navbar__cta {
+  .navbar__cta,
+  .navbar__logo-text {
     display: none;
   }
   .navbar__burger {

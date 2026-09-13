@@ -10,6 +10,7 @@ export default function Footer() {
         <div className="footer__brand">
           <img src="/assets/logo/logo.png" alt={BRAND.name} className="footer__logo-img" />
           <p className="footer__tagline">{BRAND.tagline}</p>
+          <p className="footer__jm-note">JM — Jean Marie, el origen detrás de cada puntada.</p>
         </div>
 
         <nav className="footer__nav" aria-label="Enlaces del sitio">

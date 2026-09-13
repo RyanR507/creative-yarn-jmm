@@ -15,9 +15,43 @@ export default function BrandStory() {
           {BRAND_STORY.title}
         </h2>
 
+        <p className="brand-story__intro" data-reveal>
+          {BRAND_STORY.intro}
+        </p>
+
         <div className="brand-story__body">
           {BRAND_STORY.paragraphs.map((paragraph, i) => (
-            <p key={i} data-reveal>
+            <p key={`story-${i}`} data-reveal>
+              {paragraph}
+            </p>
+          ))}
+        </div>
+
+        <h3 className="brand-story__subheading" data-reveal>
+          {BRAND_STORY.visionHeading}
+        </h3>
+        <div className="brand-story__body">
+          {BRAND_STORY.visionParagraphs.map((paragraph, i) => (
+            <p key={`vision-${i}`} data-reveal>
+              {paragraph}
+            </p>
+          ))}
+        </div>
+
+        <blockquote className="brand-story__quote" data-reveal>
+          “{BRAND_STORY.featuredQuote}”
+        </blockquote>
+
+        <div className="brand-story__jm" data-reveal>
+          <h3 className="brand-story__jm-heading">{BRAND_STORY.jmHeading}</h3>
+          {BRAND_STORY.jmParagraphs.map((paragraph, i) => (
+            <p key={`jm-${i}`}>{paragraph}</p>
+          ))}
+        </div>
+
+        <div className="brand-story__body brand-story__closing">
+          {BRAND_STORY.closingParagraphs.map((paragraph, i) => (
+            <p key={`closing-${i}`} data-reveal>
               {paragraph}
             </p>
           ))}
@@ -26,11 +60,6 @@ export default function BrandStory() {
         <span className="brand-story__signature" data-reveal>
           — {BRAND_STORY.signature}
         </span>
-        {BRAND_STORY.signatureNote && (
-          <span className="brand-story__signature-note" data-reveal>
-            {BRAND_STORY.signatureNote}
-          </span>
-        )}
       </div>
     </section>
   );

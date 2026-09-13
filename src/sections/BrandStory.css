@@ -10,6 +10,14 @@
   align-items: center;
 }
 
+.brand-story__intro {
+  margin-top: 1.5rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--cy-pink-deep-ink);
+}
+
 .brand-story__body {
   margin-top: 2rem;
   display: flex;
@@ -23,6 +31,59 @@
   color: var(--cy-ink-soft);
 }
 
+.brand-story__subheading {
+  margin-top: 2.5rem;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--cy-ink);
+}
+
+/* A brief, standalone pull-quote — visually distinct from the paragraphs
+   around it, echoing the same left-border quote treatment already used in
+   the Personalization section, in the brand's gold tone. */
+.brand-story__quote {
+  margin: 2.5rem auto 0;
+  max-width: 34ch;
+  text-align: left;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: var(--cy-pink-deep-ink);
+  border-left: 3px solid var(--cy-gold);
+  padding-left: 1.25rem;
+}
+
+/* "¿Por qué JM?" — a quietly featured card, not a second hero moment. */
+.brand-story__jm {
+  margin-top: 2.5rem;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  background: var(--cy-cream);
+  border-radius: var(--radius-lg);
+}
+
+.brand-story__jm-heading {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--cy-pink-deep-ink);
+  margin-bottom: 1rem;
+}
+
+.brand-story__jm p {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--cy-ink-soft);
+}
+
+.brand-story__jm p + p {
+  margin-top: 0.9rem;
+}
+
+.brand-story__closing {
+  margin-top: 2.5rem;
+}
+
 .brand-story__signature {
   margin-top: 2.25rem;
   font-family: var(--font-display);
@@ -31,11 +92,4 @@
   letter-spacing: 0.04em;
   color: var(--cy-gold);
   opacity: 0.85;
-}
-
-.brand-story__signature-note {
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 0.8rem;
-  color: var(--cy-ink-faint);
 }

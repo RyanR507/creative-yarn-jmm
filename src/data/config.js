@@ -27,6 +27,11 @@ export const CONTACT = {
 };
 
 export const BRAND = {
-  name: "Creative Yarn",
+  // Full brand identity — shown in the Navbar, Hero, and Footer. The short
+  // form "Creative Yarn" (used everywhere else: WhatsApp messages, SEO
+  // metadata, policy pages) is intentionally a separate, hardcoded string in
+  // each of those spots, not derived from this constant — see BRAND_STORY in
+  // content.js for where "JM" (Jean Marie) is actually explained.
+  name: "Creative Yarn JM",
   tagline: "Create it. Yarn it. Love it.",
 };

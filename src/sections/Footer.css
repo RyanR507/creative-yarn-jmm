@@ -25,6 +25,14 @@
   color: rgba(255, 249, 245, 0.7);
 }
 
+/* Deliberately quieter than the tagline above it — a signature, not a
+   second headline. */
+.footer__jm-note {
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  color: rgba(255, 249, 245, 0.5);
+}
+
 .footer__heading {
   font-size: 0.75rem;
   letter-spacing: 0.14em;

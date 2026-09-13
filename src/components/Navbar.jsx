@@ -56,6 +56,7 @@ export default function Navbar() {
       <div className="container navbar__inner">
         <a href="/" className="navbar__logo">
           <img src="/assets/logo/logo.png" alt={BRAND.name} className="navbar__logo-img" />
+          <span className="navbar__logo-text">{BRAND.name}</span>
         </a>
 
         <nav className="navbar__nav" aria-label="Navegación principal">

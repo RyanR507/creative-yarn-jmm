@@ -276,15 +276,37 @@ export const PACKAGING_HIGHLIGHTS = [
 export const BRAND_STORY = {
   eyebrow: "La historia detrás del hilo",
   title: "Cada hilo cuenta algo.",
+  intro: "Antes de ser una marca, Creative Yarn JM es un recuerdo.",
   paragraphs: [
-    "Creative Yarn nació de una idea simple: convertir un nombre, una fecha o un recuerdo en algo que se pueda sostener con las manos.",
-    "Cada pieza se cose a mano, hilo por hilo, sobre plastic canvas — sin atajos ni producción en masa. Es un proceso lento, a propósito, porque las cosas hechas con cariño no se apuran.",
-    "Detrás de cada pedido hay una persona leyendo tu idea, pensando en los colores, y armando algo que no existía antes de que lo pidieras.",
+    "Hay historias que comienzan con una gran idea.",
+    "La nuestra comenzó mucho antes, en una casa, una iglesia junto a mi tía, unas lanas, una aguja y una canvas plástica.",
+    "Desde pequeña, aprendí de mi tía Jean el arte de crear con las manos. Recuerdo verla trabajar en sus canvas, convirtiendo simples materiales en piezas llenas de color, paciencia y creatividad.",
+    "Yo quería aprender.",
+    "Y cuando finalmente aprendí, descubrí algo más que una manualidad: descubrí un espacio donde podía crear, concentrarme y disfrutar. Podía pasar horas haciendo canvas sin sentir cómo transcurría el tiempo.",
+    "Aquel hobby se quedó conmigo.",
+  ],
+  visionHeading: "De un recuerdo a una visión",
+  visionParagraphs: [
+    "Con los años, esas primeras puntadas se convirtieron en algo más que un recuerdo de infancia. Se convirtieron en inspiración.",
+    "Así nació Creative Yarn: con el deseo de llevar aquel arte que aprendí hace tantos años a un nuevo nivel, transformando una tradición hecha a mano en piezas únicas, creativas y pensadas para formar parte de la vida de otras personas.",
+    "Cada diseño representa algo que aprendí desde el principio: que crear con las manos requiere tiempo, dedicación y paciencia, pero que el resultado puede convertirse en algo verdaderamente especial.",
+  ],
+  featuredQuote: "Una enseñanza que comenzó con una puntada y continúa con cada creación.",
+  jmHeading: "¿Por qué JM?",
+  jmParagraphs: [
+    "JM significa Jean Marie.",
+    "Jean Marie es la mujer que me enseñó desde pequeña el arte de crear con una aguja, lana y canvas plástica.",
+    "La “J” viene de Jean y la “M” de Marie, su segundo nombre.",
+    "Lo que comenzó como un hobby compartido se convirtió en una pasión que hoy continúa a través de Creative Yarn JM.",
+    "Cada “JM” es un pequeño homenaje a ella y al origen de esta historia.",
+  ],
+  closingParagraphs: [
+    "Creative Yarn JM es también una forma de honrarla — de mostrar que lo que ella me enseñó puede convertirse en mucho más que un objeto.",
+    "Se pueden crear recuerdos.",
+    "Hoy, aquel hobby se convierte en una historia que continúa con cada diseño, cada combinación de colores y cada puntada hecha a mano.",
+    "Porque detrás de cada pieza de Creative Yarn hay más que lana y canvas. Hay tiempo. Hay creatividad. Hay dedicación. Hay una historia.",
   ],
   signature: "JM",
-  // One brief, subtle mention is enough — do not repeat this explanation
-  // elsewhere on the site. JM stays a quiet signature, not a second brand.
-  signatureNote: "Un homenaje a quien nos enseñó a tejer — donde empezó todo esto.",
 };
 
 export const CHRISTMAS_TEASER = {
