@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useScrollReveal } from "../animations/useScrollReveal";
+import { prefersReducedMotion } from "../animations/gsapSetup";
 import { CATEGORIES, OCCASIONS, ORDER_FLOW_STAGES } from "../data/content";
 import { getWhatsAppLink } from "../data/config";
 import { trackEvent } from "../utils/analytics";
@@ -42,6 +43,19 @@ export default function CreateYourIdea({ presetProduct }) {
   const [formError, setFormError] = useState("");
   const [lastSubmission, setLastSubmission] = useState(null);
   const startedRef = useRef(false);
+  const successRef = useRef(null);
+
+  // Bring the confirmation into view the moment it actually renders — not
+  // before. A successful submit can land the customer well below the fold
+  // (they've already scrolled through 3 form steps), so without this they'd
+  // have to scroll back up manually to see "¡Recibimos tu idea!" at all.
+  useEffect(() => {
+    if (status.state !== "success") return;
+    successRef.current?.scrollIntoView({
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+      block: "start",
+    });
+  }, [status.state]);
 
   function markStarted(productId) {
     if (startedRef.current) return;
@@ -192,7 +206,7 @@ export default function CreateYourIdea({ presetProduct }) {
         </div>
 
         {status.state === "success" ? (
-          <div className="create-idea__success" data-reveal>
+          <div className="create-idea__success" data-reveal ref={successRef}>
             <span className="create-idea__success-icon" aria-hidden="true">
               🧶
             </span>

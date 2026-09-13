@@ -42,13 +42,6 @@ export default function BrandStory() {
           “{BRAND_STORY.featuredQuote}”
         </blockquote>
 
-        <div className="brand-story__jm" data-reveal>
-          <h3 className="brand-story__jm-heading">{BRAND_STORY.jmHeading}</h3>
-          {BRAND_STORY.jmParagraphs.map((paragraph, i) => (
-            <p key={`jm-${i}`}>{paragraph}</p>
-          ))}
-        </div>
-
         <div className="brand-story__body brand-story__closing">
           {BRAND_STORY.closingParagraphs.map((paragraph, i) => (
             <p key={`closing-${i}`} data-reveal>

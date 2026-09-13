@@ -31,7 +31,7 @@ export const BRAND = {
   // form "Creative Yarn" (used everywhere else: WhatsApp messages, SEO
   // metadata, policy pages) is intentionally a separate, hardcoded string in
   // each of those spots, not derived from this constant — see BRAND_STORY in
-  // content.js for where "JM" (Jean Marie) is actually explained.
+  // content.js for the "JM" homage woven into the brand story.
   name: "Creative Yarn JM",
   tagline: "Create it. Yarn it. Love it.",
 };

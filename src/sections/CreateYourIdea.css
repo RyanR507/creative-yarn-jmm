@@ -300,6 +300,10 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--cy-shadow);
   padding: clamp(2.5rem, 6vw, 3.5rem) clamp(1.75rem, 5vw, 3rem);
+  /* Same offset every anchor section already uses (see global.css), so the
+     auto-scroll after a successful submit doesn't land this under the fixed
+     Navbar. */
+  scroll-margin-top: var(--navbar-offset);
 }
 
 .create-idea__success-icon {

@@ -277,14 +277,6 @@ export const BRAND_STORY = {
     "Cada diseño representa algo que aprendí desde el principio: que crear con las manos requiere tiempo, dedicación y paciencia, pero que el resultado puede convertirse en algo verdaderamente especial.",
   ],
   featuredQuote: "Una enseñanza que comenzó con una puntada y continúa con cada creación.",
-  jmHeading: "¿Por qué JM?",
-  jmParagraphs: [
-    "JM significa Jean Marie.",
-    "Jean Marie es la mujer que me enseñó desde pequeña el arte de crear con una aguja, lana y canvas plástica.",
-    "La “J” viene de Jean y la “M” de Marie, su segundo nombre.",
-    "Lo que comenzó como un hobby compartido se convirtió en una pasión que hoy continúa a través de Creative Yarn JM.",
-    "Cada “JM” es un pequeño homenaje a ella y al origen de esta historia.",
-  ],
   closingParagraphs: [
     "Creative Yarn JM es también una forma de honrarla — de mostrar que lo que ella me enseñó puede convertirse en mucho más que un objeto.",
     "Se pueden crear recuerdos.",
