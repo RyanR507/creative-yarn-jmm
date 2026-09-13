@@ -9,6 +9,18 @@ const initialStatus = { state: "idle", message: "" };
 const OTHER_IDEA_ID = "otro";
 const FORM_NAME = "creative-yarn-order-request";
 
+// Netlify's own documented AJAX submission pattern: a plain
+// application/x-www-form-urlencoded body, built by hand. This is the
+// encoding their example uses and the one they confirm works reliably —
+// unlike multipart/form-data via fetch, which isn't officially guaranteed
+// for form-detection submissions and is only used here when a file is
+// actually attached (see handleSubmit).
+function encodeUrlParams(fields) {
+  return Object.keys(fields)
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(fields[key])}`)
+    .join("&");
+}
+
 // Builds a contextual WhatsApp follow-up message from what the customer just
 // submitted — only ever includes fields they actually filled in.
 function buildFollowUpMessage(submission) {
@@ -81,10 +93,33 @@ export default function CreateYourIdea({ presetProduct }) {
       // form Netlify detected at build time (see the hidden static form in
       // index.html) is captured, stored, and can trigger an email
       // notification — no external endpoint or backend of our own needed.
-      // FormData is sent as-is (including the file, if any) so the browser
-      // sets the correct multipart Content-Type/boundary itself; setting it
-      // manually here would break the upload.
-      const res = await fetch("/", { method: "POST", body: data });
+      //
+      // Encoding matters here. Netlify's own documented/confirmed AJAX
+      // pattern is a plain x-www-form-urlencoded body — that's what we use
+      // whenever no file was attached. multipart/form-data (via raw
+      // FormData) is only used when a file actually needs to travel with
+      // the request, since urlencoded can't carry binary data; Netlify
+      // doesn't officially guarantee that path for AJAX submissions, so a
+      // real end-to-end test (with a real attached image, after deploying)
+      // is still needed to confirm it's captured — see the accompanying report.
+      const fileField = data.get("imagen_referencia");
+      const hasFile = fileField instanceof File && fileField.size > 0;
+
+      let res;
+      if (hasFile) {
+        res = await fetch("/", { method: "POST", body: data });
+      } else {
+        const fields = {};
+        for (const [key, value] of data.entries()) {
+          if (value instanceof File) continue; // empty file input, nothing to send
+          fields[key] = value;
+        }
+        res = await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encodeUrlParams(fields),
+        });
+      }
       if (!res.ok) throw new Error("submit-failed");
 
       setLastSubmission({
