@@ -8,19 +8,6 @@ import "./CreateYourIdea.css";
 
 const initialStatus = { state: "idle", message: "" };
 const OTHER_IDEA_ID = "otro";
-const FORM_NAME = "creative-yarn-order-request";
-
-// Netlify's own documented AJAX submission pattern: a plain
-// application/x-www-form-urlencoded body, built by hand. This is the
-// encoding their example uses and the one they confirm works reliably —
-// unlike multipart/form-data via fetch, which isn't officially guaranteed
-// for form-detection submissions and is only used here when a file is
-// actually attached (see handleSubmit).
-function encodeUrlParams(fields) {
-  return Object.keys(fields)
-    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(fields[key])}`)
-    .join("&");
-}
 
 // Builds a contextual WhatsApp follow-up message from what the customer just
 // submitted — only ever includes fields they actually filled in.
@@ -33,6 +20,43 @@ function buildFollowUpMessage(submission) {
   if (ocasion) message += ` (${ocasion})`;
   message += `. Mi idea: "${ideaSnippet}". Me gustaría confirmar los detalles con ustedes.`;
   return message;
+}
+
+// The full order request, formatted as the WhatsApp message itself — this is
+// the actual "submission" now that there's no backend: every field the
+// customer filled in travels in the message text. Empty optional fields (and
+// their section headers) are left out entirely rather than shown blank.
+function buildWhatsAppOrderMessage(fields) {
+  const lines = ["✨ NUEVA IDEA — CREATIVE YARN JM", "", "🧶 Producto:", fields.producto, ""];
+
+  lines.push("🔢 Cantidad:", fields.cantidad || "1", "");
+
+  const personalization = [
+    fields.nombre_iniciales && `• Nombre / iniciales: ${fields.nombre_iniciales}`,
+    fields.frase && `• Frase / texto: ${fields.frase}`,
+    fields.colores && `• Colores: ${fields.colores}`,
+    fields.ocasion && `• Ocasión: ${fields.ocasion}`,
+    fields.personalizacion_adicional && `• Personalización adicional: ${fields.personalizacion_adicional}`,
+  ].filter(Boolean);
+  if (personalization.length) {
+    lines.push("🎨 Personalización", ...personalization, "");
+  }
+
+  lines.push("💡 Mi idea:", fields.descripcion, "");
+
+  lines.push("👤 Datos de contacto", `• Nombre: ${fields.nombre}`, `• WhatsApp: ${fields.whatsapp}`);
+  if (fields.email) lines.push(`• Email: ${fields.email}`);
+  lines.push("");
+
+  if (fields.info_adicional) {
+    lines.push("📝 Información adicional:", fields.info_adicional, "");
+  }
+
+  if (fields.hasImage) {
+    lines.push("📎 Referencia:", "📎 Tengo una imagen de referencia para enviar por este chat.");
+  }
+
+  return lines.join("\n").trim();
 }
 
 export default function CreateYourIdea({ presetProduct }) {
@@ -48,7 +72,7 @@ export default function CreateYourIdea({ presetProduct }) {
   // Bring the confirmation into view the moment it actually renders — not
   // before. A successful submit can land the customer well below the fold
   // (they've already scrolled through 3 form steps), so without this they'd
-  // have to scroll back up manually to see "¡Recibimos tu idea!" at all.
+  // have to scroll back up manually to see the confirmation at all.
   useEffect(() => {
     if (status.state !== "success") return;
     successRef.current?.scrollIntoView({
@@ -80,7 +104,7 @@ export default function CreateYourIdea({ presetProduct }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [presetProduct]);
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
     const form = e.target;
     const data = new FormData(form);
@@ -103,45 +127,48 @@ export default function CreateYourIdea({ presetProduct }) {
     setStatus(initialStatus);
 
     try {
-      // Netlify Forms: any POST whose body includes "form-name" matching a
-      // form Netlify detected at build time (see the hidden static form in
-      // index.html) is captured, stored, and can trigger an email
-      // notification — no external endpoint or backend of our own needed.
-      //
-      // Encoding matters here. Netlify's own documented/confirmed AJAX
-      // pattern is a plain x-www-form-urlencoded body — that's what we use
-      // whenever no file was attached. multipart/form-data (via raw
-      // FormData) is only used when a file actually needs to travel with
-      // the request, since urlencoded can't carry binary data; Netlify
-      // doesn't officially guarantee that path for AJAX submissions, so a
-      // real end-to-end test (with a real attached image, after deploying)
-      // is still needed to confirm it's captured — see the accompanying report.
+      // No backend: the "submission" is the WhatsApp message itself. Every
+      // field the customer filled in gets formatted into one message and
+      // opened directly in WhatsApp — they press send from there. A
+      // reference image can't travel automatically through this link, so we
+      // only ever ask them to attach it manually once the chat is open.
+      const producto = (data.get("producto") || "").toString();
+      const ocasion = (data.get("ocasion") || "").toString().trim();
       const fileField = data.get("imagen_referencia");
-      const hasFile = fileField instanceof File && fileField.size > 0;
+      const hasImage = fileField instanceof File && fileField.size > 0;
 
-      let res;
-      if (hasFile) {
-        res = await fetch("/", { method: "POST", body: data });
-      } else {
-        const fields = {};
-        for (const [key, value] of data.entries()) {
-          if (value instanceof File) continue; // empty file input, nothing to send
-          fields[key] = value;
-        }
-        res = await fetch("/", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: encodeUrlParams(fields),
-        });
-      }
-      if (!res.ok) throw new Error("submit-failed");
-
-      setLastSubmission({
-        nombre,
-        producto: (data.get("producto") || "").toString(),
-        ocasion: (data.get("ocasion") || "").toString().trim(),
+      const message = buildWhatsAppOrderMessage({
+        producto,
+        cantidad: (data.get("cantidad") || "").toString().trim(),
+        nombre_iniciales: (data.get("nombre_iniciales") || "").toString().trim(),
+        frase: (data.get("frase") || "").toString().trim(),
+        colores: (data.get("colores") || "").toString().trim(),
+        ocasion,
+        personalizacion_adicional: (data.get("personalizacion_adicional") || "").toString().trim(),
         descripcion,
+        nombre,
+        whatsapp,
+        email: (data.get("email") || "").toString().trim(),
+        info_adicional: (data.get("info_adicional") || "").toString().trim(),
+        hasImage,
       });
+      const whatsappUrl = getWhatsAppLink(message);
+
+      const opened = window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      if (!opened) {
+        // Most likely a popup blocker — the customer's data isn't lost, so
+        // hand them the same link as a direct fallback instead of failing
+        // silently.
+        setStatus({
+          state: "error",
+          message:
+            "No pudimos abrir WhatsApp automáticamente (puede que tu navegador haya bloqueado la ventana). Usá el botón de abajo para enviarnos tu idea por WhatsApp.",
+          whatsappUrl,
+        });
+        return;
+      }
+
+      setLastSubmission({ nombre, producto, ocasion, descripcion });
       setStatus({ state: "success", message: "" });
       trackEvent("create_idea_submit", { product });
       form.reset();
@@ -150,7 +177,7 @@ export default function CreateYourIdea({ presetProduct }) {
       setStatus({
         state: "error",
         message:
-          "No pudimos enviar tu idea. Por favor, intentá de nuevo en un momento o escribinos directamente por WhatsApp.",
+          "No pudimos preparar tu idea para WhatsApp. Por favor, intentá de nuevo o escribinos directamente.",
       });
     } finally {
       setSubmitting(false);
@@ -210,11 +237,11 @@ export default function CreateYourIdea({ presetProduct }) {
             <span className="create-idea__success-icon" aria-hidden="true">
               🧶
             </span>
-            <h3>¡Recibimos tu idea!</h3>
+            <h3>¡Tu idea está lista para enviar!</h3>
             <p>
-              Gracias por compartir tu creación con Creative Yarn. Revisaremos los
-              detalles y nos pondremos en contacto contigo para confirmar tu
-              propuesta, precio, producción y entrega.
+              WhatsApp se abrió con los detalles de tu solicitud. Envíanos el mensaje
+              y, si tienes una imagen de referencia, adjúntala directamente en el
+              chat.
             </p>
             <div className="create-idea__success-actions">
               <a
@@ -234,15 +261,10 @@ export default function CreateYourIdea({ presetProduct }) {
         ) : (
           <form
             className="create-idea__form"
-            name={FORM_NAME}
-            method="POST"
-            data-netlify="true"
-            encType="multipart/form-data"
             onSubmit={handleSubmit}
             data-reveal
             noValidate
           >
-            <input type="hidden" name="form-name" value={FORM_NAME} />
             <fieldset className="create-idea__step">
               <legend>01 — Elige tu creación</legend>
 
@@ -376,7 +398,7 @@ export default function CreateYourIdea({ presetProduct }) {
                   </p>
                   <a
                     className="btn btn-outline"
-                    href={getWhatsAppLink()}
+                    href={status.whatsappUrl || getWhatsAppLink()}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => trackEvent("whatsapp_click", { source: "create_idea_error" })}
