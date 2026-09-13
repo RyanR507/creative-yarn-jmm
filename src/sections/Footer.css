@@ -1,5 +1,5 @@
 .footer {
-  background: #4a2c34;
+  background: var(--cy-footer-bg);
   color: rgba(255, 249, 245, 0.82);
   padding-top: clamp(3rem, 6vw, 4.5rem);
 }

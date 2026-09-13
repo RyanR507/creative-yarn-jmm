@@ -288,7 +288,7 @@
 }
 
 .create-idea__status--error {
-  color: #b0323f;
+  color: var(--cy-error);
 }
 
 /* Success state */

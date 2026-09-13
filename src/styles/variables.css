@@ -20,6 +20,16 @@
   --cy-shadow: 0 24px 48px -24px rgba(63, 48, 53, 0.28);
   --cy-shadow-soft: 0 12px 32px -18px rgba(63, 48, 53, 0.22);
 
+  /* Section-specific tones — distinct shades that don't map onto an
+     existing swatch above, kept as their own tokens instead of a
+     near-but-not-quite reuse of --cy-ink. */
+  --cy-footer-bg: #4a2c34;
+
+  /* Form validation error state — intentionally outside the core brand
+     palette so it reads unambiguously as an error rather than a brand
+     accent. */
+  --cy-error: #b0323f;
+
   /* Type */
   --font-display: "Playfair Display", "Iowan Old Style", Georgia, serif;
   --font-body: "Poppins", "Segoe UI", system-ui, sans-serif;
