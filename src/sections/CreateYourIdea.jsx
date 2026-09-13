@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useScrollReveal } from "../animations/useScrollReveal";
-import { CATEGORIES, OCCASION_OPTIONS, ORDER_FLOW_STAGES } from "../data/content";
+import { CATEGORIES, OCCASIONS, ORDER_FLOW_STAGES } from "../data/content";
 import { getWhatsAppLink } from "../data/config";
 import { trackEvent } from "../utils/analytics";
 import "./CreateYourIdea.css";
@@ -285,7 +285,7 @@ export default function CreateYourIdea({ presetProduct }) {
                 <Field label="Nombre o iniciales" name="nombre_iniciales" />
                 <Field label="Frase o texto" name="frase" />
                 <Field label="Colores preferidos" name="colores" />
-                <SelectField label="Ocasión" name="ocasion" options={OCCASION_OPTIONS} />
+                <SelectField label="Ocasión" name="ocasion" options={OCCASIONS} />
               </div>
 
               <Field

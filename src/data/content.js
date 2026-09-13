@@ -192,21 +192,6 @@ export const ORDER_FLOW_STAGES = [
   "Creative Yarn",
 ];
 
-export const OCCASION_OPTIONS = [
-  "Cumpleaños",
-  "Graduación",
-  "San Valentín",
-  "Día de la Madre",
-  "Día del Padre",
-  "Aniversario",
-  "Navidad",
-  "Amistad",
-  "Nueva casa",
-  "Logro especial",
-  "Porque sí",
-  "Otro",
-];
-
 export const GALLERY_FILTERS = ["Todos", "Amor", "Mascotas", "Graduación", "Familia", "Personalizados"];
 
 // Real photography lives in public/assets/images/gallery/. All current photos
@@ -329,10 +314,25 @@ export const STEPS = [
   { number: "05", title: "Se convierte en tuyo", text: "Recibes tu pieza personalizada, lista para disfrutar o regalar." },
 ];
 
+// Single source of truth for every occasion shown or selectable anywhere on
+// the site (the Occasions section's pills AND the "Ocasión" field in the
+// Create Your Idea form both import this same array — see Occasions.jsx and
+// CreateYourIdea.jsx). Names are normalized to one canonical spelling each
+// (singular, consistent accents) so the same occasion never reads
+// differently in two places.
 export const OCCASIONS = [
-  "San Valentín", "Cumpleaños", "Graduaciones", "Aniversarios", "Día de la Madre",
-  "Día del Padre", "Navidad", "Amistad", "Amantes de las mascotas", "Nuevo hogar",
-  "Logros especiales", "Porque sí",
+  "Cumpleaños",
+  "Graduación",
+  "San Valentín",
+  "Día de la Madre",
+  "Día del Padre",
+  "Aniversario",
+  "Navidad",
+  "Amistad",
+  "Amantes de las mascotas",
+  "Nuevo hogar",
+  "Logro especial",
+  "Porque sí",
 ];
 
 export const ORDER_PROCESS_STEPS = [
