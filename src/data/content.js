@@ -259,7 +259,7 @@ export const PACKAGING_HIGHLIGHTS = [
 ];
 
 export const BRAND_STORY = {
-  eyebrow: "La historia detrás del hilo",
+  eyebrow: "📖 La historia detrás del hilo",
   title: "Cada hilo cuenta algo.",
   intro: "Antes de ser una marca, Creative Yarn JM es un recuerdo.",
   paragraphs: [
