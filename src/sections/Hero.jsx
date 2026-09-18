@@ -97,7 +97,7 @@ export default function Hero() {
         </p>
         <div className="hero__actions">
           <a
-            href="#formulario-pedido"
+            href="#personalizados"
             className="btn btn-primary"
             onClick={() => trackEvent("hero_primary_cta_click")}
           >

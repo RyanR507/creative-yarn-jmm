@@ -1,6 +1,6 @@
+import { Link } from "react-router-dom";
 import { useScrollReveal } from "../animations/useScrollReveal";
-import { CATEGORIES } from "../data/content";
-import { getWhatsAppLink } from "../data/config";
+import { PRODUCTS } from "../data/products";
 import { trackEvent } from "../utils/analytics";
 import "./ProductCategories.css";
 
@@ -23,26 +23,22 @@ export default function ProductCategories() {
         </div>
 
         <div className="categories__grid">
-          {CATEGORIES.map((cat) => (
-            <a
-              key={cat.id}
-              href={getWhatsAppLink(
-                `¡Hola Creative Yarn! Quiero una pieza personalizada de la categoría "${cat.title}".`
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
+          {PRODUCTS.map((product) => (
+            <Link
+              key={product.id}
+              to={`/productos/${product.slug}`}
               className="category-card"
               data-reveal
               onClick={() =>
-                trackEvent("product_cta_click", { product: cat.title, source: "category_grid" })
+                trackEvent("product_cta_click", { product: product.title, source: "category_grid" })
               }
             >
               <span className="category-card__thread" aria-hidden="true" />
-              {cat.image ? (
+              {product.image ? (
                 <img
                   className="category-card__image"
-                  src={cat.image}
-                  alt={`${cat.title} personalizado de Creative Yarn, hecho a mano con yarn sobre plastic canvas`}
+                  src={product.image}
+                  alt={`${product.title} personalizado de Creative Yarn, hecho a mano con yarn sobre plastic canvas`}
                   loading="lazy"
                   decoding="async"
                 />
@@ -51,10 +47,10 @@ export default function ProductCategories() {
                   〰
                 </span>
               )}
-              <h3>{cat.title}</h3>
-              <p>{cat.text}</p>
-              <span className="category-card__cta">Pedir esta idea →</span>
-            </a>
+              <h3>{product.title}</h3>
+              <p>{product.shortDescription}</p>
+              <span className="category-card__cta">Personalizar esta idea →</span>
+            </Link>
           ))}
         </div>
       </div>

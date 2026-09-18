@@ -54,7 +54,7 @@ export default function FinalCTA() {
         </p>
         <div className="final-cta__actions">
           <a
-            href="#formulario-pedido"
+            href="#personalizados"
             className="btn btn-light"
             onClick={() => trackEvent("final_cta_click", { variant: "primary" })}
           >

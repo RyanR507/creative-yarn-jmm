@@ -1,12 +1,14 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { useScrollReveal } from "../animations/useScrollReveal";
 import { PRODUCT_SHOWCASE } from "../data/content";
+import { getSlugById } from "../data/products";
 import { getWhatsAppLink } from "../data/config";
 import { trackEvent } from "../utils/analytics";
 import ProductViewer from "../components/ProductViewer";
 import "./ProductShowcase.css";
 
-export default function ProductShowcase({ onSelectProduct }) {
+export default function ProductShowcase() {
   const scopeRef = useScrollReveal();
   const [activeId, setActiveId] = useState(PRODUCT_SHOWCASE[0].id);
   const navRef = useRef(null);
@@ -19,7 +21,6 @@ export default function ProductShowcase({ onSelectProduct }) {
   }
 
   function handleCreateYours() {
-    onSelectProduct?.(product.id);
     trackEvent("product_cta_click", { product: product.name, source: "showcase" });
   }
 
@@ -68,13 +69,13 @@ export default function ProductShowcase({ onSelectProduct }) {
             </p>
 
             <div className="showcase__actions">
-              <a
-                href="#formulario-pedido"
+              <Link
+                to={`/productos/${getSlugById(product.id)}`}
                 className="btn btn-primary"
                 onClick={handleCreateYours}
               >
                 Quiero crear el mío
-              </a>
+              </Link>
               <a
                 href={getWhatsAppLink(
                   `¡Hola Creative Yarn! Me gustaría crear una pieza personalizada de "${product.name}", inspirada en uno de los diseños que vi en la página.`

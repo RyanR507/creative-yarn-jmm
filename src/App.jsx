@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import WhatsAppButton from "./components/WhatsAppButton";
 import Footer from "./sections/Footer";
 import HomePage from "./pages/HomePage";
+import ProductPage from "./pages/ProductPage";
 import PoliciesHub from "./pages/PoliciesHub";
 import PolicyPage from "./pages/PolicyPage";
 
@@ -29,6 +30,7 @@ function App() {
       <ScrollToHashOnLoad />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/productos/:slug" element={<ProductPage />} />
         <Route path="/politicas" element={<PoliciesHub />} />
         <Route path="/politicas/:slug" element={<PolicyPage />} />
       </Routes>

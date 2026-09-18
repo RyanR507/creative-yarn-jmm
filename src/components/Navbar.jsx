@@ -102,7 +102,7 @@ export default function Navbar() {
         </nav>
 
         <a
-          href="/#formulario-pedido"
+          href="/#personalizados"
           className="btn btn-primary navbar__cta"
           onClick={() => trackEvent("navbar_cta_click")}
         >
@@ -139,7 +139,7 @@ export default function Navbar() {
           ))}
         </ul>
         <a
-          href="/#formulario-pedido"
+          href="/#personalizados"
           className="btn btn-primary"
           onClick={() => {
             trackEvent("navbar_cta_click");

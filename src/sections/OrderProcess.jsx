@@ -27,7 +27,7 @@ export default function OrderProcess() {
         </ol>
 
         <div className="order-process__cta" data-reveal>
-          <a href="#formulario-pedido" className="btn btn-primary">
+          <a href="#personalizados" className="btn btn-primary">
             Comenzar mi pedido
           </a>
         </div>

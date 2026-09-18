@@ -11,8 +11,7 @@ export const NAV_LINKS = [
   { href: "/#personalizados", label: "Personalizados" },
   { href: "/#creaciones", label: "Creaciones" },
   { href: "/#como-funciona", label: "Cómo funciona" },
-  { href: "/#ocasiones", label: "Ocasiones" },
-  { href: "/#formulario-pedido", label: "Crear mi idea" },
+  { href: "/#personalizados", label: "Crear mi idea" },
   { href: "/#faq", label: "Preguntas frecuentes" },
   { href: "/#contacto", label: "Contacto" },
 ];
@@ -181,17 +180,6 @@ export const PRODUCT_SHOWCASE = CATEGORIES.map((cat) => ({
   ],
 }));
 
-// Journey shown in the "Crea tu idea" form — the emotional arc, not the
-// operational steps already covered by OrderProcess (STEPS/ORDER_PROCESS_STEPS).
-export const ORDER_FLOW_STAGES = [
-  "Idea",
-  "Solicitud",
-  "Conversación",
-  "Confirmación",
-  "Creación a mano",
-  "Creative Yarn",
-];
-
 export const GALLERY_FILTERS = ["Todos", "Amor", "Mascotas", "Graduación", "Familia", "Personalizados"];
 
 // Real photography lives in public/assets/images/gallery/. All current photos
@@ -293,11 +281,6 @@ export const CHRISTMAS_TEASER = {
   cta: "Avísame cuando esté disponible",
 };
 
-export const PERSONALIZATION_OPTIONS = [
-  "Nombres", "Iniciales", "Fechas", "Colores", "Frases", "Diseños",
-  "Temáticas", "Fotografías de referencia", "Tamaño", "Detalles especiales",
-];
-
 export const STEPS = [
   { number: "01", title: "Tú lo imaginas", text: "Cuéntanos qué tienes en mente." },
   { number: "02", title: "Lo diseñamos", text: "Definimos colores, tamaño, estilo y personalización." },
@@ -306,10 +289,9 @@ export const STEPS = [
   { number: "05", title: "Se convierte en tuyo", text: "Recibes tu pieza personalizada, lista para disfrutar o regalar." },
 ];
 
-// Single source of truth for every occasion shown or selectable anywhere on
-// the site (the Occasions section's pills AND the "Ocasión" field in the
-// Create Your Idea form both import this same array — see Occasions.jsx and
-// CreateYourIdea.jsx). Names are normalized to one canonical spelling each
+// Single source of truth for every occasion selectable anywhere on the site —
+// currently the "Tipo de ocasión" field on the Gift Boxes product page (see
+// products.js). Names are normalized to one canonical spelling each
 // (singular, consistent accents) so the same occasion never reads
 // differently in two places.
 export const OCCASIONS = [
@@ -324,7 +306,6 @@ export const OCCASIONS = [
   "Amantes de las mascotas",
   "Nuevo hogar",
   "Logro especial",
-  "Porque sí",
 ];
 
 export const ORDER_PROCESS_STEPS = [

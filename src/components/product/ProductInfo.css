@@ -1,0 +1,24 @@
+.product-info__title {
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  margin-top: 0.3rem;
+}
+
+.product-info__price {
+  margin-top: 0.9rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--cy-pink-deep-ink);
+}
+
+.product-info__short {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  color: var(--cy-ink);
+}
+
+.product-info__description {
+  margin-top: 0.75rem;
+  color: var(--cy-ink-soft);
+  max-width: 56ch;
+}
