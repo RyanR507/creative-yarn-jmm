@@ -5,10 +5,29 @@ import "./ProductGallery.css";
 // (see GalleryLightbox.css's .lightbox* classes) instead of introducing a
 // second modal design — the CSS is generic enough to share directly.
 export default function ProductGallery({ images, productName }) {
+  // A variant/product change hands this component a different images array
+  // — the parent remounts this component (via a `key` tied to the product
+  // slug / selected style) whenever that happens, so `active` always starts
+  // fresh at 0 for the new array instead of needing an effect to reset it.
   const [active, setActive] = useState(0);
   const [zoomed, setZoomed] = useState(false);
   const hasImages = images.length > 0;
   const hasMultiple = images.length > 1;
+
+  function goTo(delta) {
+    if (!hasMultiple) return;
+    setActive((i) => (i + delta + images.length) % images.length);
+  }
+
+  function handleMainKeyDown(e) {
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      goTo(1);
+    } else if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      goTo(-1);
+    }
+  }
 
   useEffect(() => {
     if (!zoomed) return undefined;
@@ -32,7 +51,12 @@ export default function ProductGallery({ images, productName }) {
             type="button"
             className="product-gallery__main-trigger"
             onClick={() => setZoomed(true)}
-            aria-label={`Ver ${productName} en tamaño completo`}
+            onKeyDown={handleMainKeyDown}
+            aria-label={
+              hasMultiple
+                ? `Ver ${productName} en tamaño completo. Usa las flechas para cambiar de imagen.`
+                : `Ver ${productName} en tamaño completo`
+            }
           >
             <img
               src={images[active]}

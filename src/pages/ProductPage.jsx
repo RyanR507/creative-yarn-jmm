@@ -1,18 +1,18 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { useScrollReveal } from "../animations/useScrollReveal";
 import { getProductBySlug, getRelatedProducts } from "../data/products";
 import ProductGallery from "../components/product/ProductGallery";
 import ProductInfo from "../components/product/ProductInfo";
 import ProductCustomizer from "../components/product/ProductCustomizer";
-import ProductDetails from "../components/product/ProductDetails";
+import ProductAccordion from "../components/product/ProductAccordion";
 import RelatedProducts from "../components/product/RelatedProducts";
 import "./ProductPage.css";
 
 export default function ProductPage() {
   const { slug } = useParams();
   const product = getProductBySlug(slug);
-  const scopeRef = useScrollReveal([slug]);
 
   useDocumentTitle(product ? `${product.title} | Creative Yarn` : "Creative Yarn");
 
@@ -20,39 +20,51 @@ export default function ProductPage() {
     return <Navigate to="/" replace />;
   }
 
-  const related = getRelatedProducts(slug);
+  // Keyed by slug so the whole subtree remounts on every product change —
+  // gallery position, selected style, personalization fields, quantity and
+  // contact fields all reset to their defaults on their own, with no
+  // leftover state from the previous product's page.
+  return <ProductPageContent key={slug} product={product} />;
+}
+
+function ProductPageContent({ product }) {
+  const scopeRef = useScrollReveal();
+  // Mirrors the style selected inside <ProductCustomizer> — used to pick a
+  // per-variant gallery once real variant photography exists (see
+  // products.js's `styles[].image(s)` note). No visual effect today, since
+  // no style carries its own images yet.
+  const [activeStyleId, setActiveStyleId] = useState(product.styles[0]?.id || "");
+
+  // Runs once per mount (i.e. once per product, since this component is
+  // remounted per slug above) — a plain "land at the top" reset, not state
+  // synchronized with a changing prop, so a one-time effect is the right
+  // tool here.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
+  const related = getRelatedProducts(product.slug);
+  const activeStyle = product.styles.find((s) => s.id === activeStyleId);
+  const galleryImages = activeStyle?.images || (activeStyle?.image ? [activeStyle.image] : null) || product.images;
 
   return (
     <main id="main-content" className="product-page">
       <section className="product-page__hero" ref={scopeRef}>
         <div className="container" data-reveal-group>
-          <Link to="/#personalizados" className="product-page__back" data-reveal>
-            ← Volver al catálogo
-          </Link>
-
           <div className="product-page__grid" data-reveal>
-            <ProductGallery images={product.images} productName={product.title} />
-            <ProductInfo product={product} />
+            <ProductGallery key={activeStyleId} images={galleryImages} productName={product.title} />
+
+            <div className="product-page__buybox">
+              <ProductInfo product={product} />
+              <ProductCustomizer product={product} onStyleChange={setActiveStyleId} />
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="product-page__customizer">
+      <section className="product-page__accordion">
         <div className="container container--narrow">
-          <div className="section-head center">
-            <p className="eyebrow">Crea tu idea</p>
-            <h2 className="section-title center">Personaliza tu pedido: {product.title}</h2>
-            <p className="section-subtitle center">
-              Cuéntanos qué tienes en mente. Ningún campo es obligatorio, salvo los marcados con *.
-            </p>
-          </div>
-          <ProductCustomizer product={product} />
-        </div>
-      </section>
-
-      <section className="product-page__details">
-        <div className="container">
-          <ProductDetails product={product} />
+          <ProductAccordion product={product} />
         </div>
       </section>
 

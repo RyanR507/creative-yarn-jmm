@@ -5,7 +5,7 @@
 .related-products__grid {
   margin-top: 1.5rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1.25rem;
 }
 
@@ -38,6 +38,13 @@
 }
 
 .related-products__card h3 {
-  padding: 0.85rem 1rem;
+  padding: 0.85rem 1rem 0.2rem;
   font-size: 1rem;
+}
+
+.related-products__price {
+  padding: 0 1rem 1rem;
+  font-size: 0.85rem;
+  color: var(--cy-pink-deep-ink);
+  font-weight: 600;
 }

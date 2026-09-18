@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { formatPrice } from "../../data/products";
 import "./RelatedProducts.css";
 
 export default function RelatedProducts({ products }) {
@@ -18,6 +19,7 @@ export default function RelatedProducts({ products }) {
               </span>
             )}
             <h3>{p.title}</h3>
+            <p className="related-products__price">{formatPrice(p.price).display}</p>
           </Link>
         ))}
       </div>

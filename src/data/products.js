@@ -37,14 +37,38 @@ const SHARED = {
   careNote:
     "Evita humedad y calor excesivo, y guarda tu pieza en su bolsa protectora cuando corresponda — el detalle completo está en nuestra página de cuidado.",
   careHref: "/politicas/cuidado",
+  shippingNote:
+    "El costo y método de entrega se confirman según tu pedido y destino — no publicamos tarifas fijas.",
+  shippingHref: "/politicas/envios",
   variationsNote:
     "Cada pieza es hecha a mano, por lo que pueden existir pequeñas variaciones naturales entre una creación y otra.",
-  price: { basePrice: null, extras: [], priceLabel: "Precio según personalización" },
+  // Pricing architecture, ready for real numbers without touching any
+  // component: once `basePrice` is set, ProductInfo shows "$XX.XX" (or
+  // "Desde $XX.XX" when `isStartingPrice` is true), with `compareAtPrice`
+  // rendered struck-through if present. `extras`/`variantAdjustments` are
+  // reserved for a future estimated-price total (basePrice + adjustment +
+  // extras) × quantity. Every field is null/empty today — no numbers are
+  // invented.
+  price: {
+    basePrice: null,
+    compareAtPrice: null,
+    isStartingPrice: false,
+    extras: [],
+    variantAdjustments: {},
+    priceLabel: "Precio según personalización",
+  },
 };
 
 // Each entry's `fields` only covers what's genuinely specific to that
 // product — quantity, the reference-image note, contact details and general
 // notes are handled once by <ProductCustomizer> for every product.
+//
+// Each `styles` entry can later carry its own `image` (or `images: []`) once
+// per-variant photography exists — ProductPage already reads
+// `style.images || (style.image ? [style.image] : null)` and falls back to
+// the product's own `images` when a style has none, so the gallery will
+// start swapping per variant the moment real URLs are added here. No
+// placeholder/fake images are set today.
 const PRODUCT_DETAILS = {
   portavasos: {
     description:
@@ -238,7 +262,21 @@ export function getSlugById(id) {
   return PRODUCTS.find((p) => p.id === id)?.slug;
 }
 
-export function getRelatedProducts(slug, count = 3) {
+// Returns what a price area should display for a product — never invents a
+// number. Until `price.basePrice` is filled in (see SHARED.price above),
+// every product falls back to the same neutral `priceLabel`.
+export function formatPrice(price) {
+  if (price.basePrice == null) {
+    return { display: price.priceLabel, compareAt: null };
+  }
+  const prefix = price.isStartingPrice ? "Desde " : "";
+  return {
+    display: `${prefix}$${price.basePrice.toFixed(2)}`,
+    compareAt: price.compareAtPrice != null ? `$${price.compareAtPrice.toFixed(2)}` : null,
+  };
+}
+
+export function getRelatedProducts(slug, count = 4) {
   const index = PRODUCTS.findIndex((p) => p.slug === slug);
   if (index === -1) return [];
   const related = [];

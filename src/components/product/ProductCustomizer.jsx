@@ -8,9 +8,18 @@ import QuantitySelector from "./QuantitySelector";
 import "./ProductCustomizer.css";
 
 const initialStatus = { state: "idle" };
+const TRUST_POINTS = ["Hecho a mano", "Personalizable", "Creado especialmente para ti"];
 
-export default function ProductCustomizer({ product }) {
-  const [selectedStyle, setSelectedStyle] = useState(product.styles[0]?.id || "");
+export default function ProductCustomizer({ product, onStyleChange }) {
+  const [selectedStyle, setSelectedStyleState] = useState(product.styles[0]?.id || "");
+
+  // Mirrors the selected style up to ProductPage so the gallery can swap to
+  // that variant's own photos once per-variant images exist (see
+  // products.js) — purely additive, no behavior change while they don't.
+  function setSelectedStyle(id) {
+    setSelectedStyleState(id);
+    onStyleChange?.(id);
+  }
   const [values, setValues] = useState({});
   const [quantity, setQuantity] = useState("1");
   const [hasImage, setHasImage] = useState(false);
@@ -148,21 +157,20 @@ export default function ProductCustomizer({ product }) {
         onChange={setFieldValue}
       />
 
-      <div className="product-customizer__row">
-        <QuantitySelector value={quantity} onChange={setQuantity} />
+      <QuantitySelector value={quantity} onChange={setQuantity} />
 
-        <label className="product-field product-field--checkbox">
-          <input
-            type="checkbox"
-            checked={hasImage}
-            onChange={(e) => setHasImage(e.target.checked)}
-          />
-          <span>📎 Tengo una imagen de referencia para enviar por este chat.</span>
-        </label>
-      </div>
+      <label className={`product-customizer__image-toggle ${hasImage ? "is-selected" : ""}`}>
+        <input
+          type="checkbox"
+          checked={hasImage}
+          onChange={(e) => setHasImage(e.target.checked)}
+        />
+        <span>¿Tienes una imagen de referencia?</span>
+        <em>Sí, la enviaré por WhatsApp</em>
+      </label>
 
       <label className="product-field product-field--wide">
-        <span>Detalles adicionales</span>
+        <span>Notas adicionales</span>
         <textarea
           rows={3}
           value={notes}
@@ -172,6 +180,7 @@ export default function ProductCustomizer({ product }) {
       </label>
 
       <div className="product-customizer__contact">
+        <p className="product-customizer__contact-heading">Tus datos de contacto</p>
         <label className="product-field">
           <span>Nombre *</span>
           <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} autoComplete="name" />
@@ -187,9 +196,12 @@ export default function ProductCustomizer({ product }) {
       </div>
 
       <div className="product-customizer__submit">
-        <button className="btn btn-primary" type="submit">
+        <button className="btn product-customizer__cta" type="submit">
           Crear mi idea
         </button>
+        <p className="product-customizer__note">
+          Te contactaremos para confirmar precio, disponibilidad y tiempo de elaboración.
+        </p>
         {error && (
           <p className="product-customizer__status product-customizer__status--error" role="alert">
             {error}
@@ -211,10 +223,11 @@ export default function ProductCustomizer({ product }) {
         )}
       </div>
 
-      <p className="product-customizer__note">
-        Esto es una solicitud, no un pedido confirmado. Creative Yarn te confirmará precio,
-        disponibilidad, tiempo de elaboración y entrega por WhatsApp.
-      </p>
+      <ul className="product-customizer__trust">
+        {TRUST_POINTS.map((point) => (
+          <li key={point}>{point}</li>
+        ))}
+      </ul>
     </form>
   );
 }
