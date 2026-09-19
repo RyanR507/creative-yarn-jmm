@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useScrollReveal } from "../animations/useScrollReveal";
-import { PRODUCTS } from "../data/products";
+import { PRODUCTS, formatPrice } from "../data/products";
 import { trackEvent } from "../utils/analytics";
 import "./ProductCategories.css";
 
@@ -48,6 +48,7 @@ export default function ProductCategories() {
                 </span>
               )}
               <h3>{product.title}</h3>
+              <span className="category-card__price">{formatPrice(product.price).display}</span>
               <p>{product.shortDescription}</p>
               <span className="category-card__cta">Personalizar esta idea →</span>
             </Link>

@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { useScrollReveal } from "../animations/useScrollReveal";
-import { getProductBySlug, getRelatedProducts } from "../data/products";
+import {
+  getDefaultStyleId,
+  getProductBySlug,
+  getRelatedProducts,
+  resolveVariant,
+} from "../data/products";
 import ProductGallery from "../components/product/ProductGallery";
 import ProductInfo from "../components/product/ProductInfo";
 import ProductCustomizer from "../components/product/ProductCustomizer";
@@ -33,7 +38,10 @@ function ProductPageContent({ product }) {
   // per-variant gallery once real variant photography exists (see
   // products.js's `styles[].image(s)` note). No visual effect today, since
   // no style carries its own images yet.
-  const [activeStyleId, setActiveStyleId] = useState(product.styles[0]?.id || "");
+  const [activeStyleId, setActiveStyleId] = useState(() => getDefaultStyleId(product));
+  // Same idea for the price variant — drives the price shown in <ProductInfo>.
+  const [activeVariantId, setActiveVariantId] = useState(product.variants[0].id);
+  const activeVariant = resolveVariant(product, activeStyleId, activeVariantId);
 
   // Runs once per mount (i.e. once per product, since this component is
   // remounted per slug above) — a plain "land at the top" reset, not state
@@ -55,8 +63,12 @@ function ProductPageContent({ product }) {
             <ProductGallery key={activeStyleId} images={galleryImages} productName={product.title} />
 
             <div className="product-page__buybox">
-              <ProductInfo product={product} />
-              <ProductCustomizer product={product} onStyleChange={setActiveStyleId} />
+              <ProductInfo product={product} variant={activeVariant} />
+              <ProductCustomizer
+                product={product}
+                onStyleChange={setActiveStyleId}
+                onVariantChange={setActiveVariantId}
+              />
             </div>
           </div>
         </div>

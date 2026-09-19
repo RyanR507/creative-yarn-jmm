@@ -1,23 +1,31 @@
-export default function StyleSelector({ styles, value, onChange }) {
-  if (!styles.length) return null;
+// Shared pill selector — used for "Escoge tu estilo" (personalization style)
+// and "Elige tu opción" (price variant). Real radio inputs underneath.
+export default function StyleSelector({
+  options,
+  value,
+  onChange,
+  legend = "Escoge tu estilo",
+  name = "estilo",
+}) {
+  if (!options.length) return null;
 
   return (
     <fieldset className="style-selector">
-      <legend>Escoge tu estilo</legend>
-      <div className="style-selector__grid" role="radiogroup" aria-label="Escoge tu estilo">
-        {styles.map((style) => (
+      <legend>{legend}</legend>
+      <div className="style-selector__grid" role="radiogroup" aria-label={legend}>
+        {options.map((option) => (
           <label
-            key={style.id}
-            className={`style-selector__option ${value === style.id ? "is-selected" : ""}`}
+            key={option.id}
+            className={`style-selector__option ${value === option.id ? "is-selected" : ""}`}
           >
             <input
               type="radio"
-              name="estilo"
-              value={style.id}
-              checked={value === style.id}
-              onChange={() => onChange(style.id)}
+              name={name}
+              value={option.id}
+              checked={value === option.id}
+              onChange={() => onChange(option.id)}
             />
-            <span>{style.label}</span>
+            <span>{option.label}</span>
           </label>
         ))}
       </div>

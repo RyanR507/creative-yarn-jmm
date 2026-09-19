@@ -114,6 +114,11 @@
   font-size: 0.9rem;
 }
 
+.quantity-selector__hint {
+  font-size: 0.8rem;
+  color: var(--cy-ink-faint);
+}
+
 .quantity-selector__control {
   display: inline-flex;
   align-items: stretch;

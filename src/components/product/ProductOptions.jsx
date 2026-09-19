@@ -1,17 +1,15 @@
 import ColorSelector from "./ColorSelector";
 
-// Renders a product's own customization fields (from products.js), skipping
-// any field whose `showWhen` list doesn't include the currently selected
-// style — e.g. "¿Qué letra quieres?" only appears for the Llaveros "letra"
-// style, never alongside "¿Qué nombre quieres?".
+// Renders the fields it is given — the parent has already narrowed them to
+// the current variant + style (see getVisibleFields in products.js), e.g.
+// "¿Qué letra quieres?" only for the Llaveros "letra" style. `selectedStyle`
+// is only used to mark which of them are required.
 export default function ProductOptions({ fields, selectedStyle, values, onChange }) {
-  const visibleFields = fields.filter((f) => !f.showWhen || f.showWhen.includes(selectedStyle));
-
-  if (!visibleFields.length) return null;
+  if (!fields.length) return null;
 
   return (
     <div className="product-options">
-      {visibleFields.map((field) => {
+      {fields.map((field) => {
         const isRequired = field.required || field.requiredWhen?.includes(selectedStyle);
         const value = values[field.key] || "";
         const setValue = (v) => onChange(field.key, v);

@@ -42,6 +42,13 @@
   color: var(--cy-ink-faint);
 }
 
+.product-info__price-note {
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--cy-ink-faint);
+  max-width: 48ch;
+}
+
 .product-info__short {
   margin-top: 0.9rem;
   font-size: 1.05rem;

@@ -91,7 +91,7 @@ export default function ProductAccordion({ product }) {
 function buildPersonalizationSummary(product) {
   const items = [];
   if (product.styles.length) {
-    items.push(`Estilo (${product.styles.map((s) => s.label).join(", ")})`);
+    items.push(`${product.styleNoun} (${product.styles.map((s) => s.label).join(", ")})`);
   }
   product.fields
     .filter((f) => !f.showWhen)

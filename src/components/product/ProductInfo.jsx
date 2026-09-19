@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { formatPrice } from "../../data/products";
+import { getPriceInfo } from "../../data/products";
 import "./ProductInfo.css";
 
-export default function ProductInfo({ product }) {
-  const price = formatPrice(product.price);
+export default function ProductInfo({ product, variant }) {
+  const price = getPriceInfo(product, variant);
 
   return (
     <div className="product-info">
@@ -21,6 +21,7 @@ export default function ProductInfo({ product }) {
         {price.display}
         {price.compareAt && <s className="product-info__compare-at">{price.compareAt}</s>}
       </p>
+      <p className="product-info__price-note">{product.priceNote}</p>
 
       <p className="product-info__short">{product.shortDescription}</p>
     </div>

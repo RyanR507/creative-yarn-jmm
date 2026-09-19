@@ -1,4 +1,4 @@
-export default function QuantitySelector({ value, onChange }) {
+export default function QuantitySelector({ value, onChange, label = "Cantidad", hint }) {
   const numeric = Number(value) || 1;
 
   function step(delta) {
@@ -12,14 +12,14 @@ export default function QuantitySelector({ value, onChange }) {
 
   return (
     <div className="quantity-selector">
-      <span className="quantity-selector__label">Cantidad</span>
+      <span className="quantity-selector__label">{label}</span>
       <div className="quantity-selector__control">
         <button
           type="button"
           className="quantity-selector__step"
           onClick={() => step(-1)}
           disabled={numeric <= 1}
-          aria-label="Disminuir cantidad"
+          aria-label={`Disminuir ${label.toLowerCase()}`}
         >
           −
         </button>
@@ -29,17 +29,18 @@ export default function QuantitySelector({ value, onChange }) {
           className="quantity-selector__value"
           value={value}
           onChange={(e) => handleInput(e.target.value)}
-          aria-label="Cantidad"
+          aria-label={label}
         />
         <button
           type="button"
           className="quantity-selector__step"
           onClick={() => step(1)}
-          aria-label="Aumentar cantidad"
+          aria-label={`Aumentar ${label.toLowerCase()}`}
         >
           +
         </button>
       </div>
+      {hint && <span className="quantity-selector__hint">{hint}</span>}
     </div>
   );
 }

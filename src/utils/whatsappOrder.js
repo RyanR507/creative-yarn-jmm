@@ -11,9 +11,18 @@ import { getWhatsAppLink } from "../data/config";
 // `entries` is an ordered list of { label, value } — already filtered down
 // to the fields that are relevant to the selected style and actually filled
 // in by the customer.
+// `quantity` always counts units of the selected VARIANT; `subtotal` is
+// price × quantity. `setInfo` (from getSetInfo) is set only for set variants,
+// where quantity counts sets and the piece total is informational.
 export function buildProductOrderMessage({
   productName,
+  variantLabel,
   styleLabel,
+  styleNoun = "Estilo",
+  priceDisplay,
+  subtotal,
+  setInfo,
+  priceNote,
   quantity,
   entries,
   notes,
@@ -22,9 +31,36 @@ export function buildProductOrderMessage({
 }) {
   const lines = ["✨ NUEVA IDEA — CREATIVE YARN JM", "", "🧶 Producto:", productName, ""];
 
-  if (styleLabel) lines.push("🎨 Estilo elegido:", styleLabel, "");
+  if (variantLabel) lines.push("🏷️ Variante:", variantLabel, "");
+  if (styleLabel) lines.push(`🎨 ${styleNoun} elegido:`, styleLabel, "");
 
-  lines.push("🔢 Cantidad:", quantity || "1", "");
+  const qty = Math.max(1, Number(quantity) || 1);
+  const showSubtotal = qty > 1 && Boolean(subtotal);
+
+  if (setInfo) {
+    // A set variant always spells out what the set contains, even at qty 1;
+    // only the subtotal waits for qty > 1.
+    lines.push(
+      "📦 Detalle del set",
+      `• Cantidad de sets: ${qty}`,
+      `• Total de piezas: ${setInfo.totalPieces}`,
+      `• Precio por set: ${priceDisplay}`,
+      ...(showSubtotal ? [`• Subtotal estimado: ${subtotal}`] : []),
+      ""
+    );
+  } else if (showSubtotal) {
+    // Spell out the math only when it says more than the single price does.
+    lines.push(
+      "🧮 Estimado",
+      `• Precio unitario: ${priceDisplay}`,
+      `• Cantidad: ${qty}`,
+      `• Subtotal estimado: ${subtotal}`,
+      ""
+    );
+  } else {
+    if (priceDisplay) lines.push("💲 Precio mostrado:", priceDisplay, "");
+    lines.push("🔢 Cantidad:", String(qty), "");
+  }
 
   const personalization = entries.filter(({ value }) => value).map(({ label, value }) => `• ${label}: ${value}`);
   if (personalization.length) {
@@ -47,12 +83,15 @@ export function buildProductOrderMessage({
     lines.push("📎 Referencia:", "📎 Tengo una imagen de referencia para enviar por este chat.");
   }
 
+  lines.push("");
+  if (priceDisplay && priceNote) {
+    lines.push(`⚠️ Precio estimado, sujeto a confirmación. ${priceNote}`, "");
+  }
   lines.push(
-    "",
     "Quisiera confirmar disponibilidad, precio y tiempo de elaboración. Entiendo que esto es una solicitud, no un pedido confirmado."
   );
 
-  return lines.join("\n").trim();
+  return lines.join("\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 
 // Opens the WhatsApp link and reports whether it actually worked — a blocked

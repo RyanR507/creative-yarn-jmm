@@ -2,6 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { prefersReducedMotion } from "../../animations/gsapSetup";
 import { trackEvent } from "../../utils/analytics";
 import { buildProductOrderMessage, openWhatsAppOrder } from "../../utils/whatsappOrder";
+import {
+  estimateSubtotal,
+  getAvailableStyles,
+  getDefaultStyleId,
+  getPriceInfo,
+  getSetInfo,
+  getVisibleFields,
+  resolveVariant,
+} from "../../data/products";
 import StyleSelector from "./StyleSelector";
 import ProductOptions from "./ProductOptions";
 import QuantitySelector from "./QuantitySelector";
@@ -10,15 +19,30 @@ import "./ProductCustomizer.css";
 const initialStatus = { state: "idle" };
 const TRUST_POINTS = ["Hecho a mano", "Personalizable", "Creado especialmente para ti"];
 
-export default function ProductCustomizer({ product, onStyleChange }) {
-  const [selectedStyle, setSelectedStyleState] = useState(product.styles[0]?.id || "");
+export default function ProductCustomizer({ product, onStyleChange, onVariantChange }) {
+  const [selectedStyle, setSelectedStyleState] = useState(() => getDefaultStyleId(product));
+  const [selectedVariantId, setSelectedVariantIdState] = useState(product.variants[0].id);
 
-  // Mirrors the selected style up to ProductPage so the gallery can swap to
-  // that variant's own photos once per-variant images exist (see
-  // products.js) — purely additive, no behavior change while they don't.
+  // Both selections are mirrored up to ProductPage: the style so the gallery
+  // can swap to that variant's own photos once they exist, the variant so
+  // the price area above updates. Purely additive callbacks.
   function setSelectedStyle(id) {
     setSelectedStyleState(id);
     onStyleChange?.(id);
+  }
+
+  // Variant = what changes the price; style/theme = the look within it. When
+  // the new variant doesn't offer the current theme (e.g. Portadas: switching
+  // from "Personaje" back to "Sencilla"), fall back to its first valid theme
+  // so a contradictory combination can never be submitted.
+  function setSelectedVariantId(id) {
+    setSelectedVariantIdState(id);
+    onVariantChange?.(id);
+    const nextVariant = product.variants.find((v) => v.id === id);
+    const allowed = getAvailableStyles(product, nextVariant);
+    if (!allowed.some((s) => s.id === selectedStyle)) {
+      setSelectedStyle(allowed[0]?.id || "");
+    }
   }
   const [values, setValues] = useState({});
   const [quantity, setQuantity] = useState("1");
@@ -51,12 +75,13 @@ export default function ProductCustomizer({ product, onStyleChange }) {
     setValues((prev) => ({ ...prev, [key]: value }));
   }
 
-  function visibleFields() {
-    return product.fields.filter((f) => !f.showWhen || f.showWhen.includes(selectedStyle));
-  }
+  const variant = resolveVariant(product, selectedStyle, selectedVariantId);
+  const availableStyles = getAvailableStyles(product, variant);
+  const visibleFields = getVisibleFields(product, selectedStyle, variant);
+  const setInfo = getSetInfo(variant, quantity);
 
   function missingRequiredField() {
-    return visibleFields().find((f) => {
+    return visibleFields.find((f) => {
       const isRequired = f.required || f.requiredWhen?.includes(selectedStyle);
       return isRequired && !values[f.key]?.trim();
     });
@@ -65,8 +90,8 @@ export default function ProductCustomizer({ product, onStyleChange }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (product.styles.length && !selectedStyle) {
-      setError("Elige un estilo antes de continuar.");
+    if (availableStyles.length && !selectedStyle) {
+      setError(`Elige un ${product.styleNoun.toLowerCase()} antes de continuar.`);
       return;
     }
     const missing = missingRequiredField();
@@ -81,12 +106,23 @@ export default function ProductCustomizer({ product, onStyleChange }) {
 
     setError("");
 
-    const styleLabel = product.styles.find((s) => s.id === selectedStyle)?.label;
-    const entries = visibleFields().map((f) => ({ label: f.label, value: values[f.key]?.trim() }));
+    const priceInfo = getPriceInfo(product, variant);
+    // When the style pills double as price variants (Llaveros) the variant
+    // line already says it — don't repeat it as a separate "estilo".
+    const styleLabel = product.variantsLinkedToStyles
+      ? undefined
+      : availableStyles.find((s) => s.id === selectedStyle)?.label;
+    const entries = visibleFields.map((f) => ({ label: f.label, value: values[f.key]?.trim() }));
 
     const message = buildProductOrderMessage({
       productName: product.title,
+      variantLabel: variant.label,
       styleLabel,
+      styleNoun: product.styleNoun,
+      priceDisplay: priceInfo.display,
+      subtotal: estimateSubtotal(priceInfo, quantity),
+      setInfo,
+      priceNote: product.priceNote,
       quantity,
       entries,
       notes: notes.trim(),
@@ -148,16 +184,37 @@ export default function ProductCustomizer({ product, onStyleChange }) {
 
   return (
     <form className="product-customizer" onSubmit={handleSubmit} noValidate>
-      <StyleSelector styles={product.styles} value={selectedStyle} onChange={setSelectedStyle} />
+      {!product.variantsLinkedToStyles && (
+        <StyleSelector
+          options={product.variants}
+          value={selectedVariantId}
+          onChange={setSelectedVariantId}
+          legend="Elige tu opción"
+          name="variante"
+        />
+      )}
+
+      <StyleSelector
+        options={availableStyles}
+        value={selectedStyle}
+        onChange={setSelectedStyle}
+        legend={`Escoge tu ${product.styleNoun.toLowerCase()}`}
+        name="estilo"
+      />
 
       <ProductOptions
-        fields={product.fields}
+        fields={visibleFields}
         selectedStyle={selectedStyle}
         values={values}
         onChange={setFieldValue}
       />
 
-      <QuantitySelector value={quantity} onChange={setQuantity} />
+      <QuantitySelector
+        value={quantity}
+        onChange={setQuantity}
+        label={setInfo ? "Cantidad de sets" : "Cantidad"}
+        hint={setInfo ? `${setInfo.totalPieces} piezas en total (${setInfo.pieces} por set)` : undefined}
+      />
 
       <label className={`product-customizer__image-toggle ${hasImage ? "is-selected" : ""}`}>
         <input

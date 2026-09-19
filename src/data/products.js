@@ -42,21 +42,98 @@ const SHARED = {
   shippingHref: "/politicas/envios",
   variationsNote:
     "Cada pieza es hecha a mano, por lo que pueden existir pequeñas variaciones naturales entre una creación y otra.",
-  // Pricing architecture, ready for real numbers without touching any
-  // component: once `basePrice` is set, ProductInfo shows "$XX.XX" (or
-  // "Desde $XX.XX" when `isStartingPrice` is true), with `compareAtPrice`
-  // rendered struck-through if present. `extras`/`variantAdjustments` are
-  // reserved for a future estimated-price total (basePrice + adjustment +
-  // extras) × quantity. Every field is null/empty today — no numbers are
-  // invented.
-  price: {
-    basePrice: null,
-    compareAtPrice: null,
-    isStartingPrice: false,
-    extras: [],
-    variantAdjustments: {},
-    priceLabel: "Precio según personalización",
-  },
+  priceNote: "El precio puede variar según el tamaño, diseño y nivel de personalización.",
+  // What the `styles` selector is called (legend + WhatsApp line).
+  styleNoun: "Estilo",
+};
+
+// ---------------------------------------------------------------------------
+// Official starting prices (USD). This table is the ONLY place prices live —
+// edit a number here and the catalog card, the product page, the related
+// cards and the WhatsApp message all follow.
+//
+// Each product lists its price variants in display order; the first one is
+// preselected on the product page. `isStartingPrice: true` marks a variant
+// whose amount is a floor ("desde $250.00") rather than a fixed price. The
+// catalog's "Desde $XX.XX" is derived from the cheapest variant, so it can
+// never drift from the variants below.
+//
+// For products whose variant ids match their `styles` ids (Llaveros), the
+// style pills ARE the price variants — no second selector is shown (see
+// `variantsLinkedToStyles` below). Everywhere else the variants get their own
+// "Elige tu opción" selector.
+//
+// No surcharges exist for names, letters, colors, images, accessories,
+// designs, characters or personalizations — none have been confirmed. When
+// they are, add them to `price.extras` (shape reserved below) and extend
+// getPriceInfo(); the components already read every price through it.
+// ---------------------------------------------------------------------------
+const PRICING = {
+  portavasos: [
+    { id: "individual", label: "Individual", price: 18 },
+    { id: "personalizado", label: "Personalizado", price: 22 },
+    // `pieces` marks a variant that is a SET: its price is for the whole set,
+    // and the general quantity counts sets (never multiply price by pieces).
+    { id: "set-x4", label: "Set x4", price: 60, pieces: 4 },
+    { id: "set-x6", label: "Set x6", price: 85, pieces: 6 },
+  ],
+  llaveros: [
+    { id: "letra", label: "Letra", price: 18 },
+    { id: "nombre", label: "Nombre", price: 20 },
+    { id: "otro", label: "Diseño personalizado", price: 24 },
+  ],
+  separadores: [
+    { id: "sencillo", label: "Sencillo", price: 18 },
+    { id: "personalizado", label: "Personalizado", price: 20 },
+    { id: "diseno-especial", label: "Diseño especial", price: 24 },
+  ],
+  "portadas-cuadernos": [
+    { id: "sencilla", label: "Sencilla", price: 60 },
+    { id: "personalizada", label: "Personalizada", price: 75 },
+    { id: "especial", label: "Diseño especial / personaje", price: 90 },
+  ],
+  "adornos-mesa": [
+    { id: "pequeno", label: "Pequeño", price: 40 },
+    { id: "mediano", label: "Mediano", price: 60 },
+    { id: "grande", label: "Grande", price: 85 },
+  ],
+  "gift-boxes": [
+    { id: "small", label: "Small", price: 45 },
+    { id: "medium", label: "Medium", price: 70 },
+    { id: "premium", label: "Premium", price: 100 },
+  ],
+  "set-banos": [
+    { id: "basico", label: "Básico", price: 95 },
+    { id: "mediano", label: "Mediano", price: 125 },
+    { id: "premium", label: "Premium", price: 155 },
+  ],
+  bolsos: [
+    { id: "mini", label: "Mini", price: 110 },
+    { id: "mediano", label: "Mediano", price: 175 },
+    { id: "grande", label: "Grande", price: 220 },
+    { id: "premium", label: "Premium", price: 250, isStartingPrice: true },
+  ],
+  wallets: [
+    { id: "sencillo", label: "Sencillo", price: 50 },
+    { id: "personalizado", label: "Personalizado", price: 65 },
+    { id: "premium", label: "Premium", price: 80 },
+  ],
+  "porta-tarjetas": [
+    { id: "sencillo", label: "Sencillo", price: 30 },
+    { id: "personalizado", label: "Personalizado", price: 38 },
+    { id: "premium", label: "Premium", price: 45 },
+  ],
+  "porta-servilletas": [
+    { id: "sencillo", label: "Sencillo", price: 45 },
+    { id: "personalizado", label: "Personalizado", price: 60 },
+    { id: "premium", label: "Premium", price: 75 },
+  ],
+  personajes: [
+    { id: "pequeno", label: "Pequeño", price: 50 },
+    { id: "mediano", label: "Mediano", price: 90 },
+    { id: "grande", label: "Grande", price: 135 },
+    { id: "complejo-3d", label: "Complejo / 3D", price: 175, isStartingPrice: true },
+  ],
 };
 
 // Each entry's `fields` only covers what's genuinely specific to that
@@ -81,7 +158,6 @@ const PRODUCT_DETAILS = {
       { key: "colorPrincipal", label: "Color principal", type: "text" },
       { key: "coloresSecundarios", label: "Colores secundarios", type: "text" },
       { key: "inicialesNombre", label: "Iniciales o nombre (si aplica)", type: "text" },
-      { key: "setOIndividual", label: "¿Lo quieres individual o en set?", type: "select", options: ["Individual", "Set"] },
     ],
   },
   llaveros: {
@@ -116,22 +192,28 @@ const PRODUCT_DETAILS = {
   "portadas-cuadernos": {
     description:
       "Portadas de cuaderno tejidas a mano y personalizadas con el tema que más te represente — desde flores o fútbol hasta tu propio nombre o un personaje favorito.",
+    // Variant (price level) → Tema (look within that level). `forVariants`
+    // on a style option or a field limits it to those price variants, so
+    // contradictory combinations ("Sencilla" + "Personaje") can't be picked.
+    styleNoun: "Tema",
     styles: [
-      { id: "flores", label: "Flores" },
-      { id: "futbol", label: "Fútbol" },
-      { id: "personaje", label: "Personaje" },
-      { id: "nombre", label: "Nombre personalizado" },
-      { id: "escolar", label: "Diseño escolar" },
-      { id: "otro", label: "Otro" },
+      { id: "flores", label: "Flores", forVariants: ["sencilla", "personalizada"] },
+      { id: "futbol", label: "Fútbol", forVariants: ["sencilla", "personalizada"] },
+      { id: "escolar", label: "Diseño escolar", forVariants: ["sencilla", "personalizada"] },
+      { id: "personaje", label: "Personaje", forVariants: ["especial"] },
+      { id: "tema-especial", label: "Tema especial", forVariants: ["especial"] },
     ],
     fields: [
-      { key: "personaje_cuaderno", label: "¿Qué personaje quieres?", type: "text", showWhen: ["personaje"], requiredWhen: ["personaje"] },
-      { key: "nombre_cuaderno", label: "¿Qué nombre quieres?", type: "text", showWhen: ["nombre"], requiredWhen: ["nombre"] },
-      { key: "otro_cuaderno", label: "Describe tu idea", type: "textarea", showWhen: ["otro"], requiredWhen: ["otro"] },
       { key: "tipoCuaderno", label: "Tipo de cuaderno", type: "text" },
       { key: "tamano", label: "Tamaño", type: "text" },
-      { key: "iniciales", label: "Iniciales", type: "text" },
-      { key: "texto", label: "Texto o frase", type: "text" },
+      // Personalizada
+      { key: "nombre", label: "Nombre", type: "text", forVariants: ["personalizada"] },
+      { key: "iniciales", label: "Iniciales", type: "text", forVariants: ["personalizada"] },
+      { key: "texto", label: "Texto o frase", type: "text", forVariants: ["personalizada"] },
+      // Diseño especial / personaje
+      { key: "personaje_cuaderno", label: "¿Qué personaje quieres?", type: "text", forVariants: ["especial"], showWhen: ["personaje"], requiredWhen: ["personaje"] },
+      { key: "descripcion_cuaderno", label: "Describe el diseño que quieres", type: "textarea", forVariants: ["especial"], required: true },
+      { key: "nombre_texto_especial", label: "Nombre o texto (si aplica)", type: "text", forVariants: ["especial"] },
       { key: "colores", label: "Colores", type: "text" },
     ],
   },
@@ -152,6 +234,8 @@ const PRODUCT_DETAILS = {
   "gift-boxes": {
     description:
       "Gift boxes personalizados, armados a mano con las piezas y el mensaje que elijas — pensados para regalar en la ocasión que estés celebrando.",
+    priceNote:
+      "El precio final puede variar según el tamaño, el diseño y los productos y personalizaciones que incluyas en tu Gift Box.",
     styles: [],
     fields: [
       { key: "ocasion", label: "Tipo de ocasión", type: "select", options: OCCASIONS },
@@ -240,19 +324,68 @@ const PRODUCT_DETAILS = {
   },
 };
 
-export const PRODUCTS = CATEGORIES.map((cat) => ({
-  id: cat.id,
-  slug: SLUG_OVERRIDES[cat.id] || cat.id,
-  title: cat.title,
-  shortDescription: cat.text,
-  image: cat.image,
-  // Only one real photo exists per product today — ProductGallery renders it
-  // without thumbnails in that case. Add more real URLs here (in order) as
-  // photography becomes available; no placeholder/fake images are included.
-  images: cat.image ? [cat.image] : [],
-  ...SHARED,
-  ...PRODUCT_DETAILS[cat.id],
-}));
+export const PRODUCTS = CATEGORIES.map((cat) => {
+  const details = PRODUCT_DETAILS[cat.id];
+  const variants = PRICING[cat.id];
+
+  return {
+    id: cat.id,
+    slug: SLUG_OVERRIDES[cat.id] || cat.id,
+    title: cat.title,
+    shortDescription: cat.text,
+    image: cat.image,
+    // Only one real photo exists per product today — ProductGallery renders it
+    // without thumbnails in that case. Add more real URLs here (in order) as
+    // photography becomes available; no placeholder/fake images are included.
+    images: cat.image ? [cat.image] : [],
+    ...SHARED,
+    ...details,
+    variants,
+    // True when every price variant shares an id with a style (Llaveros): the
+    // style pills then drive the price and no separate selector is rendered.
+    variantsLinkedToStyles:
+      details.styles.length > 0 && variants.every((v) => details.styles.some((s) => s.id === v.id)),
+    // Catalog-level price: "Desde" the cheapest variant. `extras` is reserved
+    // for future surcharges (see PRICING note); empty today.
+    price: {
+      basePrice: Math.min(...variants.map((v) => v.price)),
+      compareAtPrice: null,
+      isStartingPrice: true,
+      extras: [],
+      priceLabel: "Precio según personalización",
+    },
+  };
+});
+
+// A style/theme option (or field) with `forVariants` only exists for those
+// price variants; without it, it applies to every variant. Products whose
+// variants ARE their styles (Llaveros) simply don't use `forVariants`.
+export function getAvailableStyles(product, variant) {
+  return product.styles.filter(
+    (s) => !s.forVariants || (variant && s.forVariants.includes(variant.id))
+  );
+}
+
+export function getDefaultStyleId(product) {
+  return getAvailableStyles(product, product.variants[0])[0]?.id || "";
+}
+
+// The fields to show/send for the current variant + style. Both conditions
+// must hold: `forVariants` (price level) and `showWhen` (selected style).
+export function getVisibleFields(product, styleId, variant) {
+  return product.fields.filter(
+    (f) =>
+      (!f.showWhen || f.showWhen.includes(styleId)) &&
+      (!f.forVariants || (variant && f.forVariants.includes(variant.id)))
+  );
+}
+
+// Sets (variant.pieces > 1): quantity counts SETS, the price is per set.
+export function getSetInfo(variant, quantity) {
+  if (!variant?.pieces || variant.pieces < 2) return null;
+  const sets = Math.max(1, Number(quantity) || 1);
+  return { pieces: variant.pieces, sets, totalPieces: variant.pieces * sets };
+}
 
 export function getProductBySlug(slug) {
   return PRODUCTS.find((p) => p.slug === slug) || null;
@@ -262,18 +395,50 @@ export function getSlugById(id) {
   return PRODUCTS.find((p) => p.id === id)?.slug;
 }
 
-// Returns what a price area should display for a product — never invents a
-// number. Until `price.basePrice` is filled in (see SHARED.price above),
-// every product falls back to the same neutral `priceLabel`.
+export function formatMoney(amount) {
+  return `$${amount.toFixed(2)}`;
+}
+
+// Turns a price object into what the UI shows — never invents a number: with
+// no `basePrice` it falls back to the neutral `priceLabel`. `amount` /
+// `isStarting` are also returned so callers (WhatsApp message) can do math
+// without re-parsing the display string.
 export function formatPrice(price) {
   if (price.basePrice == null) {
-    return { display: price.priceLabel, compareAt: null };
+    return { display: price.priceLabel, compareAt: null, amount: null, isStarting: false };
   }
-  const prefix = price.isStartingPrice ? "Desde " : "";
+  const isStarting = Boolean(price.isStartingPrice);
   return {
-    display: `${prefix}$${price.basePrice.toFixed(2)}`,
-    compareAt: price.compareAtPrice != null ? `$${price.compareAtPrice.toFixed(2)}` : null,
+    display: `${isStarting ? "Desde " : ""}${formatMoney(price.basePrice)}`,
+    compareAt: price.compareAtPrice != null ? formatMoney(price.compareAtPrice) : null,
+    amount: price.basePrice,
+    isStarting,
   };
+}
+
+// The variant a product page currently prices against. Llaveros' variants
+// follow the selected style; every other product has its own selector.
+export function resolveVariant(product, styleId, variantId) {
+  const id = product.variantsLinkedToStyles ? styleId : variantId;
+  return product.variants.find((v) => v.id === id) ?? product.variants[0];
+}
+
+// Single entry point for "what does this product cost right now" — the future
+// home of `basePrice + extras` (see PRICING note) once surcharges exist.
+export function getPriceInfo(product, variant) {
+  if (!variant) return formatPrice(product.price);
+  return formatPrice({
+    ...product.price,
+    basePrice: variant.price,
+    isStartingPrice: Boolean(variant.isStartingPrice),
+  });
+}
+
+// unit × quantity, keeping the "Desde" floor semantics for starting prices.
+export function estimateSubtotal(info, quantity) {
+  if (info.amount == null) return null;
+  const total = formatMoney(info.amount * Math.max(1, Number(quantity) || 1));
+  return info.isStarting ? `Desde ${total}` : total;
 }
 
 export function getRelatedProducts(slug, count = 4) {
