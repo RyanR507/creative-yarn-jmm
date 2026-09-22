@@ -74,7 +74,7 @@ export default function ChristmasComingSoon() {
         </p>
 
         <a
-          className="btn btn-outline"
+          className="btn btn-outline christmas-teaser__cta"
           href={getWhatsAppLink(
             "¡Hola Creative Yarn! Quiero que me avisen cuando lancen la colección de Navidad."
           )}

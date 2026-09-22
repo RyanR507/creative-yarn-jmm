@@ -287,6 +287,12 @@
   font-size: 2.5rem;
 }
 
+.product-customizer__success-hint {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--cy-ink-soft);
+}
+
 .product-customizer__success-actions {
   margin-top: 1.5rem;
   display: flex;

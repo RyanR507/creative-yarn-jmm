@@ -1,9 +1,8 @@
 // ---------------------------------------------------------------------------
-// Shared WhatsApp order-message logic for the product pages. Adapted from
-// the message builder that used to live in the general "Crea tu idea" form
-// (now replaced by one page per product) — same rules: only ever include
-// fields the customer actually filled in, never send blanks, and hand back a
-// direct WhatsApp link if the popup gets blocked instead of failing silently.
+// Shared WhatsApp order-message logic for the product pages ("Crear mi idea"
+// builds this message and opens WhatsApp). Rules: only ever include fields
+// the customer actually filled in, never send blanks, and always keep a
+// direct WhatsApp link available in case the new tab did not open.
 // ---------------------------------------------------------------------------
 
 import { getWhatsAppLink } from "../data/config";
@@ -94,11 +93,25 @@ export function buildProductOrderMessage({
   return lines.join("\n").replace(/\n{3,}/g, "\n\n").trim();
 }
 
-// Opens the WhatsApp link and reports whether it actually worked — a blocked
-// popup returns a falsy window, in which case the caller should fall back to
-// showing the same link directly instead of assuming the message went out.
+// Opens WhatsApp in a new tab and hands back the link.
+//
+// The "noopener" window feature is deliberately NOT used here: by spec it
+// makes window.open() return null even when the tab opened fine, so the
+// return value could no longer tell "opened" from "blocked". Without it, a
+// window object means the tab opened; we then cut the opener link ourselves.
+//
+// A null return is still NOT proof of a block (some in-app browsers and
+// webviews return null after opening), so callers must never present it as
+// an error — it only decides how much emphasis the "open WhatsApp" fallback
+// button gets. Always show that button.
 export function openWhatsAppOrder(message) {
   const url = getWhatsAppLink(message);
-  const opened = window.open(url, "_blank", "noopener,noreferrer");
+  let opened = null;
+  try {
+    opened = window.open(url, "_blank");
+    if (opened) opened.opener = null;
+  } catch {
+    opened = null;
+  }
   return { opened: Boolean(opened), url };
 }

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { useScrollReveal } from "../animations/useScrollReveal";
+import { jumpToTop } from "../utils/scroll";
+import NotFoundPage from "./NotFoundPage";
 import {
   getDefaultStyleId,
   getProductBySlug,
@@ -19,10 +21,12 @@ export default function ProductPage() {
   const { slug } = useParams();
   const product = getProductBySlug(slug);
 
-  useDocumentTitle(product ? `${product.title} | Creative Yarn` : "Creative Yarn");
+  // With no product, NotFoundPage sets its own title — pass nothing here so
+  // this hook doesn't overwrite it.
+  useDocumentTitle(product ? `${product.title} | Creative Yarn` : "");
 
   if (!product) {
-    return <Navigate to="/" replace />;
+    return <NotFoundPage kind="product" />;
   }
 
   // Keyed by slug so the whole subtree remounts on every product change —
@@ -48,7 +52,7 @@ function ProductPageContent({ product }) {
   // synchronized with a changing prop, so a one-time effect is the right
   // tool here.
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    jumpToTop();
   }, []);
 
   const related = getRelatedProducts(product.slug);

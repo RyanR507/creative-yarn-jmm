@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useScrollReveal } from "../animations/useScrollReveal";
 import "./Shipping.css";
 
@@ -51,9 +52,9 @@ export default function Shipping() {
         </p>
 
         <div className="shipping__cta" data-reveal>
-          <a href="#faq" className="btn btn-outline">
+          <Link to="/politicas/envios" className="btn btn-outline">
             Ver política de envíos
-          </a>
+          </Link>
         </div>
       </div>
     </section>

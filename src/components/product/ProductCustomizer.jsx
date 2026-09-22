@@ -130,18 +130,12 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
       hasImage,
     });
 
+    // A null window from window.open is not reliable proof that WhatsApp was
+    // blocked (see openWhatsAppOrder), so there is no error branch: we always
+    // land on the "ready to send" panel, which keeps a visible button to open
+    // WhatsApp again. `opened` only adds a gentle hint when we got no window.
     const { opened, url } = openWhatsAppOrder(message);
-    if (!opened) {
-      setStatus({
-        state: "error",
-        message:
-          "No pudimos abrir WhatsApp automáticamente (puede que tu navegador haya bloqueado la ventana). Usa el botón de abajo para enviarnos tu idea por WhatsApp.",
-        whatsappUrl: url,
-      });
-      return;
-    }
-
-    setStatus({ state: "success", whatsappUrl: url });
+    setStatus({ state: "success", whatsappUrl: url, opened });
     trackEvent("create_idea_submit", { product: product.id });
   }
 
@@ -161,8 +155,13 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
         </span>
         <h3>¡Tu idea está lista para enviar!</h3>
         <p>
-          WhatsApp se abrió con los detalles de tu solicitud. Envíanos el mensaje y, si tienes
-          una imagen de referencia, adjúntala directamente en el chat.
+          Preparamos tu solicitud en WhatsApp con todos los detalles. Envíanos el mensaje y, si
+          tienes una imagen de referencia, adjúntala directamente en el chat.
+        </p>
+        <p className="product-customizer__success-hint">
+          {status.opened
+            ? "¿No se abrió WhatsApp? Usa el botón de abajo para continuar."
+            : "Si WhatsApp no se abrió automáticamente, usa el botón de abajo para continuar."}
         </p>
         <div className="product-customizer__success-actions">
           <a
@@ -172,7 +171,7 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
             rel="noopener noreferrer"
             onClick={() => trackEvent("whatsapp_click", { source: "product_customizer_success" })}
           >
-            Hablar por WhatsApp
+            Abrir WhatsApp
           </a>
           <button type="button" className="btn btn-outline" onClick={startOver}>
             Crear otra idea
@@ -263,20 +262,6 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
           <p className="product-customizer__status product-customizer__status--error" role="alert">
             {error}
           </p>
-        )}
-        {status.state === "error" && (
-          <div className="product-customizer__status product-customizer__status--error" role="alert">
-            <p>{status.message}</p>
-            <a
-              className="btn btn-outline"
-              href={status.whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackEvent("whatsapp_click", { source: "product_customizer_error" })}
-            >
-              Hablar por WhatsApp
-            </a>
-          </div>
         )}
       </div>
 

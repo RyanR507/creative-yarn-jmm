@@ -13,12 +13,19 @@ export const WHATSAPP_DEFAULT_MESSAGE =
 export const getWhatsAppLink = (message = WHATSAPP_DEFAULT_MESSAGE) =>
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-// PLACEHOLDER social links — replace with real profile URLs.
+// Social profiles. Paste each REAL profile URL here to show it in the footer.
+// A network left as null is not rendered at all — never put a guessed URL.
+// (WhatsApp is not listed here: it always uses getWhatsAppLink().)
 export const SOCIAL_LINKS = {
-  instagram: "https://instagram.com/creativeyarn",
-  tiktok: "https://tiktok.com/@creativeyarn",
-  facebook: "https://facebook.com/creativeyarn",
-  whatsapp: null, // resolved via getWhatsAppLink()
+  instagram: null,
+  tiktok: null,
+  facebook: null,
+};
+
+export const SOCIAL_LABELS = {
+  instagram: "Instagram",
+  tiktok: "TikTok",
+  facebook: "Facebook",
 };
 
 // PLACEHOLDER contact info — replace with real details.

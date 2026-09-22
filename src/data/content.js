@@ -327,7 +327,7 @@ export const TESTIMONIALS = [];
 export const FAQ_ITEMS = [
   {
     q: "¿Cómo puedo realizar un pedido?",
-    a: "Escríbenos por WhatsApp o completa el formulario de pedido personalizado con los detalles de tu idea. Te responderemos con una cotización y los siguientes pasos.",
+    a: "Elige un producto en la sección Personalizados, escoge su opción, personalízalo y presiona “Crear mi idea”: se abrirá WhatsApp con los detalles de tu solicitud para que nos la envíes. También puedes escribirnos directamente por WhatsApp. Te responderemos con la confirmación de precio, disponibilidad y los siguientes pasos.",
   },
   {
     q: "¿Puedo solicitar un diseño completamente personalizado?",
@@ -390,7 +390,7 @@ export const POLICIES = [
       {
         heading: "Qué información podés compartirnos",
         body: [
-          "Cuando escribís por WhatsApp o completás el formulario \"Crea tu idea\", podés compartirnos información como:",
+          "Al escribirnos por WhatsApp, o al presionar “Crear mi idea” en la página de un producto (lo que abre WhatsApp con los detalles de tu solicitud), podés compartirnos información como:",
         ],
         list: [
           "Nombre",
@@ -451,7 +451,7 @@ export const POLICIES = [
       {
         heading: "Tu pedido: una solicitud, no una compra confirmada",
         body: [
-          "Completar el formulario \"Crea tu idea\" o escribirnos por WhatsApp es una solicitud — no una compra ni un pedido confirmado de forma automática.",
+          "Presionar “Crear mi idea” en la página de un producto o escribirnos por WhatsApp es una solicitud — no una compra ni un pedido confirmado de forma automática.",
           "Un pedido se considera confirmado recién después de que conversamos con vos y acordamos juntos los detalles correspondientes (precio, tiempo de producción, entrega y pago).",
         ],
       },

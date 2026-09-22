@@ -1,0 +1,45 @@
+.not-found {
+  padding-top: calc(var(--navbar-offset) + clamp(2rem, 6vw, 4rem));
+  padding-bottom: var(--space-section);
+  background: var(--cy-bg);
+  min-height: 60vh;
+  text-align: center;
+}
+
+.not-found .eyebrow {
+  margin-bottom: 0.5rem;
+}
+
+.not-found__actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+}
+
+.not-found__products {
+  margin-top: 2.75rem;
+}
+
+.not-found__products ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.not-found__products a {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  border: 1.5px solid var(--cy-border);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  background: var(--cy-white);
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.not-found__products a:hover {
+  border-color: var(--cy-pink-deep-ink);
+  background: var(--cy-pink-blush);
+}

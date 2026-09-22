@@ -59,3 +59,13 @@
 .christmas-teaser .btn {
   margin-top: 0.5rem;
 }
+
+/* .btn is white-space: nowrap; this label ("Avísame cuando esté disponible")
+   is wider than a 320px screen, so let it wrap onto two lines there instead
+   of pushing the page sideways. Font size is untouched. */
+.christmas-teaser__cta {
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.3;
+}
