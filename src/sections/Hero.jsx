@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "../animations/gsapSetup";
-import { BRAND } from "../data/config";
+import { BRAND, getWhatsAppLink } from "../data/config";
 import { trackEvent } from "../utils/analytics";
 import "./Hero.css";
 
@@ -92,8 +92,8 @@ export default function Hero() {
         <h1 className="hero__title">{BRAND.tagline}</h1>
         <p className="hero__quote">“Convierte tus ideas en algo que puedas tocar.”</p>
         <p className="hero__subtitle">
-          Creamos piezas personalizadas hechas a mano para las personas, momentos y
-          recuerdos que más importan.
+          Piezas personalizadas hechas a mano con plastic canvas e hilo, para las
+          personas, momentos y recuerdos que más importan.
         </p>
         <div className="hero__actions">
           <a
@@ -101,14 +101,19 @@ export default function Hero() {
             className="btn btn-primary"
             onClick={() => trackEvent("hero_primary_cta_click")}
           >
-            Crear mi idea
+            Explorar productos
           </a>
           <a
-            href="#personalizados"
+            href={getWhatsAppLink()}
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn btn-light-outline"
-            onClick={() => trackEvent("hero_secondary_cta_click")}
+            onClick={() => {
+              trackEvent("whatsapp_click", { source: "hero" });
+              trackEvent("hero_secondary_cta_click");
+            }}
           >
-            Ver productos
+            Hablar por WhatsApp
           </a>
         </div>
       </div>

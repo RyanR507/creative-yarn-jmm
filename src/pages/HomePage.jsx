@@ -7,8 +7,6 @@ import Gallery from "../sections/Gallery";
 import HowItWorks from "../sections/HowItWorks";
 import ChristmasComingSoon from "../sections/ChristmasComingSoon";
 import PackagingBox from "../sections/PackagingBox";
-import ProductShowcase from "../sections/ProductShowcase";
-import OrderProcess from "../sections/OrderProcess";
 import Testimonials from "../sections/Testimonials";
 import Shipping from "../sections/Shipping";
 import FAQ from "../sections/FAQ";
@@ -30,8 +28,6 @@ export default function HomePage() {
       <ChristmasComingSoon />
       <ThreadDivider variant="wave" />
       <PackagingBox />
-      <ProductShowcase />
-      <OrderProcess />
       <Testimonials />
       <Shipping />
       <FAQ />

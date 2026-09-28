@@ -47,7 +47,7 @@ export default function PolicyPage() {
 
           <p className="policies-disclaimer" data-reveal>
             La información de esta página es general. Las condiciones específicas de tu
-            pedido se confirman directamente con vos antes de finalizarlo.
+            pedido se confirman directamente contigo antes de finalizarlo.
           </p>
         </div>
       </section>

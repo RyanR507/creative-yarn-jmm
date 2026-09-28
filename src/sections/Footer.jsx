@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { NAV_LINKS, FOOTER_POLICIES } from "../data/content";
-import { BRAND, SOCIAL_LINKS, SOCIAL_LABELS, getWhatsAppLink } from "../data/config";
+import { BRAND, CONTACT, SOCIAL_LINKS, SOCIAL_LABELS, getWhatsAppLink } from "../data/config";
 import "./Footer.css";
 
 export default function Footer() {
@@ -40,6 +40,9 @@ export default function Footer() {
               <a href={getWhatsAppLink()} target="_blank" rel="noopener noreferrer">
                 WhatsApp
               </a>
+            </li>
+            <li>
+              <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
             </li>
           </ul>
         </div>

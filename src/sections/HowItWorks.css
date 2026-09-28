@@ -5,9 +5,15 @@
 .how__track {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 1.5rem;
   padding-top: 1rem;
+}
+
+.how__cta {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 .how__line-bg {

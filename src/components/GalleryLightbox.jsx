@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { getWhatsAppLink } from "../data/config";
+import ReferenceBadge from "./ReferenceBadge";
 import "./GalleryLightbox.css";
 
 export default function GalleryLightbox({ item, onClose }) {
@@ -60,8 +61,9 @@ export default function GalleryLightbox({ item, onClose }) {
         <img
           className="lightbox__image"
           src={item.image}
-          alt={`${item.title} — pieza personalizada de Creative Yarn`}
+          alt={`${item.title} — imagen de referencia de una pieza personalizada de Creative Yarn`}
         />
+        <ReferenceBadge />
 
         <div className="lightbox__info">
           <span className="lightbox__category">{item.category}</span>

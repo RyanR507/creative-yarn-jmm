@@ -412,10 +412,6 @@ export function getProductBySlug(slug) {
   return PRODUCTS.find((p) => p.slug === slug) || null;
 }
 
-export function getSlugById(id) {
-  return PRODUCTS.find((p) => p.id === id)?.slug;
-}
-
 export function getRelatedProducts(slug, count = 4) {
   const index = PRODUCTS.findIndex((p) => p.slug === slug);
   if (index === -1) return [];

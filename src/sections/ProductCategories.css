@@ -2,6 +2,13 @@
   background: var(--cy-cream);
 }
 
+.categories__note {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--cy-ink-faint);
+  font-style: italic;
+}
+
 .categories__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

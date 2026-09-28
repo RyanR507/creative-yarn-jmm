@@ -10,6 +10,7 @@
 }
 
 .packaging__photo {
+  position: relative;
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--cy-shadow-soft);

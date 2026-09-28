@@ -106,7 +106,7 @@ export default function Navbar() {
           className="btn btn-primary navbar__cta"
           onClick={() => trackEvent("navbar_cta_click")}
         >
-          Crear mi idea
+          Explorar productos
         </a>
 
         <button
@@ -146,7 +146,7 @@ export default function Navbar() {
             setOpen(false);
           }}
         >
-          Crear mi idea
+          Explorar productos
         </a>
       </div>
     </header>

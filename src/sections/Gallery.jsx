@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useScrollReveal } from "../animations/useScrollReveal";
 import { GALLERY_FILTERS, GALLERY_ITEMS } from "../data/content";
 import GalleryLightbox from "../components/GalleryLightbox";
+import ReferenceBadge from "../components/ReferenceBadge";
 import "./Gallery.css";
 
 export default function Gallery() {
@@ -26,6 +27,10 @@ export default function Gallery() {
           <h2 className="section-title center" data-reveal>
             Hecho con hilo. Hecho para ti.
           </h2>
+          <p className="section-subtitle center" data-reveal>
+            Referencias visuales de lo que podemos crear — no un catálogo cerrado. Tu
+            pieza se realiza de forma personalizada y puede adaptarse a tu idea.
+          </p>
         </div>
 
         <div className="gallery__filters" data-reveal role="tablist" aria-label="Filtrar creaciones">
@@ -56,10 +61,11 @@ export default function Gallery() {
                   <img
                     className="gallery__media"
                     src={item.image}
-                    alt={`${item.title} — pieza personalizada de Creative Yarn`}
+                    alt={`${item.title} — imagen de referencia de una pieza personalizada de Creative Yarn`}
                     loading="lazy"
                     decoding="async"
                   />
+                  <ReferenceBadge />
                   <span className="gallery__overlay" aria-hidden="true">
                     <span className="gallery__category">{item.category}</span>
                     <span className="gallery__title">{item.title}</span>

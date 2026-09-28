@@ -59,6 +59,12 @@ export default function HowItWorks() {
             </div>
           ))}
         </div>
+
+        <div className="how__cta" data-reveal>
+          <a href="#personalizados" className="btn btn-primary">
+            Explorar productos
+          </a>
+        </div>
       </div>
     </section>
   );

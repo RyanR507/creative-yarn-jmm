@@ -58,7 +58,7 @@ export default function FinalCTA() {
             className="btn btn-light"
             onClick={() => trackEvent("final_cta_click", { variant: "primary" })}
           >
-            Crear mi idea
+            Explorar productos
           </a>
           <a
             href={getWhatsAppLink(

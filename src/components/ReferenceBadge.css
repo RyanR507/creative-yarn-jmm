@@ -1,0 +1,17 @@
+/* Anchors to the nearest `position: relative` ancestor (the image
+   container) — each usage site already provides one, or adds it locally. */
+.reference-badge {
+  position: absolute;
+  bottom: 0.6rem;
+  left: 0.6rem;
+  z-index: 2;
+  background: rgba(37, 26, 28, 0.62);
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  padding: 0.4rem 0.65rem;
+  border-radius: 999px;
+  pointer-events: none;
+}

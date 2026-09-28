@@ -97,11 +97,11 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
     }
     const missing = missingRequiredField();
     if (missing) {
-      setError(`Contanos "${missing.label}" antes de enviar.`);
+      setError(`Cuéntanos "${missing.label}" antes de enviar.`);
       return;
     }
     if (!nombre.trim() || !whatsapp.trim()) {
-      setError("Contanos tu nombre y tu WhatsApp antes de enviar.");
+      setError("Cuéntanos tu nombre y tu WhatsApp antes de enviar.");
       return;
     }
 

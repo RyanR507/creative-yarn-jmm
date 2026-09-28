@@ -36,7 +36,7 @@ export default function PoliciesHub() {
 
           <p className="policies-disclaimer">
             La información de este sitio es general. Las condiciones específicas de tu
-            pedido se confirman directamente con vos antes de finalizarlo.
+            pedido se confirman directamente contigo antes de finalizarlo.
           </p>
         </div>
       </section>

@@ -11,15 +11,14 @@ export const NAV_LINKS = [
   { href: "/#personalizados", label: "Personalizados" },
   { href: "/#creaciones", label: "Creaciones" },
   { href: "/#como-funciona", label: "Cómo funciona" },
-  { href: "/#personalizados", label: "Crear mi idea" },
   { href: "/#faq", label: "Preguntas frecuentes" },
   { href: "/#contacto", label: "Contacto" },
 ];
 
-// The main Navbar shows a trimmed, 5-item subset of the site's full section
-// list (NAV_LINKS above, still used as-is by the Footer) — "Cómo funciona",
-// "Ocasiones", "Crear mi idea" and "Preguntas frecuentes" stay reachable via
-// the Footer, in-page CTAs, and normal scrolling, just not as Navbar items.
+// The main Navbar shows a trimmed subset of the site's full section list
+// (NAV_LINKS above, still used as-is by the Footer) — "Cómo funciona" and
+// "Preguntas frecuentes" stay reachable via the Footer, in-page CTAs, and
+// normal scrolling, just not as Navbar items.
 // "#navidad" is the real id of the existing Christmas Coming Soon section.
 export const NAVBAR_LINKS = [
   { href: "/#inicio", label: "Inicio" },
@@ -109,7 +108,7 @@ export const CATEGORIES = [
   {
     id: "set-banos",
     image: `${PRODUCTS_BASE}/set-de-banos.jpeg`,
-    title: "Set de baños",
+    title: "Set de baño",
     text: "Accesorios a juego para darle personalidad a tu baño.",
   },
   {
@@ -153,41 +152,10 @@ export const CATEGORIES = [
   },
 ];
 
-// Data for the interactive product viewer (ProductShowcase). Derived from
-// CATEGORIES so the 12-product catalog stays defined in exactly one place.
-//
-// Shape per product: { id, name, description, designs }
-// Each design is { id, label, model, frames: [imageUrl, ...] }.
-//   - model set (e.g. "/models/portavasos.glb") -> ProductViewer renders a
-//     real interactive 3D viewer (Three.js / React Three Fiber): drag to
-//     orbit, pinch/scroll to zoom. `frames[0]` is kept as the fallback image
-//     shown if WebGL is unavailable or the model fails to load.
-//   - model: null -> falls back to the existing 2D photo viewer:
-//       - 1 frame  -> still image, no drag/rotate hint.
-//       - 2+ frames -> drag/swipe 360-style photo sequence.
-//   - 1 design -> the "explore other designs" thumbnail row is hidden.
-//   - 2+ designs -> customers can switch between design variations, each
-//     with its own model and/or frames.
-//
-// Today no product has been 3D-scanned/modeled yet, so every `model` is
-// null and the viewer renders the real product photo — never a fabricated
-// 3D shape. To bring a product to life in 3D: drop a real .glb/.gltf file
-// in public/models/ (e.g. public/models/portavasos.glb) and set that
-// product's `model` below to "/models/portavasos.glb". No component changes
-// needed.
-export const PRODUCT_SHOWCASE = CATEGORIES.filter((cat) => cat.image).map((cat) => ({
-  id: cat.id,
-  name: cat.title,
-  description: cat.text,
-  designs: [
-    {
-      id: `${cat.id}-01`,
-      label: "Diseño 01",
-      model: null,
-      frames: [cat.image],
-    },
-  ],
-}));
+// Shown as a discreet note near any section that displays conceptual/
+// reference photography (catalog, product galleries, Creaciones, The
+// Creative Yarn Box) rather than a photo of a specific customer's order.
+export const REFERENCE_IMAGE_NOTE = "Imagen de referencia — cada pieza se realiza de manera personalizada.";
 
 export const GALLERY_FILTERS = ["Todos", "Amor", "Mascotas", "Graduación", "Familia", "Personalizados"];
 
@@ -238,20 +206,20 @@ export const PACKAGING_IMAGES = [
 
 export const PACKAGING_HIGHLIGHTS = [
   {
-    title: "Tarjeta de agradecimiento",
-    text: "Un mensaje escrito para quien la recibe.",
+    title: "Una presentación cuidada",
+    text: "Cada pieza se prepara con una presentación acorde a Creative Yarn JM.",
   },
   {
-    title: "Ficha de cuidado",
-    text: "Para que tu pieza se mantenga como el primer día.",
+    title: "Detalles que pueden variar",
+    text: "Según el producto, tu pedido puede incluir una tarjeta, una ficha de cuidado u otros detalles de presentación.",
   },
   {
-    title: "Bolsa de tela incluida",
-    text: "Para guardar o regalar tu creación con estilo.",
+    title: "Pensada para regalar",
+    text: "Buscamos que abrir tu pedido se sienta parte de la experiencia, cuando el producto lo permite.",
   },
   {
-    title: "Sello y detalles hechos a mano",
-    text: "Cada caja se cierra con el mismo cuidado con el que se hizo la pieza.",
+    title: "Sujeta a disponibilidad",
+    text: "Los componentes exactos de la presentación se confirman según tu pedido.",
   },
 ];
 
@@ -260,25 +228,19 @@ export const BRAND_STORY = {
   title: "Cada hilo cuenta algo.",
   intro: "Antes de ser una marca, Creative Yarn JM es un recuerdo.",
   paragraphs: [
-    "Hay historias que comienzan con una gran idea.",
-    "La nuestra comenzó mucho antes, en una casa, una iglesia junto a mi tía, unas lanas, una aguja y una canvas plástica.",
-    "Desde pequeña, aprendí de mi tía Jean el arte de crear con las manos. Recuerdo verla trabajar en sus canvas, convirtiendo simples materiales en piezas llenas de color, paciencia y creatividad.",
-    "Yo quería aprender.",
-    "Y cuando finalmente aprendí, descubrí algo más que una manualidad: descubrí un espacio donde podía crear, concentrarme y disfrutar. Podía pasar horas haciendo canvas sin sentir cómo transcurría el tiempo.",
-    "Aquel hobby se quedó conmigo.",
+    "Todo comenzó junto a mi tía Jean Marie, con lanas, una aguja y plastic canvas.",
+    "Desde pequeña aprendí de ella el arte de crear con las manos — verla convertir materiales simples en piezas llenas de color, paciencia y creatividad.",
+    "Ese aprendizaje se quedó conmigo: un espacio donde podía crear, concentrarme y disfrutar, sin sentir cómo pasaba el tiempo.",
   ],
   visionHeading: "De un recuerdo a una visión",
   visionParagraphs: [
-    "Con los años, esas primeras puntadas se convirtieron en algo más que un recuerdo de infancia. Se convirtieron en inspiración.",
-    "Así nació Creative Yarn: con el deseo de llevar aquel arte que aprendí hace tantos años a un nuevo nivel, transformando una tradición hecha a mano en piezas únicas, creativas y pensadas para formar parte de la vida de otras personas.",
-    "Cada diseño representa algo que aprendí desde el principio: que crear con las manos requiere tiempo, dedicación y paciencia, pero que el resultado puede convertirse en algo verdaderamente especial.",
+    "Con los años, esas primeras puntadas se convirtieron en inspiración.",
+    "Así nació Creative Yarn JM: con el deseo de llevar ese arte a un nuevo nivel, transformando una tradición hecha a mano en piezas modernas, personalizadas y pensadas para formar parte de la vida de otras personas.",
   ],
-  featuredQuote: "Una enseñanza que comenzó con una puntada y continúa con cada creación.",
+  featuredQuote: "Un hilo que conecta una idea con un recuerdo.",
   closingParagraphs: [
-    "Creative Yarn JM es también una forma de honrarla — de mostrar que lo que ella me enseñó puede convertirse en mucho más que un objeto.",
-    "Se pueden crear recuerdos.",
-    "Hoy, aquel hobby se convierte en una historia que continúa con cada diseño, cada combinación de colores y cada puntada hecha a mano.",
-    "Porque detrás de cada pieza de Creative Yarn hay más que lana y canvas. Hay tiempo. Hay creatividad. Hay dedicación. Hay una historia.",
+    "Creative Yarn JM lleva su nombre en honor a ella, Jean Marie — una forma de honrar lo que me enseñó.",
+    "Hoy, aquel aprendizaje continúa en cada diseño, cada color y cada puntada hecha a mano.",
   ],
   signature: "JM",
 };
@@ -291,11 +253,12 @@ export const CHRISTMAS_TEASER = {
 };
 
 export const STEPS = [
-  { number: "01", title: "Tú lo imaginas", text: "Cuéntanos qué tienes en mente." },
-  { number: "02", title: "Lo diseñamos", text: "Definimos colores, tamaño, estilo y personalización." },
-  { number: "03", title: "Lo creamos", text: "Tu pieza es elaborada cuidadosamente a mano." },
-  { number: "04", title: "Lo preparamos", text: "Empacamos tu pieza con mucho cuidado." },
-  { number: "05", title: "Se convierte en tuyo", text: "Recibes tu pieza personalizada, lista para disfrutar o regalar." },
+  { number: "01", title: "Elige tu pieza", text: "Explora el catálogo y encuentra el producto que quieres personalizar." },
+  { number: "02", title: "Personalízala", text: "Elige variante, colores, nombres y todo lo que quieras agregar a tu idea." },
+  { number: "03", title: "Solicita tu cotización", text: "Envíanos tu solicitud por WhatsApp con todos los detalles." },
+  { number: "04", title: "Confirma y realiza el pago", text: "Revisamos tu solicitud, confirmamos los detalles y realizas el pago completo." },
+  { number: "05", title: "Creamos tu pieza", text: "Tu pieza es elaborada cuidadosamente a mano, una vez confirmado el pago." },
+  { number: "06", title: "Coordinamos la entrega", text: "Preparamos tu pieza y coordinamos contigo el método de entrega." },
 ];
 
 // Single source of truth for every occasion selectable anywhere on the site —
@@ -318,13 +281,12 @@ export const OCCASIONS = [
 ];
 
 export const ORDER_PROCESS_STEPS = [
-  "Envíanos tu idea.",
-  "Cuéntanos qué quieres personalizar.",
-  "Recibe tu cotización.",
-  "Aprueba el diseño.",
-  "Realiza el pago.",
-  "Creamos tu pieza.",
-  "La preparamos y enviamos.",
+  "Elige tu pieza",
+  "Personalízala",
+  "Solicita tu cotización por WhatsApp",
+  "Confirma y realiza el pago completo",
+  "Creamos tu pieza",
+  "Coordinamos la entrega",
 ];
 
 // Placeholder testimonials — replace with real customer reviews when available.
@@ -336,7 +298,7 @@ export const TESTIMONIALS = [];
 export const FAQ_ITEMS = [
   {
     q: "¿Cómo puedo realizar un pedido?",
-    a: "Elige un producto en la sección Personalizados, escoge su opción, personalízalo y presiona “Crear mi idea”: se abrirá WhatsApp con los detalles de tu solicitud para que nos la envíes. También puedes escribirnos directamente por WhatsApp. Te responderemos con la confirmación de precio, disponibilidad y los siguientes pasos.",
+    a: "Elige un producto en la sección Personalizados, elige su variante, personalízalo y presiona “Solicitar cotización por WhatsApp”: se abrirá WhatsApp con los detalles de tu solicitud para que nos la envíes. También puedes escribirnos directamente por WhatsApp. Revisamos tu solicitud y te confirmamos la cotización, disponibilidad y los siguientes pasos.",
   },
   {
     q: "¿Puedo solicitar un diseño completamente personalizado?",
@@ -378,6 +340,14 @@ export const FAQ_ITEMS = [
     q: "¿Qué ocurre si mi paquete llega dañado?",
     a: "Contáctanos con fotografías del daño apenas lo recibas y buscaremos la mejor solución posible para tu caso.",
   },
+  {
+    q: "¿Por qué no aparecen precios en la página?",
+    a: "Porque cada pieza se cotiza según el producto, el tamaño o variante, el diseño, el nivel de personalización, la cantidad y otros detalles de tu solicitud. Al enviarnos tu idea por WhatsApp, te confirmamos la cotización correspondiente.",
+  },
+  {
+    q: "¿Qué es The Creative Yarn Box?",
+    a: "Es el concepto de presentación de Creative Yarn JM, distinto del producto Gift Boxes personalizados. Según el producto, tu pedido puede prepararse con una presentación especial — los detalles exactos se confirman al momento de tu cotización.",
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -392,14 +362,14 @@ export const POLICIES = [
     slug: "privacidad",
     navLabel: "Política de privacidad",
     pageTitle: "Creative Yarn | Política de privacidad",
-    metaDescription: "Cómo Creative Yarn usa la información que compartís a través de este sitio.",
-    hubSummary: "Cómo usamos la información que nos compartís.",
-    intro: "Esta página explica qué información podés compartirnos a través de este sitio y cómo la usamos.",
+    metaDescription: "Cómo Creative Yarn usa la información que compartes a través de este sitio.",
+    hubSummary: "Cómo usamos la información que nos compartes.",
+    intro: "Esta página explica qué información puedes compartirnos a través de este sitio y cómo la usamos.",
     sections: [
       {
-        heading: "Qué información podés compartirnos",
+        heading: "Qué información puedes compartirnos",
         body: [
-          "Al escribirnos por WhatsApp, o al presionar “Crear mi idea” en la página de un producto (lo que abre WhatsApp con los detalles de tu solicitud), podés compartirnos información como:",
+          "Al escribirnos por WhatsApp, o al solicitar una cotización desde la página de un producto (lo que abre WhatsApp con los detalles de tu solicitud), puedes compartirnos información como:",
         ],
         list: [
           "Nombre",
@@ -407,13 +377,13 @@ export const POLICIES = [
           "Correo electrónico (opcional)",
           "Detalles de tu pedido o idea",
           "Detalles de personalización — nombres, fechas, frases, colores",
-          "Una imagen de referencia, si elegís compartir una",
+          "Una imagen de referencia, si eliges compartir una",
           "Cualquier otra información que decidas escribirnos voluntariamente",
         ],
       },
       {
         heading: "Para qué usamos esa información",
-        body: ["Usamos la información que nos compartís únicamente para:"],
+        body: ["Usamos la información que nos compartes únicamente para:"],
         list: [
           "Responder tus consultas",
           "Conversar sobre tu creación personalizada",
@@ -425,7 +395,7 @@ export const POLICIES = [
       {
         heading: "Cómo protegemos tu información",
         body: [
-          "Tomamos medidas razonables para proteger la información que nos compartís, y no la usamos para fines distintos a los descritos en esta página.",
+          "Tomamos medidas razonables para proteger la información que nos compartes, y no la usamos para fines distintos a los descritos en esta página.",
         ],
       },
       {
@@ -436,7 +406,7 @@ export const POLICIES = [
       },
       {
         heading: "Contacto",
-        body: ["Si tenés preguntas sobre esta política, podés escribirnos por WhatsApp desde cualquier página del sitio."],
+        body: ["Si tienes preguntas sobre esta política, puedes escribirnos por WhatsApp desde cualquier página del sitio."],
       },
     ],
   },
@@ -451,7 +421,7 @@ export const POLICIES = [
       {
         heading: "Nuestras creaciones",
         body: [
-          "Las imágenes y ejemplos de este sitio son inspiración — muestran lo que es posible, no un catálogo cerrado de piezas idénticas.",
+          "Las imágenes y ejemplos de este sitio son de referencia — muestran lo que es posible, no un catálogo cerrado de piezas idénticas.",
           "Cada pieza es hecha a mano, por lo que pueden existir pequeñas variaciones naturales entre una creación y otra.",
           "Una creación personalizada puede diferir levemente de la imagen de referencia que compartiste — es parte de que cada pieza se haga a mano, una por una.",
           "Los colores pueden variar según el material disponible y la pantalla en la que estés viendo este sitio.",
@@ -460,14 +430,14 @@ export const POLICIES = [
       {
         heading: "Tu pedido: una solicitud, no una compra confirmada",
         body: [
-          "Presionar “Crear mi idea” en la página de un producto o escribirnos por WhatsApp es una solicitud — no una compra ni un pedido confirmado de forma automática.",
-          "Un pedido se considera confirmado recién después de que conversamos con vos y acordamos juntos los detalles correspondientes (precio, tiempo de producción, entrega y pago).",
+          "Solicitar una cotización desde la página de un producto, o escribirnos por WhatsApp, es una solicitud — no una compra ni un pedido confirmado de forma automática.",
+          "Un pedido se considera confirmado recién después de que conversamos contigo y acordamos juntos los detalles correspondientes (cotización, tiempo de producción, entrega y pago).",
         ],
       },
       {
         heading: "Creaciones personalizadas",
         body: [
-          "Sos responsable de la información que nos proporciones para personalizar tu pieza, como nombres, iniciales, fechas, frases, colores y otros detalles de referencia.",
+          "Eres responsable de la información que nos proporciones para personalizar tu pieza, como nombres, iniciales, fechas, frases, colores y otros detalles de referencia.",
           "Hacemos nuestro mejor esfuerzo para reflejar exactamente lo que nos compartiste. Si un error en la pieza final se debe a información incorrecta que recibimos de tu parte, te pedimos que lo tengas en cuenta — por eso te recomendamos revisar bien los detalles antes de confirmar tu pedido.",
         ],
       },
@@ -519,7 +489,7 @@ export const POLICIES = [
       {
         heading: "Piezas personalizadas",
         body: [
-          "Como cada pieza personalizada se crea especialmente para vos, según los detalles que nos compartiste, este tipo de creaciones se trata de forma distinta a un producto genérico.",
+          "Como cada pieza personalizada se crea especialmente para ti, según los detalles que nos compartiste, este tipo de creaciones se trata de forma distinta a un producto genérico.",
         ],
       },
       {
@@ -531,13 +501,13 @@ export const POLICIES = [
       {
         heading: "Piezas dañadas o incorrectas",
         body: [
-          "Si tu pieza llega dañada o no corresponde con lo acordado, escribinos — cada situación se revisa de forma individual para encontrar la mejor solución.",
+          "Si tu pieza llega dañada o no corresponde con lo acordado, escríbenos — cada situación se revisa de forma individual para encontrar la mejor solución.",
         ],
       },
       {
         heading: "Cómo se definen las condiciones",
         body: [
-          "Las condiciones de cambios y devoluciones se comunican y confirman según el tipo de producto y las circunstancias de cada pedido. Si tenés dudas antes de confirmar tu compra, podés consultarnos por WhatsApp.",
+          "Las condiciones de cambios y devoluciones se comunican y confirman según el tipo de producto y las circunstancias de cada pedido. Si tienes dudas antes de confirmar tu compra, puedes consultarnos por WhatsApp.",
         ],
       },
     ],
@@ -553,14 +523,14 @@ export const POLICIES = [
       {
         heading: "Recomendaciones de cuidado",
         list: [
-          "Manejá tu pieza hecha a mano con cuidado.",
-          "Evitá tirar o cortar los hilos.",
-          "Mantenela alejada de humedad excesiva.",
-          "Mantenela alejada de fuentes de calor excesivo.",
-          "Evitá apoyar peso excesivo sobre piezas delicadas.",
-          "Guardala en su bolsa protectora cuando corresponda.",
-          "Limpiala con métodos suaves, apropiados para el tipo de producto.",
-          "No la laves de forma agresiva ni en lavarropas, a menos que te indiquemos específicamente que ese producto lo permite.",
+          "Maneja tu pieza hecha a mano con cuidado.",
+          "Evita tirar o cortar los hilos.",
+          "Mantenla alejada de humedad excesiva.",
+          "Mantenla alejada de fuentes de calor excesivo.",
+          "Evita apoyar peso excesivo sobre piezas delicadas.",
+          "Guárdala en su bolsa protectora cuando corresponda.",
+          "Límpiala con métodos suaves, apropiados para el tipo de producto.",
+          "No la laves de forma agresiva ni en lavadora, a menos que te indiquemos específicamente que ese producto lo permite.",
         ],
       },
     ],

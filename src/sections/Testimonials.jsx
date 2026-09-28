@@ -22,7 +22,7 @@ export default function Testimonials() {
             Testimonios
           </p>
           <h2 className="section-title center" data-reveal>
-            Hecho con amor. Amado por nuestros clientes.
+            Hecho con amor, pieza por pieza.
           </h2>
         </div>
 

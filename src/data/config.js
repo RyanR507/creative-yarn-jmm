@@ -4,8 +4,8 @@
 // ---------------------------------------------------------------------------
 
 // WhatsApp number, digits only (no +, spaces or dashes).
-// +507 6328-2859 (Panamá).
-export const WHATSAPP_NUMBER = "50763282859";
+// +507 6037-4216 (Panamá).
+export const WHATSAPP_NUMBER = "50760374216";
 
 export const WHATSAPP_DEFAULT_MESSAGE =
   "¡Hola Creative Yarn! Me gustaría crear una pieza personalizada. Tengo una idea que quisiera compartir con ustedes.";
@@ -28,9 +28,8 @@ export const SOCIAL_LABELS = {
   facebook: "Facebook",
 };
 
-// PLACEHOLDER contact info — replace with real details.
 export const CONTACT = {
-  email: "hola@creativeyarn.example",
+  email: "creativeyarnjm@gmail.com",
 };
 
 export const BRAND = {

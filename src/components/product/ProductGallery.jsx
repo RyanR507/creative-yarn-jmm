@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ReferenceBadge from "../ReferenceBadge";
 import "./ProductGallery.css";
 
 // Reuses the same full-screen lightbox visual language as the Home gallery
@@ -47,24 +48,27 @@ export default function ProductGallery({ images, productName }) {
     <div className="product-gallery">
       <div className="product-gallery__main">
         {hasImages ? (
-          <button
-            type="button"
-            className="product-gallery__main-trigger"
-            onClick={() => setZoomed(true)}
-            onKeyDown={handleMainKeyDown}
-            aria-label={
-              hasMultiple
-                ? `Ver ${productName} en tamaño completo. Usa las flechas para cambiar de imagen.`
-                : `Ver ${productName} en tamaño completo`
-            }
-          >
-            <img
-              src={images[active]}
-              alt={`${productName} — pieza personalizada de Creative Yarn, hecha a mano con yarn sobre plastic canvas`}
-              loading="eager"
-              decoding="async"
-            />
-          </button>
+          <>
+            <button
+              type="button"
+              className="product-gallery__main-trigger"
+              onClick={() => setZoomed(true)}
+              onKeyDown={handleMainKeyDown}
+              aria-label={
+                hasMultiple
+                  ? `Ver ${productName} en tamaño completo. Usa las flechas para cambiar de imagen.`
+                  : `Ver ${productName} en tamaño completo`
+              }
+            >
+              <img
+                src={images[active]}
+                alt={`${productName} — imagen de referencia, hecha a mano con yarn sobre plastic canvas`}
+                loading="eager"
+                decoding="async"
+              />
+            </button>
+            <ReferenceBadge />
+          </>
         ) : (
           <div className="product-gallery__main product-gallery__main--empty" role="img" aria-label={`${productName} — fotografía próximamente`}>
             <span aria-hidden="true">〰</span>
@@ -100,7 +104,8 @@ export default function ProductGallery({ images, productName }) {
             <button type="button" className="lightbox__close" onClick={() => setZoomed(false)} aria-label="Cerrar">
               ×
             </button>
-            <img className="lightbox__image" src={images[active]} alt={`${productName} — vista ampliada`} />
+            <img className="lightbox__image" src={images[active]} alt={`${productName} — vista ampliada, imagen de referencia`} />
+            <ReferenceBadge />
           </div>
         </div>
       )}
