@@ -26,7 +26,11 @@
 
 @media (max-width: 860px) {
   .product-page__grid {
-    grid-template-columns: 1fr;
+    /* minmax(0, 1fr), not a bare 1fr — a plain `1fr` track's automatic
+       minimum is content-based ("auto"), so a wide-enough child (e.g. a
+       long style/variant pill row) can force this column, and the whole
+       page, wider than the viewport instead of wrapping/shrinking. */
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .product-page__buybox {

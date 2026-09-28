@@ -6,9 +6,9 @@ import { jumpToTop } from "../utils/scroll";
 import NotFoundPage from "./NotFoundPage";
 import {
   getDefaultStyleId,
+  getDefaultVariantId,
   getProductBySlug,
   getRelatedProducts,
-  resolveVariant,
 } from "../data/products";
 import ProductGallery from "../components/product/ProductGallery";
 import ProductInfo from "../components/product/ProductInfo";
@@ -38,14 +38,14 @@ export default function ProductPage() {
 
 function ProductPageContent({ product }) {
   const scopeRef = useScrollReveal();
-  // Mirrors the style selected inside <ProductCustomizer> — used to pick a
-  // per-variant gallery once real variant photography exists (see
-  // products.js's `styles[].image(s)` note). No visual effect today, since
-  // no style carries its own images yet.
-  const [activeStyleId, setActiveStyleId] = useState(() => getDefaultStyleId(product));
-  // Same idea for the price variant — drives the price shown in <ProductInfo>.
-  const [activeVariantId, setActiveVariantId] = useState(product.variants[0].id);
-  const activeVariant = resolveVariant(product, activeStyleId, activeVariantId);
+  // Mirrors the variant/style selected inside <ProductCustomizer> — used to
+  // pick a per-variant gallery once real variant photography exists (see
+  // products.js's `styles[].image(s)` note, no visual effect today), and to
+  // show the right variant's fixed content list (Set de Bebé) in the
+  // accordion below.
+  const [activeVariantId, setActiveVariantId] = useState(() => getDefaultVariantId(product));
+  const [activeStyleId, setActiveStyleId] = useState(() => getDefaultStyleId(product, activeVariantId));
+  const activeVariant = product.variants.find((v) => v.id === activeVariantId) ?? null;
 
   // Runs once per mount (i.e. once per product, since this component is
   // remounted per slug above) — a plain "land at the top" reset, not state
@@ -67,7 +67,7 @@ function ProductPageContent({ product }) {
             <ProductGallery key={activeStyleId} images={galleryImages} productName={product.title} />
 
             <div className="product-page__buybox">
-              <ProductInfo product={product} variant={activeVariant} />
+              <ProductInfo product={product} />
               <ProductCustomizer
                 product={product}
                 onStyleChange={setActiveStyleId}
@@ -80,7 +80,7 @@ function ProductPageContent({ product }) {
 
       <section className="product-page__accordion">
         <div className="container container--narrow">
-          <ProductAccordion product={product} />
+          <ProductAccordion product={product} variant={activeVariant} />
         </div>
       </section>
 

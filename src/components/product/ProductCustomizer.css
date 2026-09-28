@@ -5,6 +5,10 @@
   margin-top: 1.75rem;
   padding-top: 1.75rem;
   border-top: 1px solid var(--cy-border);
+  /* Flex items default to min-width: auto, so a grid child's automatic
+     minimum track size (e.g. .product-options' `minmax(200px, 1fr)`) can
+     otherwise force this column wider than the space actually available. */
+  min-width: 0;
 }
 
 .style-selector legend {
@@ -50,8 +54,9 @@
 
 .product-options {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
   gap: 1rem;
+  min-width: 0;
   animation: product-options-reveal 0.3s var(--ease-soft);
 }
 
@@ -100,6 +105,52 @@
 
 .product-field--wide {
   grid-column: 1 / -1;
+}
+
+.product-field__hint {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--cy-ink-faint);
+}
+
+/* Generic toggle field (e.g. Set de Bebé's "Enviar como regalo") — same
+   look as the reference-image toggle below, without duplicating it. */
+.product-field--toggle {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  border: 1.5px solid var(--cy-border);
+  border-radius: var(--radius-sm);
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.product-field--toggle input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--cy-pink-deep-ink);
+}
+
+.product-field--toggle span {
+  font-weight: 600;
+}
+
+.product-field--toggle__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.product-field--toggle__text .product-field__hint {
+  font-weight: 400;
+}
+
+.product-field--toggle.is-selected {
+  border-color: var(--cy-pink-deep-ink);
+  background: var(--cy-pink-blush);
 }
 
 /* Quantity stepper */
@@ -202,8 +253,9 @@
 /* Contact */
 .product-customizer__contact {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
   gap: 1rem;
+  min-width: 0;
   border-top: 1px solid var(--cy-border);
   padding-top: 1.4rem;
 }

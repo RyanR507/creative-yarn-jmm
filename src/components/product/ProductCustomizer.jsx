@@ -3,13 +3,13 @@ import { prefersReducedMotion } from "../../animations/gsapSetup";
 import { trackEvent } from "../../utils/analytics";
 import { buildProductOrderMessage, openWhatsAppOrder } from "../../utils/whatsappOrder";
 import {
-  estimateSubtotal,
   getAvailableStyles,
   getDefaultStyleId,
-  getPriceInfo,
+  getDefaultVariantId,
+  getSetContents,
   getSetInfo,
   getVisibleFields,
-  resolveVariant,
+  isFieldRequired,
 } from "../../data/products";
 import StyleSelector from "./StyleSelector";
 import ProductOptions from "./ProductOptions";
@@ -20,30 +20,8 @@ const initialStatus = { state: "idle" };
 const TRUST_POINTS = ["Hecho a mano", "Personalizable", "Creado especialmente para ti"];
 
 export default function ProductCustomizer({ product, onStyleChange, onVariantChange }) {
-  const [selectedStyle, setSelectedStyleState] = useState(() => getDefaultStyleId(product));
-  const [selectedVariantId, setSelectedVariantIdState] = useState(product.variants[0].id);
-
-  // Both selections are mirrored up to ProductPage: the style so the gallery
-  // can swap to that variant's own photos once they exist, the variant so
-  // the price area above updates. Purely additive callbacks.
-  function setSelectedStyle(id) {
-    setSelectedStyleState(id);
-    onStyleChange?.(id);
-  }
-
-  // Variant = what changes the price; style/theme = the look within it. When
-  // the new variant doesn't offer the current theme (e.g. Portadas: switching
-  // from "Personaje" back to "Sencilla"), fall back to its first valid theme
-  // so a contradictory combination can never be submitted.
-  function setSelectedVariantId(id) {
-    setSelectedVariantIdState(id);
-    onVariantChange?.(id);
-    const nextVariant = product.variants.find((v) => v.id === id);
-    const allowed = getAvailableStyles(product, nextVariant);
-    if (!allowed.some((s) => s.id === selectedStyle)) {
-      setSelectedStyle(allowed[0]?.id || "");
-    }
-  }
+  const [selectedVariantId, setSelectedVariantIdState] = useState(() => getDefaultVariantId(product));
+  const [selectedStyle, setSelectedStyleState] = useState(() => getDefaultStyleId(product, getDefaultVariantId(product)));
   const [values, setValues] = useState({});
   const [quantity, setQuantity] = useState("1");
   const [hasImage, setHasImage] = useState(false);
@@ -51,10 +29,35 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
   const [nombre, setNombre] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
+  const [hasDisplay, setHasDisplay] = useState(false);
   const [error, setError] = useState("");
   const [status, setStatus] = useState(initialStatus);
   const startedRef = useRef(false);
   const successRef = useRef(null);
+
+  // Both selections are mirrored up to ProductPage: the style so the gallery
+  // can swap to that variant's own photos once they exist, the variant so
+  // the accordion can show the right variant's content list. Purely
+  // additive callbacks.
+  function setSelectedStyle(id) {
+    setSelectedStyleState(id);
+    onStyleChange?.(id);
+  }
+
+  // Variant = the primary choice; style = a secondary, independent choice
+  // that can be restricted to certain variants (see forVariants in
+  // products.js — e.g. Portadas' "Personaje" theme only exists for its
+  // "Diseño especial" variant). When the new variant doesn't offer the
+  // current style, fall back to its first valid one so a contradictory
+  // combination can never be submitted.
+  function setSelectedVariantId(id) {
+    setSelectedVariantIdState(id);
+    onVariantChange?.(id);
+    const allowed = getAvailableStyles(product, id);
+    if (!allowed.some((s) => s.id === selectedStyle)) {
+      setSelectedStyle(allowed[0]?.id || "");
+    }
+  }
 
   useEffect(() => {
     if (status.state !== "success") return;
@@ -75,16 +78,14 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
     setValues((prev) => ({ ...prev, [key]: value }));
   }
 
-  const variant = resolveVariant(product, selectedStyle, selectedVariantId);
-  const availableStyles = getAvailableStyles(product, variant);
-  const visibleFields = getVisibleFields(product, selectedStyle, variant);
+  const variant = product.variants.find((v) => v.id === selectedVariantId) ?? null;
+  const availableStyles = getAvailableStyles(product, selectedVariantId);
+  const visibleFields = getVisibleFields(product, selectedVariantId, selectedStyle, values);
   const setInfo = getSetInfo(variant, quantity);
+  const setContents = getSetContents(product, variant);
 
   function missingRequiredField() {
-    return visibleFields.find((f) => {
-      const isRequired = f.required || f.requiredWhen?.includes(selectedStyle);
-      return isRequired && !values[f.key]?.trim();
-    });
+    return visibleFields.find((f) => isFieldRequired(f, selectedVariantId, selectedStyle) && !values[f.key]?.trim());
   }
 
   function handleSubmit(e) {
@@ -106,28 +107,24 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
 
     setError("");
 
-    const priceInfo = getPriceInfo(product, variant);
-    // When the style pills double as price variants (Llaveros) the variant
-    // line already says it — don't repeat it as a separate "estilo".
-    const styleLabel = product.variantsLinkedToStyles
-      ? undefined
-      : availableStyles.find((s) => s.id === selectedStyle)?.label;
-    const entries = visibleFields.map((f) => ({ label: f.label, value: values[f.key]?.trim() }));
+    const styleLabel = availableStyles.find((s) => s.id === selectedStyle)?.label;
+    const entries = visibleFields
+      .filter((f) => f.type !== "toggle")
+      .map((f) => ({ label: f.label, value: values[f.key]?.trim?.() ?? values[f.key] }));
 
     const message = buildProductOrderMessage({
       productName: product.title,
-      variantLabel: variant.label,
+      variantLabel: variant?.label,
       styleLabel,
       styleNoun: product.styleNoun,
-      priceDisplay: priceInfo.display,
-      subtotal: estimateSubtotal(priceInfo, quantity),
       setInfo,
-      priceNote: product.priceNote,
+      setContents,
       quantity,
       entries,
       notes: notes.trim(),
       contact: { nombre: nombre.trim(), whatsapp: whatsapp.trim(), email: email.trim() },
       hasImage,
+      hasDisplay,
     });
 
     // A null window from window.open is not reliable proof that WhatsApp was
@@ -144,6 +141,7 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
     setValues({});
     setNotes("");
     setHasImage(false);
+    setHasDisplay(false);
     setQuantity("1");
   }
 
@@ -153,10 +151,10 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
         <span className="product-customizer__success-icon" aria-hidden="true">
           🧶
         </span>
-        <h3>¡Tu idea está lista para enviar!</h3>
+        <h3>¡Tu solicitud está lista para enviar!</h3>
         <p>
-          Preparamos tu solicitud en WhatsApp con todos los detalles. Envíanos el mensaje y, si
-          tienes una imagen de referencia, adjúntala directamente en el chat.
+          Preparamos tu solicitud de cotización en WhatsApp con todos los detalles. Envíanos el
+          mensaje y, si tienes una imagen de referencia, adjúntala directamente en el chat.
         </p>
         <p className="product-customizer__success-hint">
           {status.opened
@@ -174,7 +172,7 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
             Abrir WhatsApp
           </a>
           <button type="button" className="btn btn-outline" onClick={startOver}>
-            Crear otra idea
+            Crear otra solicitud
           </button>
         </div>
       </div>
@@ -183,12 +181,12 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
 
   return (
     <form className="product-customizer" onSubmit={handleSubmit} noValidate>
-      {!product.variantsLinkedToStyles && (
+      {product.variants.length > 0 && (
         <StyleSelector
           options={product.variants}
           value={selectedVariantId}
           onChange={setSelectedVariantId}
-          legend="Elige tu opción"
+          legend={product.variantLegend}
           name="variante"
         />
       )}
@@ -203,7 +201,8 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
 
       <ProductOptions
         fields={visibleFields}
-        selectedStyle={selectedStyle}
+        variantId={selectedVariantId}
+        styleId={selectedStyle}
         values={values}
         onChange={setFieldValue}
       />
@@ -214,6 +213,14 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
         label={setInfo ? "Cantidad de sets" : "Cantidad"}
         hint={setInfo ? `${setInfo.totalPieces} piezas en total (${setInfo.pieces} por set)` : undefined}
       />
+
+      {product.displayEligible && (
+        <label className={`product-customizer__image-toggle ${hasDisplay ? "is-selected" : ""}`}>
+          <input type="checkbox" checked={hasDisplay} onChange={(e) => setHasDisplay(e.target.checked)} />
+          <span>¿Deseas presentación Display especial?</span>
+          <em>Sujeta a disponibilidad y cotización</em>
+        </label>
+      )}
 
       <label className={`product-customizer__image-toggle ${hasImage ? "is-selected" : ""}`}>
         <input
@@ -253,10 +260,10 @@ export default function ProductCustomizer({ product, onStyleChange, onVariantCha
 
       <div className="product-customizer__submit">
         <button className="btn product-customizer__cta" type="submit">
-          Crear mi idea
+          Solicitar cotización por WhatsApp
         </button>
         <p className="product-customizer__note">
-          Te contactaremos para confirmar precio, disponibilidad y tiempo de elaboración.
+          Te contactaremos por WhatsApp para preparar tu cotización, disponibilidad y tiempo de elaboración.
         </p>
         {error && (
           <p className="product-customizer__status product-customizer__status--error" role="alert">

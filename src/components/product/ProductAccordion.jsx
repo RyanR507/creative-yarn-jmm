@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import { ORDER_PROCESS_STEPS } from "../../data/content";
+import { getSetContents } from "../../data/products";
 import "./ProductAccordion.css";
 
 // Native <details>/<summary> — full keyboard + screen-reader support for
 // free, no custom JS state needed. Only sections with real, confirmed
 // content are rendered; nothing here is a placeholder.
-export default function ProductAccordion({ product }) {
+export default function ProductAccordion({ product, variant }) {
   const personalizationSummary = buildPersonalizationSummary(product);
+  const setContents = getSetContents(product, variant);
 
   return (
     <div className="product-accordion">
@@ -22,6 +24,24 @@ export default function ProductAccordion({ product }) {
           <p>{product.description}</p>
         </div>
       </details>
+
+      {setContents?.length > 0 && (
+        <details className="product-accordion__item">
+          <summary>
+            Contenido incluido
+            <span className="product-accordion__icon" aria-hidden="true">
+              ⌄
+            </span>
+          </summary>
+          <div className="product-accordion__body">
+            <ul>
+              {setContents.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </details>
+      )}
 
       {personalizationSummary.length > 0 && (
         <details className="product-accordion__item">
@@ -90,11 +110,14 @@ export default function ProductAccordion({ product }) {
 
 function buildPersonalizationSummary(product) {
   const items = [];
+  if (product.variants.length) {
+    items.push(`${product.variantLegend} (${product.variants.map((v) => v.label).join(", ")})`);
+  }
   if (product.styles.length) {
     items.push(`${product.styleNoun} (${product.styles.map((s) => s.label).join(", ")})`);
   }
   product.fields
-    .filter((f) => !f.showWhen)
+    .filter((f) => !f.showWhen && !f.dependsOn && f.type !== "toggle")
     .forEach((f) => items.push(f.label));
   return items;
 }

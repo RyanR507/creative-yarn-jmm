@@ -38,13 +38,6 @@
 }
 
 .related-products__card h3 {
-  padding: 0.85rem 1rem 0.2rem;
+  padding: 0.85rem 1rem 1rem;
   font-size: 1rem;
-}
-
-.related-products__price {
-  padding: 0 1rem 1rem;
-  font-size: 0.85rem;
-  color: var(--cy-pink-deep-ink);
-  font-weight: 600;
 }

@@ -142,6 +142,15 @@ export const CATEGORIES = [
     title: "Personajes de caricatura",
     text: "Convierte tu personaje o estilo favorito en una pieza tejida, con un diseño propio inspirado en lo que más te gusta.",
   },
+  {
+    id: "set-de-bebe",
+    // No real photo yet — every image-consuming component already falls back
+    // to a placeholder when `image` is null (ProductCategories, ProductGallery).
+    // Do not set a placeholder/fake image here.
+    image: null,
+    title: "Set de Bebé personalizado",
+    text: "Piezas decorativas y de recuerdo tejidas a mano para acompañar la llegada de un bebé.",
+  },
 ];
 
 // Data for the interactive product viewer (ProductShowcase). Derived from
@@ -166,7 +175,7 @@ export const CATEGORIES = [
 // in public/models/ (e.g. public/models/portavasos.glb) and set that
 // product's `model` below to "/models/portavasos.glb". No component changes
 // needed.
-export const PRODUCT_SHOWCASE = CATEGORIES.map((cat) => ({
+export const PRODUCT_SHOWCASE = CATEGORIES.filter((cat) => cat.image).map((cat) => ({
   id: cat.id,
   name: cat.title,
   description: cat.text,

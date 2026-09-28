@@ -25,26 +25,18 @@
   font-size: clamp(1.9rem, 3.4vw, 2.5rem);
 }
 
-.product-info__price {
+.product-info__quote-note {
   margin-top: 0.75rem;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--cy-pink-deep-ink);
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
+  max-width: 48ch;
 }
 
-.product-info__compare-at {
-  font-weight: 500;
-  font-size: 1rem;
-  color: var(--cy-ink-faint);
-}
-
-.product-info__price-note {
-  margin-top: 0.35rem;
-  font-size: 0.8rem;
+.product-info__presentation-note {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-style: italic;
   color: var(--cy-ink-faint);
   max-width: 48ch;
 }
