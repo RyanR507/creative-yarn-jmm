@@ -49,7 +49,7 @@ export const DIFFERENTIATORS = [
     text: "Cada pieza se cose a mano, agujero por agujero, sobre plastic canvas rígido — no es una impresión ni una ilustración digital.",
   },
   {
-    title: "Diseño 100% personalizado",
+    title: "Personalizado para ti",
     text: "Nombres, fechas, colores y frases pensados para tu historia, no para un catálogo genérico.",
   },
   {
@@ -71,82 +71,79 @@ const PRODUCTS_BASE = "/assets/images/products";
 export const CATEGORIES = [
   {
     id: "portavasos",
-    image: `${PRODUCTS_BASE}/portavasos.jpeg`,
+    image: `${PRODUCTS_BASE}/portavasos.webp`,
     title: "Portavasos",
     text: "Protege tu taza y sumale un detalle tejido a tu mesa.",
   },
   {
     id: "llaveros",
-    image: `${PRODUCTS_BASE}/llaveros.jpeg`,
+    image: `${PRODUCTS_BASE}/llaveros.webp`,
     title: "Llaveros",
     text: "Iniciales, figuras y detalles pequeños para llevar contigo.",
   },
   {
     id: "separadores",
-    image: `${PRODUCTS_BASE}/separadores-de-libros.jpeg`,
+    image: `${PRODUCTS_BASE}/separadores-de-libros.webp`,
     title: "Separadores de libros",
     text: "Marca tu página favorita con un diseño tejido a mano.",
   },
   {
     id: "portadas-cuadernos",
-    image: `${PRODUCTS_BASE}/portadas-de-cuadernos.jpeg`,
+    image: `${PRODUCTS_BASE}/portadas-de-cuadernos.webp`,
     title: "Portadas de cuadernos",
     text: "Una tapa tejida y personalizada para tu cuaderno de siempre.",
   },
   {
     id: "adornos-mesa",
-    image: `${PRODUCTS_BASE}/adornos-de-mesa.jpeg`,
+    image: `${PRODUCTS_BASE}/adornos-de-mesa.webp`,
     title: "Adornos de mesa",
     text: "Detalles que le dan un toque especial a cualquier mesa.",
   },
   {
     id: "gift-boxes",
-    image: `${PRODUCTS_BASE}/gift-box-personalizados.jpeg`,
+    image: `${PRODUCTS_BASE}/gift-box-personalizados.webp`,
     title: "Gift Boxes personalizados",
     text: "Un set completo, armado con cariño y listo para regalar.",
   },
   {
     id: "set-banos",
-    image: `${PRODUCTS_BASE}/set-de-banos.jpeg`,
+    image: `${PRODUCTS_BASE}/set-de-banos.webp`,
     title: "Set de baño",
     text: "Accesorios a juego para darle personalidad a tu baño.",
   },
   {
     id: "bolsos",
-    image: `${PRODUCTS_BASE}/bolsos.jpeg`,
+    image: `${PRODUCTS_BASE}/bolsos.webp`,
     title: "Bolsos",
     text: "Bolsos con diseños propios y patrones originales, tejidos a mano.",
   },
   {
     id: "wallets",
-    image: `${PRODUCTS_BASE}/wallets.jpeg`,
+    image: `${PRODUCTS_BASE}/wallets.webp`,
     title: "Wallets",
     text: "Billeteras compactas para tarjetas y lo esencial del día a día.",
   },
   {
     id: "porta-tarjetas",
-    image: `${PRODUCTS_BASE}/porta-tarjetas.jpeg`,
+    image: `${PRODUCTS_BASE}/porta-tarjetas.webp`,
     title: "Porta tarjetas",
     text: "Guarda tus tarjetas en un diseño hecho especialmente para ti.",
   },
   {
     id: "porta-servilletas",
-    image: `${PRODUCTS_BASE}/porta-servilletas.jpeg`,
+    image: `${PRODUCTS_BASE}/porta-servilletas.webp`,
     title: "Porta servilletas",
     text: "Suma un detalle tejido a tu mesa servida.",
   },
   {
     id: "personajes",
-    image: `${PRODUCTS_BASE}/personajes-de-caricatura.jpeg`,
+    image: `${PRODUCTS_BASE}/personajes-de-caricatura.webp`,
     title: "Personajes de caricatura",
     text: "Convierte tu personaje o estilo favorito en una pieza tejida, con un diseño propio inspirado en lo que más te gusta.",
   },
   {
     id: "set-de-bebe",
-    // No real photo yet — every image-consuming component already falls back
-    // to a placeholder when `image` is null (ProductCategories, ProductGallery).
-    // Do not set a placeholder/fake image here.
-    image: null,
+    image: `${PRODUCTS_BASE}/set-de-bebe.webp`,
     title: "Set de Bebé personalizado",
     text: "Piezas decorativas y de recuerdo tejidas a mano para acompañar la llegada de un bebé.",
   },
@@ -330,11 +327,11 @@ export const FAQ_ITEMS = [
   },
   {
     q: "¿Puedo cancelar mi pedido?",
-    a: "Puedes cancelar tu pedido antes de que comience la producción. Una vez iniciada la elaboración de una pieza personalizada, la cancelación puede no ser posible.",
+    a: "Puedes solicitar la cancelación de tu pedido. Si todavía no comenzamos la producción, revisamos tu solicitud directamente contigo según el estado del pedido. Una vez que comenzamos a elaborar una pieza personalizada, la cancelación por cambio de opinión ya no procede y el pago realizado no es reembolsable por esa cancelación.",
   },
   {
     q: "¿Puedo devolver un producto personalizado?",
-    a: "Por tratarse de piezas hechas a medida, las devoluciones se evalúan caso por caso. Contáctanos si tienes algún inconveniente con tu pedido.",
+    a: "Si el error o defecto es atribuible a Creative Yarn JM, reemplazamos tu pieza sin costo adicional. Si el problema se debe a información que tú nos proporcionaste (nombres, colores, fechas u otros datos), no se considera un error nuestro, pero puedes escribirnos para que revisemos tu caso. Las pequeñas variaciones propias de un trabajo hecho a mano no se consideran defectos.",
   },
   {
     q: "¿Qué ocurre si mi paquete llega dañado?",
@@ -347,6 +344,18 @@ export const FAQ_ITEMS = [
   {
     q: "¿Qué es The Creative Yarn Box?",
     a: "Es el concepto de presentación de Creative Yarn JM, distinto del producto Gift Boxes personalizados. Según el producto, tu pedido puede prepararse con una presentación especial — los detalles exactos se confirman al momento de tu cotización.",
+  },
+  {
+    q: "¿Cuándo debo realizar el pago?",
+    a: "El pago completo se realiza después de que aceptas la cotización y antes de que comience la producción de tu pieza. Enviar tu solicitud por WhatsApp no inicia la producción por sí solo.",
+  },
+  {
+    q: "¿Qué ocurre si cancelo después de iniciada la producción?",
+    a: "Una vez que comenzamos a elaborar tu pieza personalizada, la cancelación por cambio de opinión ya no procede y el pago realizado no es reembolsable por esa cancelación.",
+  },
+  {
+    q: "¿Mi pieza será idéntica a la imagen de referencia?",
+    a: "No necesariamente. Cada pieza es hecha a mano, por lo que puede presentar variaciones razonables en puntadas, tonalidad, posición de detalles o acabado respecto a la imagen de referencia.",
   },
 ];
 
@@ -377,7 +386,8 @@ export const POLICIES = [
           "Correo electrónico (opcional)",
           "Detalles de tu pedido o idea",
           "Detalles de personalización — nombres, fechas, frases, colores",
-          "Una imagen de referencia, si eliges compartir una",
+          "Una imagen de referencia, si eliges compartir una — incluidas imágenes que envíes más adelante dentro de la conversación de WhatsApp",
+          "Información necesaria para coordinar tu entrega, cuando corresponda",
           "Cualquier otra información que decidas escribirnos voluntariamente",
         ],
       },
@@ -396,6 +406,24 @@ export const POLICIES = [
         heading: "Cómo protegemos tu información",
         body: [
           "Tomamos medidas razonables para proteger la información que nos compartes, y no la usamos para fines distintos a los descritos en esta página.",
+        ],
+      },
+      {
+        heading: "Conservación de la información",
+        body: [
+          "La información que gestionamos directamente la conservamos durante el tiempo razonablemente necesario para atender tu solicitud o pedido, brindarte seguimiento relacionado y cumplir obligaciones aplicables cuando corresponda.",
+        ],
+      },
+      {
+        heading: "Cuándo compartimos información con terceros",
+        body: [
+          "Si para coordinar la entrega de tu pedido fuera necesario compartir información con un proveedor externo, compartiríamos únicamente la información razonablemente necesaria para gestionar esa entrega.",
+        ],
+      },
+      {
+        heading: "Continuar por WhatsApp",
+        body: [
+          "Este sitio te permite continuar tu solicitud a través de WhatsApp. Cuando decides continuar por ese medio, la información que envíes queda sujeta también al funcionamiento y las políticas de privacidad del proveedor de WhatsApp.",
         ],
       },
       {
@@ -422,23 +450,60 @@ export const POLICIES = [
         heading: "Nuestras creaciones",
         body: [
           "Las imágenes y ejemplos de este sitio son de referencia — muestran lo que es posible, no un catálogo cerrado de piezas idénticas.",
-          "Cada pieza es hecha a mano, por lo que pueden existir pequeñas variaciones naturales entre una creación y otra.",
-          "Una creación personalizada puede diferir levemente de la imagen de referencia que compartiste — es parte de que cada pieza se haga a mano, una por una.",
-          "Los colores pueden variar según el material disponible y la pantalla en la que estés viendo este sitio.",
+          "Cada pieza es hecha a mano, por lo que puede presentar pequeñas variaciones razonables respecto a la imagen de referencia y respecto a otras creaciones — en puntadas, posición de detalles, tonalidad, dimensiones o acabado. No prometemos una reproducción idéntica, punto por punto, de una imagen de referencia.",
+          "Los colores pueden variar también según el material disponible y la pantalla en la que estés viendo este sitio.",
+          "Estas variaciones son propias del trabajo artesanal y no se consideran, por sí mismas, un defecto.",
         ],
       },
       {
         heading: "Tu pedido: una solicitud, no una compra confirmada",
         body: [
           "Solicitar una cotización desde la página de un producto, o escribirnos por WhatsApp, es una solicitud — no una compra ni un pedido confirmado de forma automática.",
-          "Un pedido se considera confirmado recién después de que conversamos contigo y acordamos juntos los detalles correspondientes (cotización, tiempo de producción, entrega y pago).",
+          "Revisamos tu solicitud y te comunicamos la cotización correspondiente. Tú decides si la aceptas.",
+        ],
+      },
+      {
+        heading: "Cotización, pago y producción",
+        body: [
+          "Creative Yarn JM requiere el pago completo de tu pedido antes de comenzar la producción de tu pieza.",
+          "Tu pedido se considera confirmado una vez que: acordamos los detalles relevantes, aceptaste la cotización, y confirmamos la recepción de tu pago completo.",
+          "La producción no comienza únicamente porque hayas enviado una solicitud — comienza después de que el pago completo fue confirmado.",
+        ],
+      },
+      {
+        heading: "Cancelaciones",
+        body: [
+          "Si solicitas cancelar tu pedido antes de que comencemos la producción, revisamos tu solicitud directamente contigo según el estado del pedido.",
+          "Una vez que comenzamos la producción de tu pieza personalizada, la cancelación por cambio de opinión ya no procede. El pago realizado no es reembolsable por esa cancelación — al iniciar la producción ya reservamos tiempo de elaboración y, en muchos casos, utilizamos materiales específicamente para tu pedido.",
+          "Esta regla aplica a cancelaciones por decisión del cliente. No aplica a errores o defectos atribuibles a Creative Yarn JM, que se manejan según se explica más abajo.",
         ],
       },
       {
         heading: "Creaciones personalizadas",
         body: [
-          "Eres responsable de la información que nos proporciones para personalizar tu pieza, como nombres, iniciales, fechas, frases, colores y otros detalles de referencia.",
-          "Hacemos nuestro mejor esfuerzo para reflejar exactamente lo que nos compartiste. Si un error en la pieza final se debe a información incorrecta que recibimos de tu parte, te pedimos que lo tengas en cuenta — por eso te recomendamos revisar bien los detalles antes de confirmar tu pedido.",
+          "Eres responsable de la información que nos proporciones para personalizar tu pieza, como nombres, iniciales, fechas, frases, colores y otros detalles de referencia — te recomendamos revisarla bien antes de aprobar tu pedido.",
+          "Hacemos nuestro mejor esfuerzo para reflejar exactamente lo que nos compartiste y aprobaste.",
+        ],
+      },
+      {
+        heading: "Errores y defectos",
+        body: [
+          "Si tu pieza presenta un error o defecto atribuible a Creative Yarn JM (por ejemplo, un dato elaborado incorrectamente pese a que tú nos proporcionaste y aprobaste el dato correcto, o un color o diseño equivocado por error de producción), la reemplazamos sin costo adicional para ti.",
+          "Si el error se origina en información que tú nos proporcionaste, no se trata como un error de Creative Yarn JM — igual puedes escribirnos para que evaluemos tu caso.",
+          "Las variaciones razonables propias del trabajo artesanal, descritas más arriba, no se consideran un error ni un defecto.",
+        ],
+      },
+      {
+        heading: "Personajes, marcas y contenido de terceros",
+        body: [
+          "Algunas solicitudes pueden incluir personajes, logotipos, marcas u otro contenido de terceros. Estas solicitudes están sujetas a revisión por parte de Creative Yarn JM, que podrá solicitar ajustes, limitar o rechazar una solicitud cuando corresponda.",
+        ],
+      },
+      {
+        heading: "Fotografías de nuestras creaciones",
+        body: [
+          "Creative Yarn JM puede fotografiar y documentar las piezas que elabora para fines de portafolio, sitio web y contenido de marca, incluyendo redes sociales.",
+          "Cuando una pieza contenga información personal identificable del cliente (por ejemplo, un nombre completo u otro dato privado), dicha información no será publicada de forma identificable sin autorización del cliente.",
         ],
       },
     ],
@@ -473,6 +538,25 @@ export const POLICIES = [
           "Antes de que tu pedido quede confirmado, te compartiremos los detalles de entrega que apliquen a tu caso, incluyendo el método y cualquier costo asociado.",
         ],
       },
+      {
+        heading: "Retiro de tu pedido",
+        body: [
+          "Cuando tu pedido esté listo para retiro, te avisaremos. Conservaremos tu pedido durante 14 días a partir de ese aviso.",
+          "Si no puedes retirarlo dentro de ese plazo, escríbenos para coordinar la situación de tu pedido.",
+        ],
+      },
+      {
+        heading: "Dirección y datos de entrega",
+        body: [
+          "Eres responsable de proporcionarnos correctamente la información necesaria para coordinar tu entrega, como tu dirección y datos de contacto.",
+        ],
+      },
+      {
+        heading: "Daño durante el transporte",
+        body: [
+          "Si tu pedido presenta daños relacionados con el transporte, escríbenos lo antes posible para revisar tu caso según las circunstancias y el método de entrega utilizado.",
+        ],
+      },
     ],
   },
   {
@@ -481,33 +565,48 @@ export const POLICIES = [
     pageTitle: "Creative Yarn | Cambios y devoluciones",
     metaDescription: "Cómo abordamos cambios, devoluciones y piezas dañadas en Creative Yarn.",
     hubSummary: "Cómo abordamos cambios, devoluciones y piezas dañadas.",
-    // NOTE for Creative Yarn (not shown publicly): once specific windows,
-    // percentages or conditions are decided, they can be added as extra
-    // bullet points or a dedicated subsection in each block below. Until
-    // then this stays intentionally neutral rather than inventing numbers.
+    intro: "Como cada pieza personalizada se crea especialmente para ti, la tratamos distinto a un producto genérico. Así abordamos cada situación:",
     sections: [
       {
-        heading: "Piezas personalizadas",
+        heading: "Cambio de opinión antes de iniciar producción",
         body: [
-          "Como cada pieza personalizada se crea especialmente para ti, según los detalles que nos compartiste, este tipo de creaciones se trata de forma distinta a un producto genérico.",
+          "Si solicitas cancelar tu pedido antes de que comencemos la producción, revisamos tu solicitud directamente contigo según el estado del pedido.",
         ],
       },
       {
-        heading: "Piezas no personalizadas",
+        heading: "Cambio de opinión después de iniciada la producción",
         body: [
-          "Para piezas que no incluyen personalización, las condiciones de cambio se evalúan según el tipo de producto y la situación de cada pedido.",
+          "Una vez que comenzamos la producción de tu pieza personalizada, la cancelación por cambio de opinión ya no procede, y el pago realizado no es reembolsable por esa cancelación.",
         ],
       },
       {
-        heading: "Piezas dañadas o incorrectas",
+        heading: "Error o pieza incorrecta atribuible a Creative Yarn JM",
         body: [
-          "Si tu pieza llega dañada o no corresponde con lo acordado, escríbenos — cada situación se revisa de forma individual para encontrar la mejor solución.",
+          "Si tu pieza presenta un error o defecto de elaboración, o no corresponde con lo que acordamos, atribuible a Creative Yarn JM, la reemplazamos sin costo adicional para ti.",
         ],
       },
       {
-        heading: "Cómo se definen las condiciones",
+        heading: "Error en la información que tú nos proporcionaste",
         body: [
-          "Las condiciones de cambios y devoluciones se comunican y confirman según el tipo de producto y las circunstancias de cada pedido. Si tienes dudas antes de confirmar tu compra, puedes consultarnos por WhatsApp.",
+          "Si el error se origina en nombres, colores, fechas u otros datos que tú nos proporcionaste y aprobaste, no se considera un error de Creative Yarn JM. Igual puedes escribirnos para que evaluemos tu caso.",
+        ],
+      },
+      {
+        heading: "Variaciones razonables del trabajo artesanal",
+        body: [
+          "Cada pieza es hecha a mano, por lo que puede presentar pequeñas variaciones razonables en puntadas, tonalidad, posición de detalles o acabado. Estas variaciones no constituyen, por sí mismas, un defecto.",
+        ],
+      },
+      {
+        heading: "Daño durante el transporte",
+        body: [
+          "Si tu pieza llega dañada, escríbenos lo antes posible — revisamos tu caso según las circunstancias y el método de entrega utilizado.",
+        ],
+      },
+      {
+        heading: "Otros casos",
+        body: [
+          "Cualquier situación no descrita arriba la evaluamos directamente contigo. Si tienes dudas antes de confirmar tu pedido, puedes consultarnos por WhatsApp.",
         ],
       },
     ],
