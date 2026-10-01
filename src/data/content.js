@@ -327,7 +327,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: "¿Puedo cancelar mi pedido?",
-    a: "Puedes solicitar la cancelación de tu pedido. Si todavía no comenzamos la producción, revisamos tu solicitud directamente contigo según el estado del pedido. Una vez que comenzamos a elaborar una pieza personalizada, la cancelación por cambio de opinión ya no procede y el pago realizado no es reembolsable por esa cancelación.",
+    a: "Puedes solicitar la cancelación de tu pedido. Si ya realizaste el pago y todavía no comenzamos la producción, podemos devolverte el monto pagado, descontando los gastos que ya se hayan generado específicamente para tu pedido. Una vez que comenzamos a elaborar una pieza personalizada, la cancelación por cambio de opinión ya no procede y el pago realizado no es reembolsable por esa cancelación.",
   },
   {
     q: "¿Puedo devolver un producto personalizado?",
@@ -335,7 +335,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: "¿Qué ocurre si mi paquete llega dañado?",
-    a: "Contáctanos con fotografías del daño apenas lo recibas y buscaremos la mejor solución posible para tu caso.",
+    a: "Creative Yarn JM es responsable del estado de tu pieza hasta que la recibes. Si el daño ya estaba presente al momento de la entrega, contáctanos con fotografías apenas lo recibas: evaluaremos tu caso y aplicaremos la solución correspondiente. No somos responsables por daños ocurridos después de que recibiste y manipulaste tu pedido.",
   },
   {
     q: "¿Por qué no aparecen precios en la página?",
@@ -429,7 +429,8 @@ export const POLICIES = [
       {
         heading: "Servicios de terceros",
         body: [
-          "Este sitio carga las tipografías de su diseño desde Google Fonts, un servicio externo. Fuera de eso, este sitio no utiliza cookies de seguimiento ni herramientas de análisis de terceros.",
+          "Este sitio carga las tipografías de su diseño desde Google Fonts, un servicio externo.",
+          "Creative Yarn JM puede utilizar Cloudflare Web Analytics para obtener métricas generales sobre el uso y rendimiento del sitio. Según la configuración actualmente utilizada, esta medición no requiere cookies de seguimiento en tu navegador.",
         ],
       },
       {
@@ -473,7 +474,7 @@ export const POLICIES = [
       {
         heading: "Cancelaciones",
         body: [
-          "Si solicitas cancelar tu pedido antes de que comencemos la producción, revisamos tu solicitud directamente contigo según el estado del pedido.",
+          "Si solicitas cancelar tu pedido antes de que comencemos la producción, y ya realizaste el pago, podemos devolverte el monto pagado, descontando los gastos que ya se hayan generado específicamente para tu pedido. El monto a devolver dependerá de los gastos efectivamente incurridos hasta ese momento.",
           "Una vez que comenzamos la producción de tu pieza personalizada, la cancelación por cambio de opinión ya no procede. El pago realizado no es reembolsable por esa cancelación — al iniciar la producción ya reservamos tiempo de elaboración y, en muchos casos, utilizamos materiales específicamente para tu pedido.",
           "Esta regla aplica a cancelaciones por decisión del cliente. No aplica a errores o defectos atribuibles a Creative Yarn JM, que se manejan según se explica más abajo.",
         ],
@@ -554,7 +555,9 @@ export const POLICIES = [
       {
         heading: "Daño durante el transporte",
         body: [
-          "Si tu pedido presenta daños relacionados con el transporte, escríbenos lo antes posible para revisar tu caso según las circunstancias y el método de entrega utilizado.",
+          "Creative Yarn JM es responsable del estado de tu pieza hasta que tú o la persona destinataria la recibe, incluso cuando la entrega involucra a un tercero.",
+          "Si tu pedido presenta daños que ya estaban presentes al momento de la entrega, escríbenos lo antes posible: evaluaremos tu caso y aplicaremos la solución correspondiente según nuestras políticas vigentes.",
+          "Creative Yarn JM no es responsable por daños ocurridos después de que recibiste tu pedido, originados por el uso, la manipulación, un accidente o un almacenamiento inadecuado de tu parte.",
         ],
       },
     ],
@@ -570,7 +573,7 @@ export const POLICIES = [
       {
         heading: "Cambio de opinión antes de iniciar producción",
         body: [
-          "Si solicitas cancelar tu pedido antes de que comencemos la producción, revisamos tu solicitud directamente contigo según el estado del pedido.",
+          "Si solicitas cancelar tu pedido antes de que comencemos la producción, y ya realizaste el pago, podemos devolverte el monto pagado, descontando los gastos que ya se hayan generado específicamente para tu pedido.",
         ],
       },
       {
@@ -600,7 +603,8 @@ export const POLICIES = [
       {
         heading: "Daño durante el transporte",
         body: [
-          "Si tu pieza llega dañada, escríbenos lo antes posible — revisamos tu caso según las circunstancias y el método de entrega utilizado.",
+          "Creative Yarn JM es responsable del estado de tu pieza hasta que la recibes. Si el daño ya estaba presente al momento de la entrega, escríbenos lo antes posible: evaluaremos tu caso y aplicaremos la solución correspondiente.",
+          "No somos responsables por daños ocurridos después de que recibiste y manipulaste tu pedido.",
         ],
       },
       {

@@ -20,7 +20,7 @@ export default function PoliciesHub() {
               Políticas de Creative Yarn
             </h1>
             <p className="section-subtitle center" data-reveal>
-              Todo lo que necesitás saber antes de crear tu pieza con nosotros.
+              Todo lo que necesitas saber antes de crear tu pieza con nosotros.
             </p>
           </div>
 
