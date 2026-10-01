@@ -11,6 +11,9 @@
 
   /* Derived */
   --cy-ink-soft: rgba(63, 48, 53, 0.68);
+  /* Same ink as --cy-ink-soft, slightly more opaque — scoped to sections on
+     --cy-cream where the default alpha falls just under WCAG AA (4.5:1). */
+  --cy-ink-soft-oncream: rgba(63, 48, 53, 0.72);
   --cy-ink-faint: rgba(63, 48, 53, 0.42);
   --cy-pink-deep-ink: #7a3a49;
   /* Mid-tone between --cy-ink and --cy-pink-deep-ink — used as the middle

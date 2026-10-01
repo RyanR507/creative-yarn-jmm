@@ -2,6 +2,10 @@
   background: var(--cy-cream);
 }
 
+.packaging .section-subtitle {
+  color: var(--cy-ink-soft-oncream);
+}
+
 .packaging__gallery {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

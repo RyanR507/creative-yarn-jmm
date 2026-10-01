@@ -2,6 +2,10 @@
   background: var(--cy-cream);
 }
 
+.categories .section-subtitle {
+  color: var(--cy-ink-soft-oncream);
+}
+
 .categories__note {
   margin-top: 0.6rem;
   font-size: 0.82rem;
