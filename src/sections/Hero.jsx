@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { gsap, ScrollTrigger, prefersReducedMotion } from "../animations/gsapSetup";
+import { gsap, prefersReducedMotion } from "../animations/gsapSetup";
 import { BRAND, getWhatsAppLink } from "../data/config";
 import { trackEvent } from "../utils/analytics";
 import "./Hero.css";
@@ -10,45 +10,49 @@ export default function Hero() {
   const contentRef = useRef(null);
   const [videoFailed, setVideoFailed] = useState(false);
 
-  // Scroll-scrubbed playback: as the visitor scrolls through the Hero, the
-  // video's currentTime is nudged forward/back instead of just looping.
-  // Falls back to a plain autoplay loop on touch devices, reduced-motion,
-  // or if the metadata never loads (keeps performance > effects).
+  // Muted autoplay loop on every device. React sets `muted` only as a DOM
+  // property (no HTML attribute), which Safari/iOS can ignore when deciding
+  // whether autoplay is allowed, so it's set explicitly here and play() is
+  // called as a backstop. If the browser still blocks it (e.g. iOS Low Power
+  // Mode), the rejection is logged and playback is retried once on the first
+  // user gesture.
   useEffect(() => {
     const video = videoRef.current;
     if (!video || videoFailed) return undefined;
 
-    const isTouch = window.matchMedia("(pointer: coarse)").matches;
-    if (isTouch || prefersReducedMotion()) return undefined;
+    video.defaultMuted = true;
+    video.muted = true;
 
-    let trigger;
-    const onLoaded = () => {
-      if (!video.duration || !isFinite(video.duration)) return;
-      // Scroll takes over the timeline entirely, so playback must stop —
-      // otherwise autoplay keeps advancing currentTime and fights the scrub.
-      video.pause();
-      trigger = ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top top",
-        // "+=height" ties the scrub distance to the Hero's own height (it
-        // isn't pinned), so the clip finishes right as it scrolls out of view.
-        end: () => `+=${sectionRef.current.offsetHeight}`,
-        scrub: 1,
-        onUpdate: (self) => {
-          const t = self.progress * video.duration;
-          if (Math.abs(video.currentTime - t) > 0.03) {
-            video.currentTime = t;
+    let cancelled = false;
+    let removeGestureRetry = () => {};
+
+    const attemptPlay = () =>
+      video.play().then(
+        () => true,
+        (error) => {
+          // AbortError = play() interrupted by a pause/unmount, not a block.
+          if (error?.name !== "AbortError") {
+            console.warn("[Hero] video.play() was rejected:", error?.name, error?.message);
           }
-        },
-      });
-    };
+          return false;
+        }
+      );
 
-    if (video.readyState >= 1) onLoaded();
-    else video.addEventListener("loadedmetadata", onLoaded);
+    attemptPlay().then((started) => {
+      if (started || cancelled) return;
+      const retry = () => {
+        removeGestureRetry();
+        attemptPlay();
+      };
+      const events = ["pointerdown", "touchend", "keydown"];
+      events.forEach((name) => window.addEventListener(name, retry, { passive: true }));
+      removeGestureRetry = () =>
+        events.forEach((name) => window.removeEventListener(name, retry));
+    });
 
     return () => {
-      video.removeEventListener("loadedmetadata", onLoaded);
-      trigger?.kill();
+      cancelled = true;
+      removeGestureRetry();
     };
   }, [videoFailed]);
 
