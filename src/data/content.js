@@ -9,7 +9,6 @@
 export const NAV_LINKS = [
   { href: "/#inicio", label: "Inicio" },
   { href: "/#personalizados", label: "Personalizados" },
-  { href: "/#creaciones", label: "Creaciones" },
   { href: "/#como-funciona", label: "Cómo funciona" },
   { href: "/#faq", label: "Preguntas frecuentes" },
   { href: "/#contacto", label: "Contacto" },
@@ -23,7 +22,6 @@ export const NAV_LINKS = [
 export const NAVBAR_LINKS = [
   { href: "/#inicio", label: "Inicio" },
   { href: "/#personalizados", label: "Personalizados" },
-  { href: "/#creaciones", label: "Creaciones" },
   { href: "/#navidad", label: "Christmas Yarn: Coming Soon", isChristmas: true },
   { href: "/#contacto", label: "Contacto" },
 ];
@@ -150,30 +148,9 @@ export const CATEGORIES = [
 ];
 
 // Shown as a discreet note near any section that displays conceptual/
-// reference photography (catalog, product galleries, Creaciones, The
-// Creative Yarn Box) rather than a photo of a specific customer's order.
+// reference photography (catalog, product galleries, The Creative Yarn
+// Box) rather than a photo of a specific customer's order.
 export const REFERENCE_IMAGE_NOTE = "Imagen de referencia — cada pieza se realiza de manera personalizada.";
-
-export const GALLERY_FILTERS = ["Todos", "Amor", "Mascotas", "Graduación", "Familia", "Personalizados"];
-
-// Real photography lives in public/assets/images/gallery/. All current photos
-// share the same native ratio (896x1200, 3:4 portrait), so every tile uses a
-// matching 3:4 box — no cropping. `image: null` falls back to a placeholder.
-const GALLERY_BASE = "/assets/images/gallery";
-
-export const GALLERY_ITEMS = [
-  { id: 1, category: "Amor", image: `${GALLERY_BASE}/iniciales-entrelazadas.jpeg`, title: "Iniciales entrelazadas" },
-  { id: 2, category: "Mascotas", image: `${GALLERY_BASE}/retrato-mascota.jpeg`, title: "Retrato de mascota" },
-  { id: 4, category: "Graduación", image: `${GALLERY_BASE}/fecha-graduacion.jpeg`, title: "Fecha de graduación" },
-  { id: 5, category: "Personalizados", image: `${GALLERY_BASE}/frase-medida.jpeg`, title: "Frase a medida" },
-  { id: 6, category: "Amor", image: `${GALLERY_BASE}/corazon-hilo.jpeg`, title: "Corazón de hilo" },
-  { id: 7, category: "Familia", image: `${GALLERY_BASE}/nombres-familia.jpeg`, title: "Nombres de familia" },
-  { id: 8, category: "Mascotas", image: `${GALLERY_BASE}/huella-bordada.jpeg`, title: "Huella bordada" },
-  { id: 9, category: "Personalizados", image: `${GALLERY_BASE}/diseno-medida.jpeg`, title: "Diseño a medida" },
-  { id: 10, category: "Graduación", image: `${GALLERY_BASE}/recuerdo-logro.jpeg`, title: "Recuerdo de logro" },
-  { id: 11, category: "Amor", image: `${GALLERY_BASE}/fecha-especial.jpeg`, title: "Fecha especial" },
-  { id: 12, category: "Personalizados", image: `${GALLERY_BASE}/decoracion-hogar.jpeg`, title: "Decoración del hogar" },
-];
 
 // Real packaging photography lives in public/assets/images/packaging/.
 const PACKAGING_BASE = "/assets/images/packaging";

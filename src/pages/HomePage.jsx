@@ -3,7 +3,6 @@ import Hero from "../sections/Hero";
 import About from "../sections/About";
 import WhyCreativeYarn from "../sections/WhyCreativeYarn";
 import ProductCategories from "../sections/ProductCategories";
-import Gallery from "../sections/Gallery";
 import HowItWorks from "../sections/HowItWorks";
 import ChristmasComingSoon from "../sections/ChristmasComingSoon";
 import PackagingBox from "../sections/PackagingBox";
@@ -22,8 +21,6 @@ export default function HomePage() {
       <ThreadDivider variant="wave" />
       <ProductCategories />
       <ThreadDivider variant="dip" />
-      <Gallery />
-      <ThreadDivider variant="rise" />
       <HowItWorks />
       <ChristmasComingSoon />
       <ThreadDivider variant="wave" />

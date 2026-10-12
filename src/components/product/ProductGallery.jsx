@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import ReferenceBadge from "../ReferenceBadge";
+import "../Lightbox.css";
 import "./ProductGallery.css";
 
-// Reuses the same full-screen lightbox visual language as the Home gallery
-// (see GalleryLightbox.css's .lightbox* classes) instead of introducing a
-// second modal design — the CSS is generic enough to share directly.
+// Zoom modal styled by the shared .lightbox* classes in ../Lightbox.css.
 export default function ProductGallery({ images, productName }) {
   // A variant/product change hands this component a different images array
   // — the parent remounts this component (via a `key` tied to the product
