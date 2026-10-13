@@ -40,7 +40,7 @@ export default function ProductCategories() {
             >
               <span className="category-card__thread" aria-hidden="true" />
               {product.image ? (
-                <>
+                <span className="category-card__media">
                   <img
                     className="category-card__image"
                     src={product.image}
@@ -49,7 +49,7 @@ export default function ProductCategories() {
                     decoding="async"
                   />
                   <ReferenceBadge />
-                </>
+                </span>
               ) : (
                 <span className="category-card__image category-card__image--empty" aria-hidden="true">
                   〰

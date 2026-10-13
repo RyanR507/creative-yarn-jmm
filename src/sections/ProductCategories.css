@@ -54,6 +54,14 @@
   transform: rotate(35deg) scale(1.08);
 }
 
+/* Positioned wrapper so the "Imagen de referencia" badge anchors to the photo
+   instead of the whole card; overflow keeps the hover zoom clipped to it. */
+.category-card__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
 .category-card__image {
   width: 100%;
   aspect-ratio: 4 / 3;
